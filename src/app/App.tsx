@@ -12,6 +12,40 @@ export const App: FC = () => {
         tabs[0].toLowerCase()
     );
 
+    interface step {
+        title: string;
+        span: string;
+    }
+
+    const [steps, setSteps] = useState<step[][]>([
+        [
+            {
+                title: "Intermediate Take Profit, %",
+                span: "1",
+            },
+            {
+                title: "Amount, %",
+                span: "20",
+            },
+        ],
+    ]);
+
+    const handleStepAdd = () => {
+        setSteps((restSteps) => [
+            ...restSteps,
+            [
+                { title: "Intermediate Take Profit, %", span: "1" },
+                { title: "Amount, %", span: "20" },
+            ],
+        ]);
+    };
+
+    const handleStepDelete = (index: number) => {
+        setSteps((restSteps) =>
+            [...restSteps].filter((_, arrIndex) => index !== arrIndex)
+        );
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -153,70 +187,49 @@ export const App: FC = () => {
             </div>
 
             <div className={styles.lists}>
-                <div className={styles.blockList}>
-                    <PaddingWrapper>
-                        <FlexWrapper>
-                            <p className={styles.navButton_text}>Step 1</p>
-                        </FlexWrapper>
-                    </PaddingWrapper>
-                    <div className={styles.blockList_content}>
-                        <div className={styles.blockList_item}>
+                {steps.map((step, index) => (
+                    <div className={styles.blockList}>
+                        <PaddingWrapper>
                             <FlexWrapper>
-                                <p className={styles.blockList_item_title}>
-                                    Intermediate Take Profit, %
+                                <p className={styles.navButton_text}>
+                                    Step {index + 1}
                                 </p>
-                                <span className={styles.blockList_item_span}>
-                                    1
-                                </span>
+                                {index !== 0 && (
+                                    <button
+                                        className={styles.step_delete}
+                                        onClick={() => handleStepDelete(index)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
                             </FlexWrapper>
-                        </div>
-                        <div className={styles.blockList_item}>
-                            <FlexWrapper>
-                                <p className={styles.blockList_item_title}>
-                                    Amount, %
-                                </p>
-                                <span className={styles.blockList_item_span}>
-                                    20
-                                </span>
-                            </FlexWrapper>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.blockList}>
-                    <PaddingWrapper>
-                        <FlexWrapper>
-                            <p className={styles.navButton_text}>Step 2</p>
-                            <button className={styles.step_delete}>
-                                Delete
-                            </button>
-                        </FlexWrapper>
-                    </PaddingWrapper>
-                    <div className={styles.blockList_content}>
-                        <div className={styles.blockList_item}>
-                            <FlexWrapper>
-                                <p className={styles.blockList_item_title}>
-                                    Intermediate Take Profit, %
-                                </p>
-                                <span className={styles.blockList_item_span}>
-                                    1
-                                </span>
-                            </FlexWrapper>
-                        </div>
-                        <div className={styles.blockList_item}>
-                            <FlexWrapper>
-                                <p className={styles.blockList_item_title}>
-                                    Amount, %
-                                </p>
-                                <span className={styles.blockList_item_span}>
-                                    20
-                                </span>
-                            </FlexWrapper>
+                        </PaddingWrapper>
+                        <div className={styles.blockList_content}>
+                            {step.map((item) => (
+                                <div className={styles.blockList_item}>
+                                    <FlexWrapper>
+                                        <p
+                                            className={
+                                                styles.blockList_item_title
+                                            }
+                                        >
+                                            {item.title}
+                                        </p>
+                                        <span
+                                            className={
+                                                styles.blockList_item_span
+                                            }
+                                        >
+                                            {item.span}
+                                        </span>
+                                    </FlexWrapper>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
+                ))}
 
-                <button className={styles.lists_btn}>
+                <button className={styles.lists_btn} onClick={handleStepAdd}>
                     <PlusSVG className={styles.lists_btn_icon} /> Add a step
                 </button>
             </div>
