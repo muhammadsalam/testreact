@@ -1,39 +1,16 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./App.module.scss";
 import { clsx } from "clsx";
 import ArrowRightIcon from "../assets/icons/arrow.svg?react";
 import PlusSVG from "../assets/icons/plus.svg?react";
-import { Switcher } from "shared/ui";
+import { FlexWrapper, Range, Switcher } from "shared/ui";
+import { PaddingWrapper } from "shared/ui/padding-wrapper";
 
 export const App: FC = () => {
     const tabs = ["Insurance orders", "Stop Loss"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
-
-    const RangeSlider = (min: number, max: number, currValue: number) => {
-        const [value, setValue] = useState<number>(currValue);
-        const ref = useRef<HTMLInputElement>(null);
-        const [leftOffset, setLeftOffset] = useState<number>(0);
-
-        useEffect(() => {
-            const rangeMin = min,
-                rangeMax = max,
-                rangeRange = rangeMax - rangeMin,
-                currentValue = value,
-                relativeValue = (currentValue - rangeMin) / rangeRange,
-                rangeWidth = (ref.current?.clientWidth || 0) - 12,
-                leftOffset = rangeWidth * relativeValue;
-
-            setLeftOffset(leftOffset);
-        }, [value]);
-
-        return { ref, value, setValue, leftOffset };
-    };
-
-    const rangeMartingale = RangeSlider(0.1, 5, 3.5);
-
-    const dynamicRange = RangeSlider(1, 5, 2);
 
     return (
         <div className={styles.container}>
@@ -61,11 +38,13 @@ export const App: FC = () => {
             </div>
 
             <div className={styles.navButton}>
-                <div className={clsx(styles.paddingBlock, styles.wrapper_flex)}>
-                    <p className={styles.navButton_text}>
-                        Type of insurance order
-                    </p>
-                </div>
+                <PaddingWrapper>
+                    <FlexWrapper>
+                        <p className={styles.navButton_text}>
+                            Type of insurance order
+                        </p>
+                    </FlexWrapper>
+                </PaddingWrapper>
                 <button className={styles.navButton_button}>
                     Market Order
                     <ArrowRightIcon className={styles.navButton_icon} />
@@ -75,24 +54,24 @@ export const App: FC = () => {
             <div className={styles.blockList}>
                 <div className={styles.blockList_content}>
                     <div className={styles.blockList_item}>
-                        <div className={styles.wrapper_flex}>
+                        <FlexWrapper>
                             <p className={styles.blockList_item_title}>
                                 Limit of insurance orders
                             </p>
                             <span className={styles.blockList_item_span}>
                                 10
                             </span>
-                        </div>
+                        </FlexWrapper>
                     </div>
                     <div className={styles.blockList_item}>
-                        <div className={styles.wrapper_flex}>
+                        <FlexWrapper>
                             <p className={styles.blockList_item_title}>
                                 Step of insurance orders, %
                             </p>
                             <span className={styles.blockList_item_span}>
                                 2
                             </span>
-                        </div>
+                        </FlexWrapper>
                     </div>
                 </div>
             </div>
@@ -100,48 +79,13 @@ export const App: FC = () => {
             <div className={styles.blockList}>
                 <div className={styles.blockList_content}>
                     <div className={clsx(styles.blockList_item, styles.switch)}>
-                        <div className={styles.wrapper_flex}>
+                        <FlexWrapper>
                             <p className={styles.switch_title}>Martingale</p>
                             <Switcher />
-                        </div>
+                        </FlexWrapper>
                     </div>
                     <div className={styles.blockList_item}>
-                        <div className={styles.wrapper_flex}>
-                            <span className={styles.rangeText}>0.1</span>
-                            <span
-                                className={clsx(
-                                    styles.rangeText,
-                                    styles.rangeText__current
-                                )}
-                            >
-                                {rangeMartingale.value}
-                            </span>
-                            <span className={styles.rangeText}>5</span>
-                        </div>
-                        <div className={styles.rangeSlider}>
-                            <input
-                                ref={rangeMartingale.ref}
-                                value={rangeMartingale.value}
-                                onChange={({ target: { value: radius } }) =>
-                                    rangeMartingale.setValue(+radius)
-                                }
-                                type="range"
-                                min={0.1}
-                                max={5}
-                                step={0.1}
-                                className={styles.rangeSlider_input}
-                            />
-                            <div
-                                style={{
-                                    left: rangeMartingale.leftOffset,
-                                }}
-                                className={styles.rangeSlider_bubble}
-                            ></div>
-                            <div
-                                style={{ width: rangeMartingale.leftOffset }}
-                                className={styles.rangeSlider_line}
-                            ></div>
-                        </div>
+                        <Range min={0.1} max={5} currValue={3.5} />
                     </div>
                 </div>
                 <p className={styles.blockList_description}>
@@ -154,50 +98,15 @@ export const App: FC = () => {
             <div className={styles.blockList}>
                 <div className={styles.blockList_content}>
                     <div className={clsx(styles.blockList_item, styles.switch)}>
-                        <div className={styles.wrapper_flex}>
+                        <FlexWrapper>
                             <p className={styles.switch_title}>
                                 Dynamic price step CO
                             </p>
                             <Switcher />
-                        </div>
+                        </FlexWrapper>
                     </div>
                     <div className={styles.blockList_item}>
-                        <div className={styles.wrapper_flex}>
-                            <span className={styles.rangeText}>1.0</span>
-                            <span
-                                className={clsx(
-                                    styles.rangeText,
-                                    styles.rangeText__current
-                                )}
-                            >
-                                {dynamicRange.value}
-                            </span>
-                            <span className={styles.rangeText}>5</span>
-                        </div>
-                        <div className={styles.rangeSlider}>
-                            <input
-                                ref={dynamicRange.ref}
-                                value={dynamicRange.value}
-                                onChange={({ target: { value: radius } }) =>
-                                    dynamicRange.setValue(+radius)
-                                }
-                                type="range"
-                                min={1.0}
-                                max={5}
-                                step={0.1}
-                                className={styles.rangeSlider_input}
-                            />
-                            <div
-                                style={{
-                                    left: dynamicRange.leftOffset,
-                                }}
-                                className={styles.rangeSlider_bubble}
-                            ></div>
-                            <div
-                                style={{ width: dynamicRange.leftOffset }}
-                                className={styles.rangeSlider_line}
-                            ></div>
-                        </div>
+                        <Range min={1.0} max={5} currValue={2} />
                     </div>
                 </div>
                 <p className={styles.blockList_description}>
@@ -207,9 +116,11 @@ export const App: FC = () => {
             </div>
 
             <div className={styles.navButton}>
-                <div className={clsx(styles.paddingBlock, styles.wrapper_flex)}>
-                    <p className={styles.navButton_text}>Order type</p>
-                </div>
+                <PaddingWrapper>
+                    <FlexWrapper>
+                        <p className={styles.navButton_text}>Order type</p>
+                    </FlexWrapper>
+                </PaddingWrapper>
                 <button className={styles.navButton_button}>
                     Limit Order
                     <ArrowRightIcon className={styles.navButton_icon} />
@@ -217,12 +128,16 @@ export const App: FC = () => {
             </div>
 
             <div className={styles.blockList}>
-                <div className={clsx(styles.paddingBlock, styles.wrapper_flex)}>
-                    <p className={styles.navButton_text}>Remaining by volume</p>
-                </div>
+                <PaddingWrapper>
+                    <FlexWrapper>
+                        <p className={styles.navButton_text}>
+                            Remaining by volume
+                        </p>
+                    </FlexWrapper>
+                </PaddingWrapper>
                 <div className={styles.blockList_content}>
                     <div className={styles.blockList_item}>
-                        <div className={styles.wrapper_flex}>
+                        <FlexWrapper>
                             <div className={styles.progressbar}>
                                 <span
                                     className={styles.progressbar_bar}
@@ -232,75 +147,71 @@ export const App: FC = () => {
                             <span className={styles.blockList_item_span}>
                                 40%
                             </span>
-                        </div>
+                        </FlexWrapper>
                     </div>
                 </div>
             </div>
 
             <div className={styles.lists}>
                 <div className={styles.blockList}>
-                    <div
-                        className={clsx(
-                            styles.paddingBlock,
-                            styles.wrapper_flex
-                        )}
-                    >
-                        <p className={styles.navButton_text}>Step 1</p>
-                    </div>
+                    <PaddingWrapper>
+                        <FlexWrapper>
+                            <p className={styles.navButton_text}>Step 1</p>
+                        </FlexWrapper>
+                    </PaddingWrapper>
                     <div className={styles.blockList_content}>
                         <div className={styles.blockList_item}>
-                            <div className={styles.wrapper_flex}>
+                            <FlexWrapper>
                                 <p className={styles.blockList_item_title}>
                                     Intermediate Take Profit, %
                                 </p>
                                 <span className={styles.blockList_item_span}>
                                     1
                                 </span>
-                            </div>
+                            </FlexWrapper>
                         </div>
                         <div className={styles.blockList_item}>
-                            <div className={styles.wrapper_flex}>
+                            <FlexWrapper>
                                 <p className={styles.blockList_item_title}>
                                     Amount, %
                                 </p>
                                 <span className={styles.blockList_item_span}>
                                     20
                                 </span>
-                            </div>
+                            </FlexWrapper>
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.blockList}>
-                    <div
-                        className={clsx(
-                            styles.paddingBlock,
-                            styles.wrapper_flex
-                        )}
-                    >
-                        <p className={styles.navButton_text}>Step 2</p>
-                        <button className={styles.step_delete}>Delete</button>
-                    </div>
+                    <PaddingWrapper>
+                        <FlexWrapper>
+                            <p className={styles.navButton_text}>Step 2</p>
+                            <button className={styles.step_delete}>
+                                Delete
+                            </button>
+                        </FlexWrapper>
+                    </PaddingWrapper>
                     <div className={styles.blockList_content}>
                         <div className={styles.blockList_item}>
-                            <div className={styles.wrapper_flex}>
+                            <FlexWrapper>
                                 <p className={styles.blockList_item_title}>
                                     Intermediate Take Profit, %
                                 </p>
                                 <span className={styles.blockList_item_span}>
                                     1
                                 </span>
-                            </div>
+                            </FlexWrapper>
                         </div>
                         <div className={styles.blockList_item}>
-                            <div className={styles.wrapper_flex}>
+                            <FlexWrapper>
                                 <p className={styles.blockList_item_title}>
                                     Amount, %
                                 </p>
                                 <span className={styles.blockList_item_span}>
                                     20
                                 </span>
-                            </div>
+                            </FlexWrapper>
                         </div>
                     </div>
                 </div>
