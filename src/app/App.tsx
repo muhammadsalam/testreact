@@ -3,36 +3,13 @@ import styles from "./App.module.scss";
 import { clsx } from "clsx";
 import ArrowRightIcon from "../assets/icons/arrow.svg?react";
 import PlusSVG from "../assets/icons/plus.svg?react";
+import { Switcher } from "shared/ui";
 
 export const App: FC = () => {
     const tabs = ["Insurance orders", "Stop Loss"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
-
-    const Switcher = (): { state: boolean; handle: () => void } => {
-        const [state, setState] = useState<boolean>(false);
-
-        const handle: () => void = () => {
-            setState(!state);
-        };
-
-        // const SwitchJSX = () => (
-        //     <div
-        //         onClick={handleSwitchClick}
-        //         className={clsx(
-        //             styles.switcher,
-        //             isSwitchActive && styles.switcher__active
-        //         )}
-        //     >
-        //         <span className={styles.switcher_slick}></span>
-        //     </div>
-        // );
-
-        return { state, handle };
-    };
-
-    const MartingaleSwitch = Switcher();
 
     const RangeSlider = (min: number, max: number, currValue: number) => {
         const [value, setValue] = useState<number>(currValue);
@@ -56,7 +33,6 @@ export const App: FC = () => {
 
     const rangeMartingale = RangeSlider(0.1, 5, 3.5);
 
-    const dynamicSwitch = Switcher();
     const dynamicRange = RangeSlider(1, 5, 2);
 
     return (
@@ -126,16 +102,7 @@ export const App: FC = () => {
                     <div className={clsx(styles.blockList_item, styles.switch)}>
                         <div className={styles.wrapper_flex}>
                             <p className={styles.switch_title}>Martingale</p>
-                            <div
-                                onClick={MartingaleSwitch.handle}
-                                className={clsx(
-                                    styles.switcher,
-                                    MartingaleSwitch.state &&
-                                        styles.switcher__active
-                                )}
-                            >
-                                <span className={styles.switcher_slick}></span>
-                            </div>
+                            <Switcher />
                         </div>
                     </div>
                     <div className={styles.blockList_item}>
@@ -191,16 +158,7 @@ export const App: FC = () => {
                             <p className={styles.switch_title}>
                                 Dynamic price step CO
                             </p>
-                            <div
-                                onClick={dynamicSwitch.handle}
-                                className={clsx(
-                                    styles.switcher,
-                                    dynamicSwitch.state &&
-                                        styles.switcher__active
-                                )}
-                            >
-                                <span className={styles.switcher_slick}></span>
-                            </div>
+                            <Switcher />
                         </div>
                     </div>
                     <div className={styles.blockList_item}>

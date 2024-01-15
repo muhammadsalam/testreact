@@ -1,0 +1,27 @@
+.switcher {
+    padding: 2px;
+    background-color: rgba(120, 120, 128, 0.16);
+    height: 31px;
+    width: 51px;
+    border-radius: 16px;
+    transition: background-color 0.123s ease-in-out;
+    cursor: pointer;
+
+    &_slick {
+        display: inline-block;
+        border-radius: 20px;
+        background-color: #fff;
+        height: 100%;
+        width: 100%;
+        clip-path: circle(calc(27px / 2) at calc(29px / 2) 50%);
+        transition: clip-path 0.123s ease-in-out;
+    }
+
+    &__active {
+        background-color: #34c759;
+    }
+
+    &__active &_slick {
+        clip-path: circle(calc(27px / 2) at calc(100% - calc(29px / 2)) 50%);
+    }
+}
