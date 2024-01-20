@@ -4,8 +4,11 @@ import { Cell, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../assets/icons/chart.svg?react";
+import { useTelegramWebApp } from "@telegram-web-app/react";
 
 export const ConfigurePage: FC = () => {
+    const telegram = useTelegramWebApp();
+    telegram.WebApp.close();
     return (
         <>
             <div className={styles.container}>

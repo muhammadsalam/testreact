@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@telegram-web-app/core": "^0.0.1-beta.1",
+    "@telegram-web-app/react": "^0.0.1-beta.1",
     "@types/react-router-dom": "^5.3.3",
     "clsx": "^2.1.0",
     "react": "^18.2.0",
