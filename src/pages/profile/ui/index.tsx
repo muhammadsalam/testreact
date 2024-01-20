@@ -6,6 +6,7 @@ import BinanceIcon from "../../../assets/icons/binance.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import SolusdcIcon from "../../../assets/icons/solusdc.svg?react";
 import TwtusdtIcon from "../../../assets/icons/twtusdt.svg?react";
+import { Link } from "react-router-dom";
 
 export const ProfilePage: FC = () => {
     return (
@@ -18,7 +19,9 @@ export const ProfilePage: FC = () => {
                 <span className={styles.top_sub}>+234.35</span>
             </div>
 
-            <button className={styles.btn__primary}>Creat new bot</button>
+            <Link to="/configure" style={{ display: "contents" }}>
+                <button className={styles.btn__primary}>Creat new bot</button>
+            </Link>
 
             <Cell title="KEY Settings">
                 <button className={styles.navButton}>
