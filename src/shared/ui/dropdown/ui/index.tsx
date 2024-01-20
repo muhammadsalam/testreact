@@ -23,7 +23,7 @@ export const Dropdown: FC<{ items: string[] }> = ({ items, ...props }) => {
     };
 
     return (
-        <div className={styles.dropdown} ref={dropdownRef}>
+        <div className={styles.dropdown} ref={dropdownRef} {...props}>
             <div
                 className={styles.dropdown_select}
                 onClick={handleDropdownActive}

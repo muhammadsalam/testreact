@@ -1,24 +1,13 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./style.module.scss";
-import { Cell, Dropdown, FlexWrapper, PaddingWrapper } from "shared/ui";
+import { Cell, Dropdown } from "shared/ui";
 import clsx from "clsx";
-import ArrowBottomIcon from "../../../assets/icons/arrow-bottom.svg?react";
-import { useOutsideClick } from "shared/lib";
 
 export const StrategyPage: FC = () => {
     const tabs = ["Manually", "By indicator"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
-
-    const [isDropdownActive, setIsDropdownActive] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    const handleDropdownActive = () => {
-        setIsDropdownActive(true);
-    };
-    useOutsideClick(dropdownRef, () => {
-        setIsDropdownActive(false);
-    });
 
     return (
         <>

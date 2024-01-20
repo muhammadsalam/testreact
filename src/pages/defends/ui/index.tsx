@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import styles from "./style.module.scss";
 import { clsx } from "clsx";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
-import PlusSVG from "../../../assets/icons/plus.svg?react";
 import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
 
 export const DefendsPage: FC = () => {
@@ -10,40 +9,6 @@ export const DefendsPage: FC = () => {
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
-
-    interface step {
-        title: string;
-        span: string;
-    }
-
-    const [steps, setSteps] = useState<step[][]>([
-        [
-            {
-                title: "Intermediate Take Profit, %",
-                span: "1",
-            },
-            {
-                title: "Amount, %",
-                span: "20",
-            },
-        ],
-    ]);
-
-    const handleStepAdd = () => {
-        setSteps((restSteps) => [
-            ...restSteps,
-            [
-                { title: "Intermediate Take Profit, %", span: "1" },
-                { title: "Amount, %", span: "20" },
-            ],
-        ]);
-    };
-
-    const handleStepDelete = (index: number) => {
-        setSteps((restSteps) =>
-            [...restSteps].filter((_, arrIndex) => index !== arrIndex)
-        );
-    };
 
     return (
         <div className={styles.container}>
