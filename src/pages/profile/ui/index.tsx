@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./style.module.scss";
-import { FlexWrapper, PaddingWrapper } from "shared/ui";
+import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import BinanceIcon from "../../../assets/icons/binance.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
@@ -20,12 +20,7 @@ export const ProfilePage: FC = () => {
 
             <button className={styles.btn__primary}>Creat new bot</button>
 
-            <div>
-                <PaddingWrapper>
-                    <FlexWrapper>
-                        <p className={styles.navButton_text}>KEY Settings</p>
-                    </FlexWrapper>
-                </PaddingWrapper>
+            <Cell title="KEY Settings">
                 <button className={styles.navButton}>
                     <div className={styles.content}>
                         <BinanceIcon />
@@ -33,14 +28,9 @@ export const ProfilePage: FC = () => {
                     </div>
                     <ArrowRightIcon className={styles.navButton_icon} />
                 </button>
-            </div>
+            </Cell>
 
-            <div className={styles.list}>
-                <PaddingWrapper ptb={4}>
-                    <FlexWrapper>
-                        <p className={styles.navButton_text}>list of bots</p>
-                    </FlexWrapper>
-                </PaddingWrapper>
+            <Cell title="list of bots">
                 <button className={styles.navButton}>
                     <div className={styles.content}>
                         <BtcusdtIcon />
@@ -95,7 +85,7 @@ export const ProfilePage: FC = () => {
                     </div>
                     <ArrowRightIcon className={styles.navButton_icon} />
                 </button>
-            </div>
+            </Cell>
         </div>
     );
 };
