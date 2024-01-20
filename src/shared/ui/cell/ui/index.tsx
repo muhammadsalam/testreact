@@ -6,20 +6,23 @@ interface CellProps extends HTMLAttributes<HTMLDivElement> {
     title?: string;
     children?: ReactNode;
     description?: string;
+    topContextBtn?: ReactNode;
 }
 
 export const Cell: FC<CellProps> = ({
     title,
+    topContextBtn,
     description,
     children,
     ...props
 }) => {
     return (
         <div className={styles.cell} {...props}>
-            {Boolean(title) && (
+            {(Boolean(title) || Boolean(topContextBtn)) && (
                 <PaddingWrapper>
                     <FlexWrapper>
                         <p className={styles.cell_title}>{title}</p>
+                        {topContextBtn}
                     </FlexWrapper>
                 </PaddingWrapper>
             )}
