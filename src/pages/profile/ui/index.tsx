@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
@@ -7,8 +7,13 @@ import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import SolusdcIcon from "../../../assets/icons/solusdc.svg?react";
 import TwtusdtIcon from "../../../assets/icons/twtusdt.svg?react";
 import { Link } from "react-router-dom";
+import { tgApp } from "shared/lib";
 
 export const ProfilePage: FC = () => {
+    useEffect(() => {
+        tgApp.MainButton.hide();
+    }, []);
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>

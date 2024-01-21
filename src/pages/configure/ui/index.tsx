@@ -1,28 +1,29 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import styles from "./style.module.scss";
 import { Cell, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
+import { tgApp } from "shared/lib";
 // import axios from "axios";
 
 export const ConfigurePage: FC = () => {
     // const { BackButton } = ;
     const navigate = useNavigate();
-    window.Telegram.WebApp.BackButton.show();
-    window.Telegram.WebApp.BackButton.onClick(() => {
-        window.Telegram.WebApp.BackButton.hide();
+    tgApp.BackButton.show();
+    tgApp.BackButton.onClick(() => {
+        tgApp.BackButton.hide();
         navigate("/");
     });
-    window.Telegram.WebApp.expand();
-    window.Telegram.WebApp.setHeaderColor("#F2F2F7");
-    window.Telegram.WebApp.MainButton.show();
-    window.Telegram.WebApp.MainButton.text = "Next to step 2 / 6";
-    window.Telegram.WebApp.MainButton.color = "#007AFF";
-    useEffect(() => {
-        window.Telegram.WebApp.expand();
-    }, [window.Telegram.WebApp.viewportHeight]);
+    tgApp.MainButton.onClick(() => {
+        tgApp.MainButton.hide();
+        navigate("/strategy");
+    });
+    tgApp.expand();
+    tgApp.MainButton.show();
+    tgApp.MainButton.text = "Next to step 2 / 6";
+    tgApp.MainButton.color = "#007AFF";
 
     // useEffect(() => {
     //     const apiUrl =
@@ -41,8 +42,6 @@ export const ConfigurePage: FC = () => {
     //             // console.log(error);
     //         });
     // }, []);
-
-    // window.Telegram.WebApp.
     return (
         <div className={styles.container}>
             <div className={styles.top}>
