@@ -24,7 +24,7 @@ export const ProfilePage: FC = () => {
                 <span className={styles.top_sub}>+234.35</span>
             </div>
 
-            <Link to="/configure" style={{ display: "contents" }}>
+            <Link to="/createbot" style={{ display: "contents" }}>
                 <button className={styles.btn__primary}>Creat new bot</button>
             </Link>
 

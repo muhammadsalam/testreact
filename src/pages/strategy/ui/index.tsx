@@ -1,13 +1,38 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, Dropdown } from "shared/ui";
 import clsx from "clsx";
+import { tgApp } from "shared/lib";
 
 export const StrategyPage: FC = () => {
     const tabs = ["Manually", "By indicator"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
+
+    useEffect(() => {
+        tgApp.BackButton.show();
+
+        const backButtonHandler = () => {
+            tgApp.BackButton.hide();
+            window.location.hash = "#1";
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        tgApp.MainButton.onClick(() => {
+            tgApp.MainButton.hide();
+            tgApp.BackButton.hide();
+            window.location.hash = "#3";
+        });
+        tgApp.expand();
+        tgApp.MainButton.show();
+        tgApp.MainButton.text = "Next to step 3 / 6";
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+        };
+    }, []);
 
     return (
         <div className={styles.container}>

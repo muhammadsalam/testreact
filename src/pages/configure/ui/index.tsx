@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
@@ -9,21 +9,32 @@ import { tgApp } from "shared/lib";
 // import axios from "axios";
 
 export const ConfigurePage: FC = () => {
-    // const { BackButton } = ;
     const navigate = useNavigate();
-    tgApp.BackButton.show();
-    tgApp.BackButton.onClick(() => {
-        tgApp.BackButton.hide();
-        navigate("/");
-    });
-    tgApp.MainButton.onClick(() => {
-        tgApp.MainButton.hide();
-        navigate("/strategy");
-    });
-    tgApp.expand();
-    tgApp.MainButton.show();
-    tgApp.MainButton.text = "Next to step 2 / 6";
-    tgApp.MainButton.color = "#007AFF";
+    useEffect(() => {
+        tgApp.BackButton.show();
+
+        const backButtonHandler = () => {
+            tgApp.BackButton.hide();
+            navigate("/");
+        };
+
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        tgApp.MainButton.onClick(() => {
+            tgApp.MainButton.hide();
+            tgApp.BackButton.hide();
+            window.location.hash = "#2";
+        });
+
+        tgApp.expand();
+        tgApp.MainButton.show();
+        tgApp.MainButton.text = "Next to step 2 / 6";
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+        };
+    }, []);
 
     // useEffect(() => {
     //     const apiUrl =
