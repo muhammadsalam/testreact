@@ -6,9 +6,18 @@ import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
 import { tgApp } from "shared/lib";
 
 export const DefendsLayout: FC = () => {
-    const tabs = ["Insurance orders", "Stop Loss"];
-    const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
-        tabs[0].toLowerCase()
+    const tabs = [
+        {
+            title: "Insurance orders",
+            disabled: false,
+        },
+        {
+            title: "Stop Loss",
+            disabled: false,
+        },
+    ];
+    const [activeTab, setActiveTab] = useState<string>(
+        tabs[0].title.toLowerCase()
     );
 
     useEffect(() => {
@@ -46,12 +55,13 @@ export const DefendsLayout: FC = () => {
                         key={index}
                         className={clsx(
                             styles.tabs_button,
-                            activeTab === tab.toLowerCase() &&
+                            activeTab === tab.title.toLowerCase() &&
                                 styles.tabs_button__active
                         )}
-                        onClick={() => setActiveTab(tab.toLowerCase())}
+                        onClick={() => setActiveTab(tab.title.toLowerCase())}
+                        disabled={tab.disabled}
                     >
-                        {tab}
+                        {tab.title}
                     </button>
                 ))}
             </div>

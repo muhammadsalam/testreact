@@ -7,9 +7,18 @@ import PlusIcon from "../../../../../assets/icons/plus.svg?react";
 import { tgApp } from "shared/lib";
 
 export const ProfitLayout: FC = () => {
-    const tabs = ["Manually", "Automatic"];
-    const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
-        tabs[0].toLowerCase()
+    const tabs = [
+        {
+            title: "Manually",
+            disabled: false,
+        },
+        {
+            title: "Automatic",
+            disabled: false,
+        },
+    ];
+    const [activeTab, setActiveTab] = useState<string>(
+        tabs[0].title.toLowerCase()
     );
 
     interface step {
@@ -81,12 +90,12 @@ export const ProfitLayout: FC = () => {
                         key={index}
                         className={clsx(
                             styles.tabs_button,
-                            activeTab === tab.toLowerCase() &&
+                            activeTab === tab.title.toLowerCase() &&
                                 styles.tabs_button__active
                         )}
-                        onClick={() => setActiveTab(tab.toLowerCase())}
+                        onClick={() => setActiveTab(tab.title.toLowerCase())}
                     >
-                        {tab}
+                        {tab.title}
                     </button>
                 ))}
             </div>

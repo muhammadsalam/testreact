@@ -5,9 +5,18 @@ import clsx from "clsx";
 import { tgApp } from "shared/lib";
 
 export const StrategyLayout: FC = () => {
-    const tabs = ["Manually", "By indicator"];
-    const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
-        tabs[0].toLowerCase()
+    const tabs = [
+        {
+            title: "Manually",
+            disabled: false,
+        },
+        {
+            title: "By indicator",
+            disabled: true,
+        },
+    ];
+    const [activeTab, setActiveTab] = useState<string>(
+        tabs[0].title.toLowerCase()
     );
 
     useEffect(() => {
@@ -45,12 +54,14 @@ export const StrategyLayout: FC = () => {
                         key={index}
                         className={clsx(
                             styles.tabs_button,
-                            activeTab === tab.toLowerCase() &&
+                            activeTab === tab.title.toLowerCase() &&
                                 styles.tabs_button__active
                         )}
-                        onClick={() => setActiveTab(tab.toLowerCase())}
+                        onClick={() => setActiveTab(tab.title.toLowerCase())}
+                        disabled={tab.disabled}
                     >
-                        {tab}
+                        {tab.title}
+                        {tab.disabled && <span>Soon</span>}
                     </button>
                 ))}
             </div>

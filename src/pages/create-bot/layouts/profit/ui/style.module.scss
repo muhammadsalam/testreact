@@ -40,7 +40,6 @@
         border-radius: 7px;
         background-color: transparent;
         border: 0;
-        cursor: pointer;
         transition: background-color 0.123s ease-in-out;
         padding: 5px 14px;
         color: #000;
@@ -48,7 +47,8 @@
         line-height: 18px;
         letter-spacing: -0.078px;
 
-        &:hover:not(&__active) {
+        &:hover:not(&__active):not([disabled]) {
+            cursor: pointer;
             background-color: rgba(116, 116, 128, 0.16);
         }
 
