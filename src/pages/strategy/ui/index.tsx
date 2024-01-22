@@ -11,26 +11,22 @@ export const StrategyPage: FC = () => {
     );
 
     useEffect(() => {
-        tgApp.BackButton.show();
-
         const backButtonHandler = () => {
-            tgApp.BackButton.hide();
             window.location.hash = "#1";
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
-        tgApp.MainButton.onClick(() => {
-            tgApp.MainButton.hide();
-            tgApp.BackButton.hide();
+        const mainButtonHandler = () => {
             window.location.hash = "#3";
-        });
-        tgApp.expand();
-        tgApp.MainButton.show();
+        };
+        tgApp.MainButton.onClick(mainButtonHandler);
+
         tgApp.MainButton.text = "Next to step 3 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, []);
 

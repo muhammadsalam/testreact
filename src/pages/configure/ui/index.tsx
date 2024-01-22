@@ -17,22 +17,20 @@ export const ConfigurePage: FC = () => {
             tgApp.BackButton.hide();
             navigate("/");
         };
-
         tgApp.BackButton.onClick(backButtonHandler);
 
-        tgApp.MainButton.onClick(() => {
-            tgApp.MainButton.hide();
-            tgApp.BackButton.hide();
+        const mainButtonHandler = () => {
             window.location.hash = "#2";
-        });
+        };
+        tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.expand();
         tgApp.MainButton.show();
         tgApp.MainButton.text = "Next to step 2 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, []);
 

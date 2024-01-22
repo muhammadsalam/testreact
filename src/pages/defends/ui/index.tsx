@@ -1,14 +1,35 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { clsx } from "clsx";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
+import { tgApp } from "shared/lib";
 
 export const DefendsPage: FC = () => {
     const tabs = ["Insurance orders", "Stop Loss"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
     );
+
+    useEffect(() => {
+        const backButtonHandler = () => {
+            window.location.hash = "#2";
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        const mainButtonHandler = () => {
+            window.location.hash = "#4";
+        };
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        tgApp.MainButton.text = "Next to step 4 / 6";
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, []);
 
     return (
         <div className={styles.container}>
