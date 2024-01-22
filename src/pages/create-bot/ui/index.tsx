@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { ConfigureLayout } from "../layouts/configure";
-import { StrategyLayout } from "../layouts/strategy";
-import { DefendsLayout } from "../layouts/defends";
-import { ProfitLayout } from "../layouts/profit";
-import { DurationLayout } from "../layouts/duration";
 import { tgApp } from "shared/lib";
+import {
+    ConfigureLayout,
+    DefendsLayout,
+    DurationLayout,
+    ProfitLayout,
+    StrategyLayout,
+} from "../layouts";
 
 export const CreateBotPage = () => {
     const [hash, setHash] = useState(window.location.hash);
