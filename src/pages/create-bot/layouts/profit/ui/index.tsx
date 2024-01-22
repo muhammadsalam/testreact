@@ -125,6 +125,7 @@ export const ProfitLayout: FC = () => {
                 <div className={styles.lists}>
                     {steps.map((step, index) => (
                         <Cell
+                            key={index}
                             title={`Step ${index + 1}`}
                             topContextBtn={
                                 Boolean(index) && (
@@ -137,8 +138,11 @@ export const ProfitLayout: FC = () => {
                                 )
                             }
                         >
-                            {step.map((item) => (
-                                <div className={styles.blockList_item}>
+                            {step.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={styles.blockList_item}
+                                >
                                     <FlexWrapper>
                                         <p
                                             className={
