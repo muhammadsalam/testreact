@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ConfigureLayout } from "../layouts/configure";
 import { StrategyLayout } from "../layouts/strategy";
 import { DefendsLayout } from "../layouts/defends";
+import { ProfitLayout } from "../layouts/profit";
 
 export const CreateBotPage = () => {
     const [hash, setHash] = useState(window.location.hash);
@@ -20,10 +21,14 @@ export const CreateBotPage = () => {
 
     const renderComponent = () => {
         switch (hash) {
+            case "#1":
+                return <ConfigureLayout />;
             case "#2":
                 return <StrategyLayout />;
             case "#3":
                 return <DefendsLayout />;
+            case "#4":
+                return <ProfitLayout />;
             default:
                 return <ConfigureLayout />;
         }
