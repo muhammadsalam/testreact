@@ -39,6 +39,17 @@ export const DefendsLayout: FC = () => {
         };
     }, []);
 
+    const render = () => {
+        switch (activeTab) {
+            case "insurance orders":
+                return <InsuranceOrdersLayout />;
+            case "stop loss":
+                return <StopLossLayout />;
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -65,12 +76,7 @@ export const DefendsLayout: FC = () => {
                 ))}
             </div>
 
-            {
-                {
-                    "insurance orders": <InsuranceOrdersLayout />,
-                    "stop loss": <StopLossLayout />,
-                }[activeTab]
-            }
+            {render()}
         </div>
     );
 };
