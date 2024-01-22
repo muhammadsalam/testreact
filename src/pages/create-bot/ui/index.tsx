@@ -3,6 +3,7 @@ import { ConfigureLayout } from "../layouts/configure";
 import { StrategyLayout } from "../layouts/strategy";
 import { DefendsLayout } from "../layouts/defends";
 import { ProfitLayout } from "../layouts/profit";
+import { DurationLayout } from "../layouts/duration";
 
 export const CreateBotPage = () => {
     const [hash, setHash] = useState(window.location.hash);
@@ -29,6 +30,8 @@ export const CreateBotPage = () => {
                 return <DefendsLayout />;
             case "#4":
                 return <ProfitLayout />;
+            case "#5":
+                return <DurationLayout />;
             default:
                 return <ConfigureLayout />;
         }
