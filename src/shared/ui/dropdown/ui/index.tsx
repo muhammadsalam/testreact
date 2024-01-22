@@ -9,7 +9,7 @@ export const Dropdown: FC<{ items: string[] }> = ({ items, ...props }) => {
 
     const [isDropdownActive, setIsDropdownActive] = useState(false);
     const handleDropdownActive = () => {
-        setIsDropdownActive(true);
+        setIsDropdownActive((state) => !state);
     };
 
     useOutsideClick(dropdownRef, () => {
