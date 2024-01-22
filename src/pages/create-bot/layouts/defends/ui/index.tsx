@@ -90,7 +90,7 @@ export const DefendsLayout: FC = () => {
                     </FlexWrapper>
                 </div>
                 <div className={styles.blockList_item}>
-                    <Range min={0.1} max={5} currValue={3.5} />
+                    <Range min={"0.1"} max={"5"} currValue={3.5} />
                 </div>
             </Cell>
 
@@ -104,7 +104,7 @@ export const DefendsLayout: FC = () => {
                     </FlexWrapper>
                 </div>
                 <div className={styles.blockList_item}>
-                    <Range min={1.0} max={5} currValue={2} />
+                    <Range min={"1.0"} max={"5"} currValue={2} />
                 </div>
             </Cell>
         </div>

@@ -5,13 +5,13 @@ import { FC } from "react";
 import { FlexWrapper } from "shared/ui";
 
 interface RangeProps {
-    min: number;
-    max: number;
+    min: string;
+    max: string;
     currValue?: number;
 }
 
 export const Range: FC<RangeProps> = ({ min, max, currValue = 2 }) => {
-    const rangeData = useRange(min, max, currValue);
+    const rangeData = useRange(+min, +max, currValue);
 
     return (
         <div className={styles.wrapper}>
@@ -42,12 +42,12 @@ export const Range: FC<RangeProps> = ({ min, max, currValue = 2 }) => {
                 />
                 <div
                     style={{
-                        left: rangeData.offset,
+                        left: rangeData.offset + "%",
                     }}
                     className={styles.rangeSlider_bubble}
                 ></div>
                 <div
-                    style={{ width: rangeData.offset }}
+                    style={{ width: rangeData.offset + "%" }}
                     className={styles.rangeSlider_line}
                 ></div>
             </div>
