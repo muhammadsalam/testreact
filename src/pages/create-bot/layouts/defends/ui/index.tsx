@@ -1,11 +1,11 @@
 import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { clsx } from "clsx";
-import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
+import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
 import { tgApp } from "shared/lib";
 
-export const DefendsPage: FC = () => {
+export const DefendsLayout: FC = () => {
     const tabs = ["Insurance orders", "Stop Loss"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()

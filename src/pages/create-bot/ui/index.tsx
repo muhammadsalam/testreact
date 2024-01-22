@@ -1,7 +1,7 @@
-import { ConfigurePage } from "pages/configure";
-import { DefendsPage } from "pages/defends";
-import { StrategyPage } from "pages/strategy";
 import { useEffect, useState } from "react";
+import { ConfigureLayout } from "../layouts/configure";
+import { StrategyLayout } from "../layouts/strategy";
+import { DefendsLayout } from "../layouts/defends";
 
 export const CreateBotPage = () => {
     const [hash, setHash] = useState(window.location.hash);
@@ -21,11 +21,11 @@ export const CreateBotPage = () => {
     const renderComponent = () => {
         switch (hash) {
             case "#2":
-                return <StrategyPage />;
+                return <StrategyLayout />;
             case "#3":
-                return <DefendsPage />;
+                return <DefendsLayout />;
             default:
-                return <ConfigurePage />;
+                return <ConfigureLayout />;
         }
     };
 

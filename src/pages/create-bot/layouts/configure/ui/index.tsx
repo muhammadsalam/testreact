@@ -1,14 +1,14 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, Switcher } from "shared/ui";
-import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
-import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
-import ChartIcon from "../../../assets/icons/chart.svg?react";
+import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
+import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
+import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
 import { tgApp } from "shared/lib";
 // import axios from "axios";
 
-export const ConfigurePage: FC = () => {
+export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
     useEffect(() => {
         tgApp.BackButton.show();

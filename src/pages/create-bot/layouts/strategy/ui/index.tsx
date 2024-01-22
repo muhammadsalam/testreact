@@ -4,7 +4,7 @@ import { Cell, Dropdown } from "shared/ui";
 import clsx from "clsx";
 import { tgApp } from "shared/lib";
 
-export const StrategyPage: FC = () => {
+export const StrategyLayout: FC = () => {
     const tabs = ["Manually", "By indicator"];
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(
         tabs[0].toLowerCase()
