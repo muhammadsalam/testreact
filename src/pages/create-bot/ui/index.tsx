@@ -4,6 +4,7 @@ import { StrategyLayout } from "../layouts/strategy";
 import { DefendsLayout } from "../layouts/defends";
 import { ProfitLayout } from "../layouts/profit";
 import { DurationLayout } from "../layouts/duration";
+import { tgApp } from "shared/lib";
 
 export const CreateBotPage = () => {
     const [hash, setHash] = useState(window.location.hash);
@@ -12,6 +13,8 @@ export const CreateBotPage = () => {
         const hashChangeHandler = () => {
             setHash(window.location.hash);
         };
+
+        tgApp.setBackgroundColor("#f2f2f7");
 
         window.addEventListener("hashchange", hashChangeHandler);
 
