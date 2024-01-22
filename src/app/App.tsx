@@ -7,6 +7,7 @@ import { CreateBotPage } from "pages/create-bot";
 export const App: FC = () => {
     useEffect(() => {
         tgApp.setHeaderColor("#F2F2F7");
+        tgApp.expand();
     }, []);
 
     return (
