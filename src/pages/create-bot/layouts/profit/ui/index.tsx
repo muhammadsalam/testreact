@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import { tgApp } from "shared/lib";
-import { ManuallyLayout } from "../layouts";
+import { AutomaticLayout, ManuallyLayout } from "../layouts";
 
 export const ProfitLayout: FC = () => {
     const tabs = [
@@ -41,6 +41,15 @@ export const ProfitLayout: FC = () => {
         };
     }, []);
 
+    const render = () => {
+        switch (activeTab) {
+            case "manually":
+                return <ManuallyLayout />;
+            case "automatic":
+                return <AutomaticLayout />;
+        }
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -73,7 +82,7 @@ export const ProfitLayout: FC = () => {
                 </button>
             </Cell>
 
-            <ManuallyLayout />
+            {render()}
         </div>
     );
 };
