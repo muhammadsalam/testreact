@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Cell, Switcher } from "shared/ui";
+import { Cell, CellListItem, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
@@ -66,7 +66,7 @@ export const ConfigureLayout: FC = () => {
             </div>
 
             <Cell title="bot name">
-                <div className={styles.block}>Bot 1</div>
+                <CellListItem color="#000">Bot 1</CellListItem>
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">
@@ -91,18 +91,18 @@ export const ConfigureLayout: FC = () => {
             </Cell>
 
             <Cell title="additionally">
-                <div className={styles.list_item}>
+                <CellListItem color="#000">
                     Strategy
                     <Switcher switchData={strategySwitch} />
-                </div>
-                <div className={styles.list_item}>
+                </CellListItem>
+                <CellListItem color="#000">
                     Defends
                     <Switcher switchData={defendsSwitch} />
-                </div>
-                <div className={styles.list_item}>
+                </CellListItem>
+                <CellListItem color="#000">
                     Take Profit
                     <Switcher switchData={takeProfitSwitch} />
-                </div>
+                </CellListItem>
             </Cell>
         </div>
     );

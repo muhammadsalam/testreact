@@ -53,72 +53,8 @@
     letter-spacing: -0.078px;
 }
 
-.list {
-    &_item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #fff;
-        padding: 13px 16px;
-        font-size: 17px;
-        font-weight: 400;
-        line-height: 22px;
-        letter-spacing: -0.43px;
-        position: relative;
-
-        & + & {
-            border-top: 1px solid #f2f2f7;
-        }
-
-        &:first-of-type {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        &:last-of-type {
-            border-bottom-right-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        &_title {
-            color: #8e8e93;
-        }
-
-        .dropdown {
-            color: #000;
-            margin-left: 12px;
-
-            &_list {
-                position: absolute;
-                z-index: 2;
-                top: calc(100% + 1px);
-                right: 16px;
-                box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.2);
-                background-color: #fff;
-                border-radius: 12px;
-
-                &_item {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-
-                    & + & {
-                        border-top: 0.33px solid rgba(60, 60, 67, 0.36);
-                    }
-
-                    &:first-of-type {
-                        border-top-left-radius: 10px;
-                        border-top-right-radius: 10px;
-                    }
-
-                    &:last-of-type {
-                        border-bottom-right-radius: 10px;
-                        border-bottom-left-radius: 10px;
-                    }
-                }
-            }
-        }
-    }
+.list_item_span {
+    color: #000;
 }
 
 .tabs {

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import styles from "./style.module.scss";
-import { Cell, FlexWrapper } from "shared/ui";
+import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
 
 export const ManuallyLayout: FC = () => {
@@ -41,29 +41,27 @@ export const ManuallyLayout: FC = () => {
     return (
         <>
             <Cell title="Volume">
-                <FlexWrapper className={styles.blockList_item}>
+                <CellListItem>
                     <p className={styles.blockList_item_title}>
                         Existing volume
                     </p>
                     <span className={styles.blockList_item_span}>2000</span>
-                </FlexWrapper>
+                </CellListItem>
             </Cell>
 
             <Cell title="Remaining by volume">
-                <div className={styles.blockList_item}>
-                    <FlexWrapper>
-                        <div className={styles.progressbar}>
-                            <span
-                                className={styles.progressbar_bar}
-                                style={{ width: "40%" }}
-                            ></span>
-                        </div>
-                        <span className={styles.blockList_item_span}>40%</span>
-                    </FlexWrapper>
-                </div>
+                <CellListItem>
+                    <div className={styles.progressbar}>
+                        <span
+                            className={styles.progressbar_bar}
+                            style={{ width: "40%" }}
+                        ></span>
+                    </div>
+                    <span className={styles.blockList_item_span}>40%</span>
+                </CellListItem>
             </Cell>
 
-            <Cell>
+            <Cell listClass={false}>
                 <div className={styles.lists}>
                     {steps.map((step, index) => (
                         <Cell
@@ -81,27 +79,16 @@ export const ManuallyLayout: FC = () => {
                             }
                         >
                             {step.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className={styles.blockList_item}
-                                >
-                                    <FlexWrapper>
-                                        <p
-                                            className={
-                                                styles.blockList_item_title
-                                            }
-                                        >
-                                            {item.title}
-                                        </p>
-                                        <span
-                                            className={
-                                                styles.blockList_item_span
-                                            }
-                                        >
-                                            {item.span}
-                                        </span>
-                                    </FlexWrapper>
-                                </div>
+                                <CellListItem key={index}>
+                                    <p className={styles.blockList_item_title}>
+                                        {item.title}
+                                    </p>
+                                    <span
+                                        className={styles.blockList_item_span}
+                                    >
+                                        {item.span}
+                                    </span>
+                                </CellListItem>
                             ))}
                         </Cell>
                     ))}
@@ -109,8 +96,8 @@ export const ManuallyLayout: FC = () => {
                         className={styles.lists_btn}
                         onClick={handleStepAdd}
                     >
-                        <PlusIcon className={styles.lists_btn_icon} /> Add a
-                        step
+                        <PlusIcon className={styles.lists_btn_icon} />
+                        Add a step
                     </button>
                 </div>
             </Cell>

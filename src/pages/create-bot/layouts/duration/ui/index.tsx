@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { tgApp } from "shared/lib";
-import { Cell, FlexWrapper, Switcher } from "shared/ui";
+import { tgApp, useSwitch } from "shared/lib";
+import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ export const DurationLayout: FC = () => {
     }, []);
 
     const rangeData = useRange(1, 10, 3);
-
+    const fullCycleSwitch = useSwitch();
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -44,12 +44,16 @@ export const DurationLayout: FC = () => {
                 <div className={styles.list_item}>
                     <FlexWrapper>
                         <p className={styles.switch_title}>Full сycles</p>
-                        <Switcher />
+                        <Switcher switchData={fullCycleSwitch} />
                     </FlexWrapper>
                 </div>
                 <div className={styles.list_item}>
                     <div className={styles.progress}>
-                        <FlexWrapper className={styles.progress_top}>
+                        <CellListItem
+                            className={styles.progress_top}
+                            topBottomPadding={0}
+                            leftRightPadding={0}
+                        >
                             <span>1</span>
                             <span>2</span>
                             <span>3</span>
@@ -60,7 +64,7 @@ export const DurationLayout: FC = () => {
                             <span>8</span>
                             <span>9</span>
                             <span>10</span>
-                        </FlexWrapper>
+                        </CellListItem>
                         <div className={styles.rangeSlider}>
                             <input
                                 ref={rangeData.ref}

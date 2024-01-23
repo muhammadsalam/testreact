@@ -1,7 +1,6 @@
 import ArrowRightIcon from "../../../../../../../assets/icons/arrow.svg?react";
-import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
+import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
-import clsx from "clsx";
 import { useSwitch } from "shared/lib";
 
 export const InsuranceOrdersLayout = () => {
@@ -17,48 +16,38 @@ export const InsuranceOrdersLayout = () => {
             </Cell>
 
             <Cell>
-                <div className={styles.blockList_item}>
-                    <FlexWrapper>
-                        <p className={styles.blockList_item_title}>
-                            Limit of insurance orders
-                        </p>
-                        <span className={styles.blockList_item_span}>10</span>
-                    </FlexWrapper>
-                </div>
-                <div className={styles.blockList_item}>
-                    <FlexWrapper>
-                        <p className={styles.blockList_item_title}>
-                            Step of insurance orders, %
-                        </p>
-                        <span className={styles.blockList_item_span}>2</span>
-                    </FlexWrapper>
-                </div>
+                <CellListItem>
+                    <p className={styles.blockList_item_title}>
+                        Limit of insurance orders
+                    </p>
+                    <span className={styles.blockList_item_span}>10</span>
+                </CellListItem>
+                <CellListItem>
+                    <p className={styles.blockList_item_title}>
+                        Step of insurance orders, %
+                    </p>
+                    <span className={styles.blockList_item_span}>2</span>
+                </CellListItem>
             </Cell>
 
             <Cell description=" The Martingale system is a system in which the dollar value of trades increases after losses, or position size increases with a smaller portfolio size.">
-                <div className={clsx(styles.blockList_item, styles.switch)}>
-                    <FlexWrapper>
-                        <p className={styles.switch_title}>Martingale</p>
-                        <Switcher switchData={martingaleSwitch} />
-                    </FlexWrapper>
-                </div>
-                <div className={styles.blockList_item}>
+                <CellListItem color="#000">
+                    <p className={styles.switch_title}>Martingale</p>
+                    <Switcher switchData={martingaleSwitch} />
+                </CellListItem>
+                <CellListItem>
                     <Range min={"0.1"} max={"5"} currValue={3.5} />
-                </div>
+                </CellListItem>
             </Cell>
 
             <Cell description="The price level of each next order changes according to the specified coefficient">
-                <div className={clsx(styles.blockList_item, styles.switch)}>
-                    <FlexWrapper>
-                        <p className={styles.switch_title}>
-                            Dynamic price step CO
-                        </p>
-                        <Switcher switchData={dynamicPriceSwitch} />
-                    </FlexWrapper>
-                </div>
-                <div className={styles.blockList_item}>
+                <CellListItem>
+                    <p className={styles.switch_title}>Dynamic price step CO</p>
+                    <Switcher switchData={dynamicPriceSwitch} />
+                </CellListItem>
+                <CellListItem>
                     <Range min={"1.0"} max={"5"} currValue={2} />
-                </div>
+                </CellListItem>
             </Cell>
         </>
     );
