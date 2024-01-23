@@ -8,3 +8,8 @@
         border-top: 1px solid #f2f2f7;
     }
 }
+
+.inner {
+    transition: padding 0.123s ease-in-out;
+    overflow: hidden;
+}

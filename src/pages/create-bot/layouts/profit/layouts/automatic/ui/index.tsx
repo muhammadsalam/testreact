@@ -2,6 +2,7 @@ import { FC } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import { useSwitch } from "shared/lib";
+import clsx from "clsx";
 
 export const AutomaticLayout: FC = () => {
     const stepTakeSwitch = useSwitch();
@@ -29,7 +30,12 @@ export const AutomaticLayout: FC = () => {
                     <p className={styles.switch_title}>Step Take Profit</p>
                     <Switcher switchData={stepTakeSwitch} />
                 </CellListItem>
-                <CellListItem>
+                <CellListItem
+                    className={clsx(styles.wrapper, {
+                        [styles.wrapper__active]: stepTakeSwitch.state,
+                    })}
+                    topBottomPadding={stepTakeSwitch.state ? undefined : 0}
+                >
                     <Range min="1.0" max="5" currValue={2} />
                 </CellListItem>
             </Cell>
@@ -39,7 +45,12 @@ export const AutomaticLayout: FC = () => {
                     <p className={styles.switch_title}>Martingale</p>
                     <Switcher switchData={martingaleSwitch} />
                 </CellListItem>
-                <CellListItem>
+                <CellListItem
+                    className={clsx(styles.wrapper, {
+                        [styles.wrapper__active]: martingaleSwitch.state,
+                    })}
+                    topBottomPadding={martingaleSwitch.state ? undefined : 0}
+                >
                     <Range min="0.1" max="5" currValue={1.4} step={0.1} />
                 </CellListItem>
             </Cell>

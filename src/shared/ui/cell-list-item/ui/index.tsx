@@ -24,7 +24,11 @@ export const CellListItem: FC<CellListItemProps> = ({
             style={{ color }}
             {...props}
         >
-            <PaddingWrapper ptb={topBottomPadding} plr={leftRightPadding}>
+            <PaddingWrapper
+                className={styles.inner}
+                ptb={topBottomPadding}
+                plr={leftRightPadding}
+            >
                 <FlexWrapper>{children}</FlexWrapper>
             </PaddingWrapper>
         </div>
