@@ -8,9 +8,15 @@ interface RangeProps {
     min: string;
     max: string;
     currValue?: number;
+    step?: number;
 }
 
-export const Range: FC<RangeProps> = ({ min, max, currValue = 2 }) => {
+export const Range: FC<RangeProps> = ({
+    step = 1,
+    min,
+    max,
+    currValue = 2,
+}) => {
     const rangeData = useRange(+min, +max, currValue);
 
     return (
@@ -37,7 +43,7 @@ export const Range: FC<RangeProps> = ({ min, max, currValue = 2 }) => {
                     type="range"
                     min={min}
                     max={max}
-                    step={0.1}
+                    step={step}
                     className={styles.rangeSlider_input}
                 />
                 <div
