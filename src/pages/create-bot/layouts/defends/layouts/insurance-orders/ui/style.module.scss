@@ -132,3 +132,12 @@
         }
     }
 }
+
+.wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.123s ease-in-out;
+    &__active {
+        grid-template-rows: 1fr;
+    }
+}

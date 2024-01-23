@@ -4,6 +4,7 @@ import { tgApp, useSwitch } from "shared/lib";
 import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
 
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
@@ -41,19 +42,18 @@ export const DurationLayout: FC = () => {
             </div>
 
             <Cell description="Dynamic pricing is adjusting prices based on external elements such as demand, supply, market, and customer behavior.">
-                <div className={styles.list_item}>
-                    <FlexWrapper>
-                        <p className={styles.switch_title}>Full сycles</p>
-                        <Switcher switchData={fullCycleSwitch} />
-                    </FlexWrapper>
-                </div>
-                <div className={styles.list_item}>
+                <CellListItem>
+                    <p className={styles.switch_title}>Full сycles</p>
+                    <Switcher switchData={fullCycleSwitch} />
+                </CellListItem>
+                <CellListItem
+                    className={clsx(styles.wrapper, {
+                        [styles.wrapper__active]: fullCycleSwitch.state,
+                    })}
+                    topBottomPadding={fullCycleSwitch.state ? undefined : 0}
+                >
                     <div className={styles.progress}>
-                        <CellListItem
-                            className={styles.progress_top}
-                            topBottomPadding={0}
-                            leftRightPadding={0}
-                        >
+                        <FlexWrapper className={styles.progress_top}>
                             <span>1</span>
                             <span>2</span>
                             <span>3</span>
@@ -64,7 +64,7 @@ export const DurationLayout: FC = () => {
                             <span>8</span>
                             <span>9</span>
                             <span>10</span>
-                        </CellListItem>
+                        </FlexWrapper>
                         <div className={styles.rangeSlider}>
                             <input
                                 ref={rangeData.ref}
@@ -119,7 +119,7 @@ export const DurationLayout: FC = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </CellListItem>
             </Cell>
         </div>
     );

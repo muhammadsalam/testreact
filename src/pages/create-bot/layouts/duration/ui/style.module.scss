@@ -52,6 +52,7 @@
 }
 
 .progress {
+    width: 100%;
     // padding: 0 6px;
     &_top {
         span {
@@ -142,5 +143,14 @@
         left: 0;
         height: 4px;
         background-color: #0a84ff;
+    }
+}
+
+.wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.123s ease-in-out;
+    &__active {
+        grid-template-rows: 1fr;
     }
 }

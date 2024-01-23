@@ -2,6 +2,7 @@ import ArrowRightIcon from "../../../../../../../assets/icons/arrow.svg?react";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import { useSwitch } from "shared/lib";
+import clsx from "clsx";
 
 export const InsuranceOrdersLayout = () => {
     const martingaleSwitch = useSwitch();
@@ -35,7 +36,12 @@ export const InsuranceOrdersLayout = () => {
                     <p className={styles.switch_title}>Martingale</p>
                     <Switcher switchData={martingaleSwitch} />
                 </CellListItem>
-                <CellListItem>
+                <CellListItem
+                    className={clsx(styles.wrapper, {
+                        [styles.wrapper__active]: martingaleSwitch.state,
+                    })}
+                    topBottomPadding={martingaleSwitch.state ? undefined : 0}
+                >
                     <Range min={"0.1"} max={"5"} currValue={3.5} />
                 </CellListItem>
             </Cell>
@@ -45,7 +51,12 @@ export const InsuranceOrdersLayout = () => {
                     <p className={styles.switch_title}>Dynamic price step CO</p>
                     <Switcher switchData={dynamicPriceSwitch} />
                 </CellListItem>
-                <CellListItem>
+                <CellListItem
+                    className={clsx(styles.wrapper, {
+                        [styles.wrapper__active]: dynamicPriceSwitch.state,
+                    })}
+                    topBottomPadding={dynamicPriceSwitch.state ? undefined : 0}
+                >
                     <Range min={"1.0"} max={"5"} currValue={2} />
                 </CellListItem>
             </Cell>
