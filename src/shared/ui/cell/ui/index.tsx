@@ -1,12 +1,14 @@
 import { FlexWrapper, PaddingWrapper } from "shared/ui";
 import styles from "./style.module.scss";
 import { FC, HTMLAttributes, ReactNode } from "react";
+import clsx from "clsx";
 
 interface CellProps extends HTMLAttributes<HTMLDivElement> {
     title?: string;
     children?: ReactNode;
     description?: string;
     topContextBtn?: ReactNode;
+    listClass?: boolean;
 }
 
 export const Cell: FC<CellProps> = ({
@@ -14,6 +16,7 @@ export const Cell: FC<CellProps> = ({
     topContextBtn,
     description,
     children,
+    listClass = true,
     ...props
 }) => {
     return (
@@ -27,7 +30,9 @@ export const Cell: FC<CellProps> = ({
                 </PaddingWrapper>
             )}
 
-            <div className={styles.cell_list}>{children}</div>
+            <div className={clsx({ [styles.cell_list]: listClass })}>
+                {children}
+            </div>
 
             {Boolean(description) && (
                 <PaddingWrapper className={styles.cell_description}>
