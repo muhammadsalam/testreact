@@ -1,17 +1,21 @@
-import clsx from "clsx";
+import { FC } from "react";
 import styles from "./ui.module.scss";
-import { useSwitch } from "../libs/use-switch";
+import clsx from "clsx";
 
-export const Switcher = () => {
-    const switcher = useSwitch();
+type SwitchData = {
+    state: boolean;
+    handle: () => void;
+};
 
+export const Switcher: FC<{ switchData: SwitchData }> = ({
+    switchData: { state, handle },
+}) => {
     return (
         <div
-            onClick={switcher.handle}
-            className={clsx(
-                styles.switcher,
-                switcher.state && styles.switcher__active
-            )}
+            onClick={handle}
+            className={clsx(styles.switcher, {
+                [styles.switcher__active]: state,
+            })}
         >
             <span className={styles.switcher_slick}></span>
         </div>

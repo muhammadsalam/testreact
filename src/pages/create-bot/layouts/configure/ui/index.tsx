@@ -5,7 +5,7 @@ import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
-import { tgApp } from "shared/lib";
+import { tgApp, useSwitch } from "shared/lib";
 // import axios from "axios";
 
 export const ConfigureLayout: FC = () => {
@@ -51,6 +51,11 @@ export const ConfigureLayout: FC = () => {
     //             // console.log(error);
     //         });
     // }, []);
+
+    const strategySwitch = useSwitch();
+    const defendsSwitch = useSwitch();
+    const takeProfitSwitch = useSwitch();
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -88,15 +93,15 @@ export const ConfigureLayout: FC = () => {
             <Cell title="additionally">
                 <div className={styles.list_item}>
                     Strategy
-                    <Switcher />
+                    <Switcher switchData={strategySwitch} />
                 </div>
                 <div className={styles.list_item}>
                     Defends
-                    <Switcher />
+                    <Switcher switchData={defendsSwitch} />
                 </div>
                 <div className={styles.list_item}>
                     Take Profit
-                    <Switcher />
+                    <Switcher switchData={takeProfitSwitch} />
                 </div>
             </Cell>
         </div>

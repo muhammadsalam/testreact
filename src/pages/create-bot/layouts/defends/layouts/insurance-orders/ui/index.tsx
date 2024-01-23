@@ -2,8 +2,11 @@ import ArrowRightIcon from "../../../../../../../assets/icons/arrow.svg?react";
 import { Cell, FlexWrapper, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import clsx from "clsx";
+import { useSwitch } from "shared/lib";
 
 export const InsuranceOrdersLayout = () => {
+    const martingaleSwitch = useSwitch();
+    const dynamicPriceSwitch = useSwitch();
     return (
         <>
             <Cell title="Type of insurance order">
@@ -36,7 +39,7 @@ export const InsuranceOrdersLayout = () => {
                 <div className={clsx(styles.blockList_item, styles.switch)}>
                     <FlexWrapper>
                         <p className={styles.switch_title}>Martingale</p>
-                        <Switcher />
+                        <Switcher switchData={martingaleSwitch} />
                     </FlexWrapper>
                 </div>
                 <div className={styles.blockList_item}>
@@ -50,7 +53,7 @@ export const InsuranceOrdersLayout = () => {
                         <p className={styles.switch_title}>
                             Dynamic price step CO
                         </p>
-                        <Switcher />
+                        <Switcher switchData={dynamicPriceSwitch} />
                     </FlexWrapper>
                 </div>
                 <div className={styles.blockList_item}>
