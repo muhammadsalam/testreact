@@ -42,7 +42,7 @@ export const InsuranceOrdersLayout = () => {
                     })}
                     topBottomPadding={martingaleSwitch.state ? undefined : 0}
                 >
-                    <Range min={"0.1"} max={"5"} currValue={3.5} />
+                    <Range min={"0.1"} max={"5"} currValue={3.5} step={0.1} />
                 </CellListItem>
             </Cell>
 
