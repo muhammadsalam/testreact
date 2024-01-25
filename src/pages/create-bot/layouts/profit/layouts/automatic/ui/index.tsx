@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
-import { useSwitch } from "shared/lib";
+import { handleInputFocus, handleInputScroll, useSwitch } from "shared/lib";
 import clsx from "clsx";
 
 export const AutomaticLayout: FC = () => {
@@ -12,16 +12,26 @@ export const AutomaticLayout: FC = () => {
         <>
             <Cell title="Take Profit">
                 <CellListItem>
-                    <p className={styles.blockList_item_title}>
-                        Take Profit, %
-                    </p>
-                    <span className={styles.blockList_item_span}>10</span>
+                    <p className={styles.listItem_title}>Take Profit, %</p>
+                    <input
+                        type="number"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                        defaultValue={10}
+                    />
                 </CellListItem>
                 <CellListItem>
-                    <p className={styles.blockList_item_title}>
+                    <p className={styles.listItem_title}>
                         First Take Profit quantity, %
                     </p>
-                    <span className={styles.blockList_item_span}>30</span>
+                    <input
+                        type="number"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                        defaultValue={30}
+                    />
                 </CellListItem>
             </Cell>
 

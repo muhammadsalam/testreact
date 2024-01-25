@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
+import { handleInputFocus, handleInputScroll } from "shared/lib";
 
 export const ManuallyLayout: FC = () => {
     interface step {
@@ -42,10 +43,13 @@ export const ManuallyLayout: FC = () => {
         <>
             <Cell title="Volume">
                 <CellListItem>
-                    <p className={styles.blockList_item_title}>
-                        Existing volume
-                    </p>
-                    <span className={styles.blockList_item_span}>2000</span>
+                    <p className={styles.listItem_title}>Existing volume</p>
+                    <input
+                        type="number"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                    />
                 </CellListItem>
             </Cell>
 
@@ -57,7 +61,7 @@ export const ManuallyLayout: FC = () => {
                             style={{ width: "40%" }}
                         ></span>
                     </div>
-                    <span className={styles.blockList_item_span}>40%</span>
+                    <span className={styles.listItem_span}>40%</span>
                 </CellListItem>
             </Cell>
 
@@ -80,14 +84,16 @@ export const ManuallyLayout: FC = () => {
                         >
                             {step.map((item, index) => (
                                 <CellListItem key={index}>
-                                    <p className={styles.blockList_item_title}>
+                                    <p className={styles.listItem_title}>
                                         {item.title}
                                     </p>
-                                    <span
-                                        className={styles.blockList_item_span}
-                                    >
-                                        {item.span}
-                                    </span>
+                                    <input
+                                        type="number"
+                                        className={styles.listItem_input}
+                                        onFocus={handleInputFocus}
+                                        onClick={handleInputScroll}
+                                        defaultValue={item.span}
+                                    />
                                 </CellListItem>
                             ))}
                         </Cell>

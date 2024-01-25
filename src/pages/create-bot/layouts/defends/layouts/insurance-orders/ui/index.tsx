@@ -1,7 +1,7 @@
 import ArrowRightIcon from "../../../../../../../assets/icons/arrow.svg?react";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
-import { useSwitch } from "shared/lib";
+import { handleInputFocus, handleInputScroll, useSwitch } from "shared/lib";
 import clsx from "clsx";
 
 export const InsuranceOrdersLayout = () => {
@@ -18,16 +18,27 @@ export const InsuranceOrdersLayout = () => {
 
             <Cell>
                 <CellListItem>
-                    <p className={styles.blockList_item_title}>
+                    <p className={styles.listItem_title}>
                         Limit of insurance orders
                     </p>
-                    <span className={styles.blockList_item_span}>10</span>
+
+                    <input
+                        type="number"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                    />
                 </CellListItem>
                 <CellListItem>
-                    <p className={styles.blockList_item_title}>
+                    <p className={styles.listItem_title}>
                         Step of insurance orders, %
                     </p>
-                    <span className={styles.blockList_item_span}>2</span>
+                    <input
+                        type="number"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                    />
                 </CellListItem>
             </Cell>
 

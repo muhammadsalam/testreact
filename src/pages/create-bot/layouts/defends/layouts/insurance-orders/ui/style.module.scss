@@ -38,45 +38,25 @@
     justify-content: space-between;
 }
 
-.blockList {
-    &_item {
-        background-color: #fff;
-        padding: 13px 16px;
+.listItem {
+    &_title {
+        color: #8e8e93;
+    }
+
+    &_input {
+        color: #000;
+        max-width: 100px;
+        border: 0;
+        outline: 0;
+        text-align: right;
         font-size: 17px;
         line-height: 22px;
         letter-spacing: -0.43px;
-        color: #8e8e93;
+        pointer-events: none;
 
-        & + & {
-            border-top: 1px solid #f2f2f7;
+        &:focus {
+            pointer-events: all;
         }
-
-        &:first-of-type {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        &:last-of-type {
-            border-bottom-right-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        &_title {
-            color: #8e8e93;
-        }
-
-        &_span {
-            color: #000;
-            margin-left: 17px;
-        }
-    }
-
-    &_description {
-        color: #8e8e93;
-        font-size: 13px;
-        line-height: 18px;
-        letter-spacing: -0.078px;
-        padding: 4px 16px;
     }
 }
 
@@ -139,5 +119,21 @@
     transition: grid-template-rows 0.123s ease-in-out;
     &__active {
         grid-template-rows: 1fr;
+    }
+}
+
+.list_input {
+    color: #000;
+    max-width: 100px;
+    border: 0;
+    outline: 0;
+    text-align: right;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.43px;
+    pointer-events: none;
+
+    &:focus {
+        pointer-events: all;
     }
 }

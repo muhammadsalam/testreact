@@ -1,8 +1,8 @@
-import { FC, useEffect, useState, FocusEvent } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import clsx from "clsx";
-import { tgApp } from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 
 export const StrategyLayout: FC = () => {
     const tabs = [
@@ -38,12 +38,6 @@ export const StrategyLayout: FC = () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, []);
-
-    const handleFocusInput = ({ target }: FocusEvent<HTMLInputElement>) => {
-        target.type = "text";
-        target.selectionStart = target.selectionEnd = 10000;
-        target.type = "number";
-    };
 
     return (
         <div className={styles.container}>
@@ -87,7 +81,8 @@ export const StrategyLayout: FC = () => {
                     <input
                         type="number"
                         className={styles.list_item_input}
-                        onFocus={handleFocusInput}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
                     />
                 </CellListItem>
             </Cell>
@@ -107,7 +102,8 @@ export const StrategyLayout: FC = () => {
                     <input
                         type="number"
                         className={styles.list_item_input}
-                        defaultValue={1000}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
                     />
                     {/* <span className={styles.list_item_span}>1000</span> */}
                 </CellListItem>

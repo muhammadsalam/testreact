@@ -1,11 +1,16 @@
-import { FC, useEffect, ChangeEvent } from "react";
+import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
-import { handleInputScroll, tgApp, useSwitch } from "shared/lib";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    tgApp,
+    useSwitch,
+} from "shared/lib";
 import { useBot } from "pages/create-bot/libs";
 // import axios from "axios";
 
@@ -84,7 +89,12 @@ export const ConfigureLayout: FC = () => {
                 <input
                     type="text"
                     value={title}
-                    onClick={handleInputScroll}
+                    onClick={(e) => {
+                        handleInputScroll(e);
+                        handleInputFocus(
+                            e as unknown as FocusEvent<HTMLInputElement>
+                        );
+                    }}
                     onChange={(event) => handleTitleChange(event)}
                     className={styles.input}
                 />
