@@ -3,7 +3,7 @@ import styles from "./style.module.scss";
 import { FlexWrapper, PaddingWrapper } from "shared/ui";
 import clsx from "clsx";
 
-interface CellListItemProps extends HTMLAttributes<HTMLDivElement> {
+interface CellListItemProps extends HTMLAttributes<HTMLLabelElement> {
     children: ReactNode;
     topBottomPadding?: number;
     leftRightPadding?: number;
@@ -19,7 +19,7 @@ export const CellListItem: FC<CellListItemProps> = ({
     ...props
 }) => {
     return (
-        <div
+        <label
             className={clsx(styles.wrapper, className)}
             style={{ color }}
             {...props}
@@ -31,6 +31,6 @@ export const CellListItem: FC<CellListItemProps> = ({
             >
                 <FlexWrapper>{children}</FlexWrapper>
             </PaddingWrapper>
-        </div>
+        </label>
     );
 };

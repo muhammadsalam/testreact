@@ -1,11 +1,12 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, ChangeEvent } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
-import { tgApp, useSwitch } from "shared/lib";
+import { handleInputScroll, tgApp, useSwitch } from "shared/lib";
+import { useBot } from "pages/create-bot/libs";
 // import axios from "axios";
 
 export const ConfigureLayout: FC = () => {
@@ -52,9 +53,23 @@ export const ConfigureLayout: FC = () => {
     //         });
     // }, []);
 
-    const strategySwitch = useSwitch();
-    const defendsSwitch = useSwitch();
-    const takeProfitSwitch = useSwitch();
+    const {
+        bot: { title, active_buy, active_def, active_tp },
+        setBot,
+    } = useBot();
+
+    const strategySwitch = useSwitch(active_buy);
+    const defendsSwitch = useSwitch(active_def);
+    const takeProfitSwitch = useSwitch(active_tp);
+
+    const handleTitleChange = ({
+        target: { value },
+    }: ChangeEvent<HTMLInputElement>) => {
+        setBot((prevBot) => ({
+            ...prevBot,
+            title: value,
+        }));
+    };
 
     return (
         <div className={styles.container}>
@@ -66,7 +81,13 @@ export const ConfigureLayout: FC = () => {
             </div>
 
             <Cell title="bot name">
-                <CellListItem color="#000">Bot 1</CellListItem>
+                <input
+                    type="text"
+                    value={title}
+                    onClick={handleInputScroll}
+                    onChange={(event) => handleTitleChange(event)}
+                    className={styles.input}
+                />
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">

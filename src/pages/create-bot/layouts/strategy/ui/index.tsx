@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, FocusEvent } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import clsx from "clsx";
@@ -39,6 +39,12 @@ export const StrategyLayout: FC = () => {
         };
     }, []);
 
+    const handleFocusInput = ({ target }: FocusEvent<HTMLInputElement>) => {
+        target.type = "text";
+        target.selectionStart = target.selectionEnd = 10000;
+        target.type = "number";
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -78,7 +84,11 @@ export const StrategyLayout: FC = () => {
                     <p className={styles.list_item_title}>
                         Volume of the first order
                     </p>
-                    <span className={styles.list_item_span}>77</span>
+                    <input
+                        type="number"
+                        className={styles.list_item_input}
+                        onFocus={handleFocusInput}
+                    />
                 </CellListItem>
             </Cell>
 
@@ -94,7 +104,12 @@ export const StrategyLayout: FC = () => {
                     <p className={styles.list_item_title}>
                         Price for a limit order
                     </p>
-                    <span className={styles.list_item_span}>1000</span>
+                    <input
+                        type="number"
+                        className={styles.list_item_input}
+                        defaultValue={1000}
+                    />
+                    {/* <span className={styles.list_item_span}>1000</span> */}
                 </CellListItem>
             </Cell>
         </div>
