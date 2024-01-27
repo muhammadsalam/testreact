@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import clsx from "clsx";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import { useBot } from "pages/create-bot/libs";
 
 export const StrategyLayout: FC = () => {
     const tabs = [
@@ -39,6 +40,89 @@ export const StrategyLayout: FC = () => {
         };
     }, []);
 
+    const {
+        bot: { ammount_first_order, type_first_order, price_first_order },
+        setBot,
+    } = useBot();
+
+    const inputTypeItems = [
+        {
+            title: "From the first order",
+            id: "",
+        },
+        {
+            title: "Market order",
+            id: "",
+        },
+    ];
+
+    // const onInputTypeSwitch = (type: string) => {
+    //     setBot((prevState) => {
+    //         return { ...prevState, type_first_order: type };
+    //     });
+    // };
+
+    const [amountInputType, setAmountInputType] = useState<string>(
+        ammount_first_order.toString()
+    );
+    const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        console.log(value);
+        if (value.includes("e")) return;
+        if (Number(value) < 0) return;
+        if (
+            (value.startsWith("-") ||
+                value.startsWith("+") ||
+                value.startsWith("0")) &&
+            value.length > 1
+        ) {
+            value = value.slice(1);
+        }
+        setAmountInputType(value);
+        setBot((prevState) => {
+            return { ...prevState, ammount_first_order: Number(value) };
+        });
+    };
+
+    // ======================
+
+    const firstOrderItems = [
+        {
+            title: "Limit order",
+            id: "LIMIT",
+        },
+        {
+            title: "Market order",
+            id: "MARKET",
+        },
+    ];
+
+    const onFirstOrderTypeSwitch = (type: string) => {
+        setBot((prevState) => {
+            return { ...prevState, type_first_order: type };
+        });
+    };
+
+    const [amountFO, setAmountFO] = useState<string>(
+        price_first_order.toString()
+    );
+    const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        if (Number(value) < 0) return;
+        if (
+            (value.startsWith("-") ||
+                value.startsWith("+") ||
+                value.startsWith("0")) &&
+            value.length > 1
+        ) {
+            value = value.slice(1);
+        }
+        setAmountFO(value);
+        setBot((prevState) => {
+            return { ...prevState, price_first_order: Number(value) };
+        });
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -69,9 +153,7 @@ export const StrategyLayout: FC = () => {
             <Cell description="Min 5.03 USDT / 0.00021 BTC">
                 <CellListItem>
                     <p className={styles.list_item_title}>Input type</p>
-                    <Dropdown
-                        items={["From the first order", "title-1", "title-2"]}
-                    />
+                    <Dropdown items={inputTypeItems} />
                 </CellListItem>
 
                 <CellListItem>
@@ -81,6 +163,8 @@ export const StrategyLayout: FC = () => {
                     <input
                         type="number"
                         className={styles.list_item_input}
+                        value={amountInputType}
+                        onChange={handleITChange}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
                     />
@@ -92,20 +176,32 @@ export const StrategyLayout: FC = () => {
                     <p className={styles.list_item_title}>
                         Type of the first order
                     </p>
-                    <Dropdown items={["Limit order", "title-1", "title-2"]} />
+                    <Dropdown
+                        onSwitch={onFirstOrderTypeSwitch}
+                        items={firstOrderItems}
+                    />
                 </CellListItem>
 
-                <CellListItem>
+                <CellListItem
+                    className={clsx(styles.listItem_wrapper, {
+                        [styles.listItem_wrapper__active]:
+                            type_first_order === "LIMIT",
+                    })}
+                    topBottomPadding={
+                        type_first_order === "LIMIT" ? undefined : 0
+                    }
+                >
                     <p className={styles.list_item_title}>
                         Price for a limit order
                     </p>
                     <input
                         type="number"
                         className={styles.list_item_input}
+                        value={amountFO}
+                        onChange={handleFOChange}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
                     />
-                    {/* <span className={styles.list_item_span}>1000</span> */}
                 </CellListItem>
             </Cell>
         </div>

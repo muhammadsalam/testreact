@@ -38,7 +38,12 @@ interface BotModel {
     take_amount: number;
     take_step: number;
     take_mrt: number;
-    takes: any[];
+    existing_volume: number;
+    purchase_price: number;
+    takes: {
+        step: number;
+        amount: number;
+    }[];
     cycles: number;
 }
 
@@ -85,30 +90,41 @@ export const CreateBotPage = () => {
 
     const [newBotData, setNewBotData] = useState<BotModel>({
         user_id: 19,
-        wallet_id: 6,
-        title: "Bot1",
+        wallet_id: 8,
+        title: "bot 3",
         pair: "BTCUSDT",
         strategy: "LONG",
-        active_buy: true,
-        ammount_first_order: 1,
+        active_buy: false,
+        ammount_first_order: 0,
         type_first_order: "LIMIT",
-        price_first_order: 1,
-        active_def: true,
+        price_first_order: 0,
+        active_def: false,
         def_type: "IO",
         io_calculate_type: "LO",
-        io_count: 10,
-        io_step: 1,
-        io_mrt: 1,
-        io_step_mrt: 1,
-        stop_loss: 1,
+        io_count: 0,
+        io_step: 0,
+        io_mrt: 0,
+        io_step_mrt: 0,
+        stop_loss: 0,
         active_tp: true,
-        take_type: "AUTO",
-        take_profit: 2,
-        take_amount: 50,
-        take_step: 1,
-        take_mrt: 1,
-        takes: [],
-        cycles: 0,
+        take_type: "MANUAL",
+        existing_volume: 0.5,
+        purchase_price: 0,
+        take_profit: 0,
+        take_amount: 0,
+        take_step: 0,
+        take_mrt: 0,
+        takes: [
+            {
+                step: 2,
+                amount: 35,
+            },
+            {
+                step: 4,
+                amount: 65,
+            },
+        ],
+        cycles: 1,
     });
 
     return (
