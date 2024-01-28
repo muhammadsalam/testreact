@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "./ui.module.scss";
 import { useRange } from "../libs/use-range";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FlexWrapper } from "shared/ui";
 
 interface RangeProps {
@@ -9,6 +9,7 @@ interface RangeProps {
     max: string;
     currValue?: number;
     step?: number;
+    handle?: (value: number) => void;
 }
 
 export const Range: FC<RangeProps> = ({
@@ -16,8 +17,13 @@ export const Range: FC<RangeProps> = ({
     min,
     max,
     currValue = 2,
+    handle,
 }) => {
     const rangeData = useRange(+min, +max, currValue);
+
+    useEffect(() => {
+        handle && handle(rangeData.value);
+    }, [rangeData.value]);
 
     return (
         <div className={styles.wrapper}>

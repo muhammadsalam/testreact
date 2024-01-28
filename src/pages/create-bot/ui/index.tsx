@@ -14,7 +14,7 @@ import {
     StrategyLayout,
 } from "../layouts";
 
-interface BotModel {
+export interface BotModel {
     user_id: number;
     wallet_id: number;
     title: string;
