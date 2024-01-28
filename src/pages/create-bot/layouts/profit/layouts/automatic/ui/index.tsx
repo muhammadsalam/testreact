@@ -1,12 +1,41 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import { handleInputFocus, handleInputScroll, useSwitch } from "shared/lib";
 import clsx from "clsx";
+import { useBot } from "pages/create-bot/libs";
+import { inputNumber } from "features/input-number";
 
 export const AutomaticLayout: FC = () => {
     const stepTakeSwitch = useSwitch();
     const martingaleSwitch = useSwitch();
+
+    const {
+        bot: { take_profit, take_amount, take_step, take_mrt },
+        setBot,
+    } = useBot();
+
+    const [TProfit, setTProfit] = useState("" + take_profit);
+    const handleTProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        inputNumber(e.target.value, setTProfit, setBot, "take_profit");
+    };
+
+    const [TAmount, setTAmount] = useState("" + take_amount);
+    const handleTAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        inputNumber(e.target.value, setTAmount, setBot, "take_amount");
+    };
+
+    const handleTStepChange = (value: number) => {
+        setBot((prevState) => {
+            return { ...prevState, take_step: value };
+        });
+    };
+
+    const handleTMrtChange = (value: number) => {
+        setBot((prevState) => {
+            return { ...prevState, take_mrt: value };
+        });
+    };
 
     return (
         <>
@@ -18,7 +47,8 @@ export const AutomaticLayout: FC = () => {
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
-                        defaultValue={10}
+                        value={TProfit}
+                        onChange={handleTProfitChange}
                     />
                 </CellListItem>
                 <CellListItem>
@@ -30,7 +60,8 @@ export const AutomaticLayout: FC = () => {
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
-                        defaultValue={30}
+                        value={TAmount}
+                        onChange={handleTAmountChange}
                     />
                 </CellListItem>
             </Cell>
@@ -46,7 +77,12 @@ export const AutomaticLayout: FC = () => {
                     })}
                     topBottomPadding={stepTakeSwitch.state ? undefined : 0}
                 >
-                    <Range min="1.0" max="5" currValue={2} />
+                    <Range
+                        min="1.0"
+                        max="5"
+                        currValue={take_step}
+                        handle={handleTStepChange}
+                    />
                 </CellListItem>
             </Cell>
 
@@ -61,7 +97,13 @@ export const AutomaticLayout: FC = () => {
                     })}
                     topBottomPadding={martingaleSwitch.state ? undefined : 0}
                 >
-                    <Range min="0.1" max="5" currValue={1.4} step={0.1} />
+                    <Range
+                        min="0.1"
+                        max="5"
+                        currValue={take_mrt}
+                        step={0.1}
+                        handle={handleTMrtChange}
+                    />
                 </CellListItem>
             </Cell>
         </>
