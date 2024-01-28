@@ -13,7 +13,7 @@ export const StopLossLayout = () => {
 
     const [StopLoss, setStopLoss] = useState("" + stop_loss);
     const handleStopLoss = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setStopLoss, setBot, "io_count");
+        inputNumber(e.target.value, setStopLoss, setBot, "stop_loss");
     };
 
     return (
