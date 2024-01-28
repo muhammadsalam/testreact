@@ -13,8 +13,11 @@ export const inputNumber = (
             value.startsWith("0")) &&
         value.length > 1
     ) {
-        value = value.slice(1);
+        if (!(value.startsWith("0,") || value.startsWith("0."))) {
+            value = value.slice(1);
+        }
     }
+    value.replace(",", ".");
     handler(value);
     setBot((prevState) => {
         return { ...prevState, [botKey]: Number(value) };

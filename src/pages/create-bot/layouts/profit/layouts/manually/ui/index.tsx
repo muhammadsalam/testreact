@@ -3,39 +3,109 @@ import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
+import { useBot } from "pages/create-bot/libs";
+import { inputNumber } from "features/input-number";
+
+interface step {
+    step: number;
+    amount: number;
+}
 
 export const ManuallyLayout: FC = () => {
-    interface step {
-        title: string;
-        span: string;
-    }
+    const {
+        bot: { existing_volume, takes },
+        setBot,
+    } = useBot();
 
-    const [steps, setSteps] = useState<step[][]>([
-        [
-            {
-                title: "Intermediate Take Profit, %",
-                span: "1",
-            },
-            {
-                title: "Amount, %",
-                span: "20",
-            },
-        ],
-    ]);
+    const [steps, setSteps] = useState<step[]>(takes);
 
     const handleStepAdd = () => {
-        setSteps((restSteps) => [
-            ...restSteps,
-            [
-                { title: "Intermediate Take Profit, %", span: "1" },
-                { title: "Amount, %", span: "20" },
-            ],
-        ]);
+        const newStep = {
+            step: 1,
+            amount: 20,
+        };
+
+        setSteps((restSteps) => [...restSteps, newStep]);
+        setBot((restBot) => ({
+            ...restBot,
+            takes: [...restBot.takes, newStep],
+        }));
     };
 
     const handleStepDelete = (index: number) => {
         setSteps((restSteps) =>
-            [...restSteps].filter((_, arrIndex) => index !== arrIndex)
+            restSteps.filter((_, arrIndex) => arrIndex !== index)
+        );
+        setBot((restBot) => {
+            const newTakes = restBot.takes.filter(
+                (_, arrIndex) => arrIndex !== index
+            );
+            return {
+                ...restBot,
+                takes: newTakes,
+            };
+        });
+    };
+
+    const handleStepChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number
+    ) => {
+        let value = e.target.value;
+        if (Number(value) < 0) return;
+
+        if (value.startsWith("0") && value.length > 1) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
+        setSteps((restSteps) => {
+            const updatedSteps = [...restSteps];
+            updatedSteps[index].step = +value;
+            return updatedSteps;
+        });
+
+        setBot((restBot) => ({
+            ...restBot,
+            takes: [...restBot.takes].map((item, arrIndex) =>
+                arrIndex === index ? { ...item, step: +value } : { ...item }
+            ),
+        }));
+    };
+
+    const handleAmountChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number
+    ) => {
+        let value = e.target.value;
+        if (Number(value) < 0) return;
+
+        if (value.startsWith("0") && value.length > 1) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
+        setSteps((restSteps) => {
+            const updatedSteps = [...restSteps];
+            updatedSteps[index].amount = +value;
+            return updatedSteps;
+        });
+
+        setBot((restBot) => ({
+            ...restBot,
+            takes: [...restBot.takes].map((item, arrIndex) =>
+                arrIndex === index ? { ...item, amount: +value } : { ...item }
+            ),
+        }));
+    };
+
+    const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
+    const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+        inputNumber(
+            e.target.value,
+            setExistingVolume,
+            setBot,
+            "existing_volume"
         );
     };
 
@@ -49,6 +119,8 @@ export const ManuallyLayout: FC = () => {
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
+                        value={ExistingVolume}
+                        onChange={handleExistingVolume}
                     />
                 </CellListItem>
             </Cell>
@@ -67,7 +139,7 @@ export const ManuallyLayout: FC = () => {
 
             <Cell listClass={false}>
                 <div className={styles.lists}>
-                    {steps.map((step, index) => (
+                    {steps.map((item, index) => (
                         <Cell
                             key={index}
                             title={`Step ${index + 1}`}
@@ -82,20 +154,34 @@ export const ManuallyLayout: FC = () => {
                                 )
                             }
                         >
-                            {step.map((item, index) => (
-                                <CellListItem key={index}>
-                                    <p className={styles.listItem_title}>
-                                        {item.title}
-                                    </p>
-                                    <input
-                                        type="number"
-                                        className={styles.listItem_input}
-                                        onFocus={handleInputFocus}
-                                        onClick={handleInputScroll}
-                                        defaultValue={item.span}
-                                    />
-                                </CellListItem>
-                            ))}
+                            <CellListItem>
+                                <p className={styles.listItem_title}>
+                                    Intermediate Take Profit, %
+                                </p>
+                                <input
+                                    type="number"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    value={item.step}
+                                    onChange={(e) => handleStepChange(e, index)}
+                                />
+                            </CellListItem>
+                            <CellListItem>
+                                <p className={styles.listItem_title}>
+                                    Amount, %
+                                </p>
+                                <input
+                                    type="number"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    value={item.amount}
+                                    onChange={(e) =>
+                                        handleAmountChange(e, index)
+                                    }
+                                />
+                            </CellListItem>
                         </Cell>
                     ))}
                     <button

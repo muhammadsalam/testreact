@@ -19,6 +19,11 @@
             pointer-events: all;
         }
     }
+
+    &_span {
+        color: #000;
+        margin-left: 17px;
+    }
 }
 
 .progressbar {

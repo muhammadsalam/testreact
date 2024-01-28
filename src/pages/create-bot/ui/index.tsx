@@ -119,10 +119,10 @@ export const CreateBotPage = () => {
                 step: 2,
                 amount: 35,
             },
-            {
-                step: 4,
-                amount: 65,
-            },
+            // {
+            //     step: 4,
+            //     amount: 65,
+            // },
         ],
         cycles: 1,
     });
