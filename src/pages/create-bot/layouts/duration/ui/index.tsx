@@ -5,6 +5,7 @@ import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import { useBot } from "pages/create-bot/libs";
 
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
@@ -30,7 +31,17 @@ export const DurationLayout: FC = () => {
         };
     }, []);
 
-    const rangeData = useRange(1, 10, 3);
+    const {
+        bot: { cycles },
+        setBot,
+    } = useBot();
+
+    const rangeData = useRange(1, 10, cycles);
+
+    useEffect(() => {
+        setBot((restBot) => ({ ...restBot, cycles: rangeData.value }));
+    }, [rangeData.value]);
+
     const fullCycleSwitch = useSwitch();
     return (
         <div className={styles.container}>
