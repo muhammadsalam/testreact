@@ -5,21 +5,38 @@ import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import { tgApp } from "shared/lib";
 import { AutomaticLayout, ManuallyLayout } from "../layouts";
+import { useBot } from "pages/create-bot/libs";
+
+type Tab = {
+    title: string;
+    disabled: boolean;
+    id: "MANUAL" | "AUTO";
+};
 
 export const ProfitLayout: FC = () => {
-    const tabs = [
+    const tabs: Tab[] = [
         {
             title: "Manually",
             disabled: false,
+            id: "MANUAL",
         },
         {
             title: "Automatic",
             disabled: false,
+            id: "AUTO",
         },
     ];
-    const [activeTab, setActiveTab] = useState<string>(
-        tabs[0].title.toLowerCase()
-    );
+
+    const {
+        bot: { take_type },
+        setBot,
+    } = useBot();
+
+    const [activeTab, setActiveTab] = useState<"MANUAL" | "AUTO">(take_type);
+    const handleTabChange = (tabId: "MANUAL" | "AUTO") => {
+        setActiveTab(tabId);
+        setBot((prev) => ({ ...prev, take_type: tabId }));
+    };
 
     useEffect(() => {
         const backButtonHandler = () => {
@@ -43,9 +60,9 @@ export const ProfitLayout: FC = () => {
 
     const render = () => {
         switch (activeTab) {
-            case "manually":
+            case "MANUAL":
                 return <ManuallyLayout />;
-            case "automatic":
+            case "AUTO":
                 return <AutomaticLayout />;
         }
     };
@@ -65,10 +82,9 @@ export const ProfitLayout: FC = () => {
                         key={index}
                         className={clsx(
                             styles.tabs_button,
-                            activeTab === tab.title.toLowerCase() &&
-                                styles.tabs_button__active
+                            activeTab === tab.id && styles.tabs_button__active
                         )}
-                        onClick={() => setActiveTab(tab.title.toLowerCase())}
+                        onClick={() => handleTabChange(tab.id)}
                     >
                         {tab.title}
                     </button>

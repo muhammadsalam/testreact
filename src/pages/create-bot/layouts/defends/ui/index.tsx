@@ -3,21 +3,32 @@ import styles from "./style.module.scss";
 import { clsx } from "clsx";
 import { tgApp } from "shared/lib";
 import { InsuranceOrdersLayout, StopLossLayout } from "../layouts";
+import { useBot } from "pages/create-bot/libs"; // Import BotModel
 
 export const DefendsLayout: FC = () => {
     const tabs = [
         {
             title: "Insurance orders",
             disabled: false,
+            id: "IO",
         },
         {
             title: "Stop Loss",
             disabled: false,
+            id: "SL",
         },
     ];
-    const [activeTab, setActiveTab] = useState<string>(
-        tabs[0].title.toLowerCase()
-    );
+
+    const {
+        bot: { def_type },
+        setBot,
+    } = useBot();
+
+    const [activeTab, setActiveTab] = useState<string>(def_type);
+    const handleTabChange = (tabId: "IO" | "SL") => {
+        setActiveTab(tabId);
+        setBot((prev) => ({ ...prev, def_type: tabId }));
+    };
 
     useEffect(() => {
         const backButtonHandler = () => {
@@ -41,9 +52,9 @@ export const DefendsLayout: FC = () => {
 
     const render = () => {
         switch (activeTab) {
-            case "insurance orders":
+            case "IO":
                 return <InsuranceOrdersLayout />;
-            case "stop loss":
+            case "SL":
                 return <StopLossLayout />;
             default:
                 return null;
@@ -65,10 +76,9 @@ export const DefendsLayout: FC = () => {
                         key={index}
                         className={clsx(
                             styles.tabs_button,
-                            activeTab === tab.title.toLowerCase() &&
-                                styles.tabs_button__active
+                            activeTab === tab.id && styles.tabs_button__active
                         )}
-                        onClick={() => setActiveTab(tab.title.toLowerCase())}
+                        onClick={() => handleTabChange(tab.id as "IO" | "SL")} // Use handleTabChange instead of setActiveTab
                         disabled={tab.disabled}
                     >
                         {tab.title}

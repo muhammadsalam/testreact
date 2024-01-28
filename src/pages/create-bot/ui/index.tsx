@@ -25,7 +25,7 @@ export interface BotModel {
     type_first_order: string;
     price_first_order: number;
     active_def: boolean;
-    def_type: string;
+    def_type: "IO" | "SL";
     io_calculate_type: string;
     io_count: number;
     io_step: number;
@@ -33,7 +33,7 @@ export interface BotModel {
     io_step_mrt: number;
     stop_loss: number;
     active_tp: boolean;
-    take_type: string;
+    take_type: "MANUAL" | "AUTO";
     take_profit: number;
     take_amount: number;
     take_step: number;
