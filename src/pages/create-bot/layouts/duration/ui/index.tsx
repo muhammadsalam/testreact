@@ -10,31 +10,36 @@ import { useBot } from "pages/create-bot/libs";
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
 
+    const {
+        bot: { cycles, active_buy, active_def, active_tp },
+        setBot,
+    } = useBot();
+
     useEffect(() => {
         const backButtonHandler = () => {
-            window.location.hash = "#4";
+            window.history.back();
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            // window.location.hash = "#6"; // тут изменить
+            window.location.hash =
+                "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
             navigate("/"); // тут удалить
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text = "Go back to profile"; // тут изменить
+        tgApp.MainButton.text =
+            "Next to step " +
+            (3 + +active_buy + +active_def + +active_tp) +
+            " / " +
+            (3 + +active_buy + +active_def + +active_tp);
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
-
-    const {
-        bot: { cycles },
-        setBot,
-    } = useBot();
+    }, [active_buy, active_def, active_tp]);
 
     const rangeData = useRange(1, 10, cycles);
 

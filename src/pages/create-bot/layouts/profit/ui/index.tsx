@@ -39,8 +39,12 @@ export const ProfitLayout: FC = () => {
     };
 
     useEffect(() => {
+        if (!active_tp) {
+            window.history.back();
+        }
+
         const backButtonHandler = () => {
-            window.location.hash = "#3";
+            window.history.back();
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
@@ -51,16 +55,16 @@ export const ProfitLayout: FC = () => {
 
         tgApp.MainButton.text =
             "Next to step " +
-            (4 + +active_buy + +active_def) +
+            (3 + +active_buy + +active_def) +
             " / " +
-            (3 + +active_buy + +active_def + +active_tp);
+            (4 + +active_buy + +active_def);
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
+    }, [active_buy, active_def, active_tp]);
 
     const render = () => {
         switch (activeTab) {

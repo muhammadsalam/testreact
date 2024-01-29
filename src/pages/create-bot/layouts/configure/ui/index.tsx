@@ -84,7 +84,9 @@ export const ConfigureLayout: FC = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            window.location.hash = "#2";
+            if (active_buy) window.location.hash = "#2";
+            else if (active_tp) window.location.hash = "#4";
+            else window.location.hash = "#5";
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -97,12 +99,6 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
-
-    useEffect(() => {
-        tgApp.MainButton.setText(
-            "Next to step 2 / " + (3 + +active_buy + +active_def + +active_tp)
-        );
     }, [active_buy, active_def, active_tp]);
 
     const handleTitleChange = ({

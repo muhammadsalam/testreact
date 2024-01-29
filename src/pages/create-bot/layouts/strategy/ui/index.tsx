@@ -111,13 +111,19 @@ export const StrategyLayout: FC = () => {
     };
 
     useEffect(() => {
+        if (!active_buy) {
+            window.history.back();
+        }
+
         const backButtonHandler = () => {
             window.location.hash = "#1";
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            window.location.hash = "#3";
+            if (active_def) window.location.hash = "#3";
+            else if (active_tp) window.location.hash = "#4";
+            else window.location.hash = "#5";
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -129,7 +135,7 @@ export const StrategyLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
+    }, [active_buy, active_def, active_tp]);
 
     return (
         <div className={styles.container}>

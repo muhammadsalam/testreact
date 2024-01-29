@@ -31,25 +31,29 @@ export const DefendsLayout: FC = () => {
     };
 
     useEffect(() => {
+        if (!active_def) {
+            window.history.back();
+        }
+
         const backButtonHandler = () => {
-            window.location.hash = "#2";
+            window.history.back();
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            window.location.hash = "#4";
+            if (active_tp) window.location.hash = "#4";
+            else window.location.hash = "#5";
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text =
-            "Next to step 4 / " + (3 + +active_buy + +active_def + +active_tp);
+        tgApp.MainButton.text = "Next to step 4 / " + (5 + +active_tp);
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
+    }, [active_buy, active_def, active_tp]);
 
     const render = () => {
         switch (activeTab) {
