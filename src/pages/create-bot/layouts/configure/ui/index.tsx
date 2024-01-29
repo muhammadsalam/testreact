@@ -5,12 +5,7 @@ import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    tgApp,
-    useSwitch,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { useBot } from "pages/create-bot/libs";
 // import axios from "axios";
 
@@ -31,7 +26,7 @@ export const ConfigureLayout: FC = () => {
         tgApp.MainButton.onClick(mainButtonHandler);
 
         tgApp.MainButton.show();
-        tgApp.MainButton.text = "Next to step 2 / 6";
+        tgApp.MainButton.text = "Next to step 2 / 4";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
@@ -63,9 +58,50 @@ export const ConfigureLayout: FC = () => {
         setBot,
     } = useBot();
 
-    const strategySwitch = useSwitch(active_buy);
-    const defendsSwitch = useSwitch(active_def);
-    const takeProfitSwitch = useSwitch(active_tp);
+    const handleContextSwitch = (
+        key: "active_buy" | "active_def" | "active_tp",
+        state?: boolean
+    ) => {
+        setBot((prevBot) => {
+            const newState = state !== undefined ? state : !prevBot[key];
+            if (key === "active_buy" && !newState) {
+                return {
+                    ...prevBot,
+                    active_buy: false,
+                    active_def: false,
+                };
+            } else if (key === "active_def" && newState) {
+                return {
+                    ...prevBot,
+                    active_buy: true,
+                    active_def: true,
+                };
+            } else {
+                return {
+                    ...prevBot,
+                    [key]: newState,
+                };
+            }
+        });
+    };
+
+    const handleStrategySwitch: (state?: boolean) => void = (state) => {
+        handleContextSwitch("active_buy", state);
+    };
+
+    const handleDefendsSwitch: (state?: boolean) => void = (state) => {
+        handleContextSwitch("active_def", state);
+    };
+
+    const handleTakeProfitSwitch: (state?: boolean) => void = (state) => {
+        handleContextSwitch("active_tp", state);
+    };
+
+    useEffect(() => {
+        tgApp.MainButton.setText(
+            "Next to step 2 / " + (3 + +active_buy + +active_def + +active_tp)
+        );
+    }, [active_buy, active_def, active_tp]);
 
     const handleTitleChange = ({
         target: { value },
@@ -124,15 +160,30 @@ export const ConfigureLayout: FC = () => {
             <Cell title="additionally">
                 <CellListItem color="#000">
                     Strategy
-                    <Switcher switchData={strategySwitch} />
+                    <Switcher
+                        switchData={{
+                            state: active_buy,
+                            handle: handleStrategySwitch,
+                        }}
+                    />
                 </CellListItem>
                 <CellListItem color="#000">
                     Defends
-                    <Switcher switchData={defendsSwitch} />
+                    <Switcher
+                        switchData={{
+                            state: active_def,
+                            handle: handleDefendsSwitch,
+                        }}
+                    />
                 </CellListItem>
                 <CellListItem color="#000">
                     Take Profit
-                    <Switcher switchData={takeProfitSwitch} />
+                    <Switcher
+                        switchData={{
+                            state: active_tp,
+                            handle: handleTakeProfitSwitch,
+                        }}
+                    />
                 </CellListItem>
             </Cell>
         </div>

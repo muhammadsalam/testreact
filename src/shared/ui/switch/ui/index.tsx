@@ -12,7 +12,7 @@ export const Switcher: FC<{ switchData: SwitchData }> = ({
 }) => {
     return (
         <div
-            onClick={handle}
+            onClick={() => handle()}
             className={clsx(styles.switcher, {
                 [styles.switcher__active]: state,
             })}
