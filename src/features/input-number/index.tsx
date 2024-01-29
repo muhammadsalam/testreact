@@ -1,10 +1,19 @@
 import { BotModel } from "pages/create-bot";
 
-export const inputNumber = (
+type InputNumberType = (
     value: string,
     handler: (value: React.SetStateAction<string>) => void,
     setBot: (value: React.SetStateAction<BotModel>) => void,
-    botKey: keyof BotModel
+    botKey: keyof BotModel,
+    max?: number
+) => void;
+
+export const inputNumber: InputNumberType = (
+    value,
+    handler,
+    setBot,
+    botKey,
+    max
 ) => {
     if (Number(value) < 0) return;
     if (
@@ -18,6 +27,10 @@ export const inputNumber = (
         }
     }
     value.replace(",", ".");
+
+    if (max && +value > max) value = value.slice(max.toString().length - 1);
+    if (value === "") value = "0";
+
     handler(value);
     setBot((prevState) => {
         return { ...prevState, [botKey]: Number(value) };

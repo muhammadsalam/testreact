@@ -31,9 +31,9 @@ export const DefendsLayout: FC = () => {
     };
 
     useEffect(() => {
-        if (!active_def) {
-            window.history.back();
-        }
+        // if (!active_def) {
+        //     window.history.back();
+        // }
 
         const backButtonHandler = () => {
             window.history.back();

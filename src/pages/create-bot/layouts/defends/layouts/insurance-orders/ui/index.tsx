@@ -18,7 +18,7 @@ export const InsuranceOrdersLayout = () => {
 
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOCount, setBot, "io_count");
+        inputNumber(e.target.value, SetIOCount, setBot, "io_count", 10);
     };
 
     const [IOStep, SetIOStep] = useState("" + io_step);
@@ -89,6 +89,7 @@ export const InsuranceOrdersLayout = () => {
                         onClick={handleInputScroll}
                         onChange={handleIOCount}
                         value={IOCount}
+                        max={10}
                     />
                 </CellListItem>
                 <CellListItem>
@@ -102,6 +103,7 @@ export const InsuranceOrdersLayout = () => {
                         onClick={handleInputScroll}
                         onChange={handleIOStep}
                         value={IOStep}
+                        max={99}
                     />
                 </CellListItem>
             </Cell>
