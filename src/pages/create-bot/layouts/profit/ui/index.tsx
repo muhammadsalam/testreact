@@ -28,7 +28,7 @@ export const ProfitLayout: FC = () => {
     ];
 
     const {
-        bot: { take_type },
+        bot: { take_type, active_buy, active_def, active_tp },
         setBot,
     } = useBot();
 
@@ -49,7 +49,11 @@ export const ProfitLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text = "Next to step 5 / 6";
+        tgApp.MainButton.text =
+            "Next to step " +
+            (4 + +active_buy + +active_def) +
+            " / " +
+            (3 + +active_buy + +active_def + +active_tp);
         tgApp.MainButton.color = "#007AFF";
 
         return () => {

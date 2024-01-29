@@ -20,7 +20,7 @@ export const DefendsLayout: FC = () => {
     ];
 
     const {
-        bot: { def_type },
+        bot: { def_type, active_buy, active_def, active_tp },
         setBot,
     } = useBot();
 
@@ -41,7 +41,8 @@ export const DefendsLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text = "Next to step 4 / 6";
+        tgApp.MainButton.text =
+            "Next to step 4 / " + (3 + +active_buy + +active_def + +active_tp);
         tgApp.MainButton.color = "#007AFF";
 
         return () => {

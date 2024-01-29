@@ -20,28 +20,15 @@ export const StrategyLayout: FC = () => {
         tabs[0].title.toLowerCase()
     );
 
-    useEffect(() => {
-        const backButtonHandler = () => {
-            window.location.hash = "#1";
-        };
-        tgApp.BackButton.onClick(backButtonHandler);
-
-        const mainButtonHandler = () => {
-            window.location.hash = "#3";
-        };
-        tgApp.MainButton.onClick(mainButtonHandler);
-
-        tgApp.MainButton.text = "Next to step 3 / 6";
-        tgApp.MainButton.color = "#007AFF";
-
-        return () => {
-            tgApp.BackButton.offClick(backButtonHandler);
-            tgApp.MainButton.offClick(mainButtonHandler);
-        };
-    }, []);
-
     const {
-        bot: { ammount_first_order, type_first_order, price_first_order },
+        bot: {
+            ammount_first_order,
+            type_first_order,
+            price_first_order,
+            active_buy,
+            active_def,
+            active_tp,
+        },
         setBot,
     } = useBot();
 
@@ -122,6 +109,27 @@ export const StrategyLayout: FC = () => {
             return { ...prevState, price_first_order: Number(value) };
         });
     };
+
+    useEffect(() => {
+        const backButtonHandler = () => {
+            window.location.hash = "#1";
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        const mainButtonHandler = () => {
+            window.location.hash = "#3";
+        };
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        tgApp.MainButton.text =
+            "Next to step 3 / " + (3 + +active_buy + +active_def + +active_tp);
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, []);
 
     return (
         <div className={styles.container}>

@@ -11,29 +11,6 @@ import { useBot } from "pages/create-bot/libs";
 
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
-    useEffect(() => {
-        tgApp.BackButton.show();
-
-        const backButtonHandler = () => {
-            tgApp.BackButton.hide();
-            navigate("/");
-        };
-        tgApp.BackButton.onClick(backButtonHandler);
-
-        const mainButtonHandler = () => {
-            window.location.hash = "#2";
-        };
-        tgApp.MainButton.onClick(mainButtonHandler);
-
-        tgApp.MainButton.show();
-        tgApp.MainButton.text = "Next to step 2 / 4";
-        tgApp.MainButton.color = "#007AFF";
-
-        return () => {
-            tgApp.BackButton.offClick(backButtonHandler);
-            tgApp.MainButton.offClick(mainButtonHandler);
-        };
-    }, []);
 
     // useEffect(() => {
     //     const apiUrl =
@@ -96,6 +73,31 @@ export const ConfigureLayout: FC = () => {
     const handleTakeProfitSwitch: (state?: boolean) => void = (state) => {
         handleContextSwitch("active_tp", state);
     };
+
+    useEffect(() => {
+        tgApp.BackButton.show();
+
+        const backButtonHandler = () => {
+            tgApp.BackButton.hide();
+            navigate("/");
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        const mainButtonHandler = () => {
+            window.location.hash = "#2";
+        };
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        tgApp.MainButton.show();
+        tgApp.MainButton.text =
+            "Next to step 2 / " + (3 + +active_buy + +active_def + +active_tp);
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, []);
 
     useEffect(() => {
         tgApp.MainButton.setText(
