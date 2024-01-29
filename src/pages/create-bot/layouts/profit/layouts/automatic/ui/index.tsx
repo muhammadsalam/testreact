@@ -1,18 +1,18 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
-import { handleInputFocus, handleInputScroll, useSwitch } from "shared/lib";
+import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
 import { useBot } from "pages/create-bot/libs";
 import { inputNumber } from "features/input-number";
+import { useRange } from "shared/ui/range/libs/use-range";
 
 export const AutomaticLayout: FC = () => {
-    const stepTakeSwitch = useSwitch();
-    const martingaleSwitch = useSwitch();
-
     const {
         bot: { take_profit, take_amount, take_step, take_mrt },
         setBot,
+        otherStates,
+        setOtherStates,
     } = useBot();
 
     const [TProfit, setTProfit] = useState("" + take_profit);
@@ -36,6 +36,35 @@ export const AutomaticLayout: FC = () => {
             return { ...prevState, take_mrt: value };
         });
     };
+
+    const handleTakeStepSwitch = () => {
+        setOtherStates((prevState) => ({
+            ...prevState,
+            take_step: !prevState.take_step,
+        }));
+    };
+
+    const handleTakeMrtSwitch = () => {
+        console.log("take_mrt", take_mrt);
+        setOtherStates((prevState) => ({
+            ...prevState,
+            take_mrt: !prevState.take_mrt,
+        }));
+    };
+
+    const takeStepData = useRange(1, 5, take_step);
+    const takeMrtData = useRange(1, 5, take_mrt);
+
+    useEffect(() => {
+        if (!otherStates.take_step) {
+            handleTStepChange(1);
+            takeStepData.setValue(1);
+        }
+        if (!otherStates.take_mrt) {
+            handleTMrtChange(1);
+            takeMrtData.setValue(1);
+        }
+    }, [otherStates]);
 
     return (
         <>
@@ -69,17 +98,24 @@ export const AutomaticLayout: FC = () => {
             <Cell description="Step Take Profit is a tool that automatically sells a portion of assets when certain price levels are reached to lock in profits in stages.">
                 <CellListItem color="#000">
                     <p className={styles.switch_title}>Step Take Profit</p>
-                    <Switcher switchData={stepTakeSwitch} />
+                    <Switcher
+                        switchData={{
+                            state: otherStates.take_step,
+                            handle: handleTakeStepSwitch,
+                        }}
+                    />
                 </CellListItem>
                 <CellListItem
                     className={clsx(styles.wrapper, {
-                        [styles.wrapper__active]: stepTakeSwitch.state,
+                        [styles.wrapper__active]: otherStates.take_step,
                     })}
-                    topBottomPadding={stepTakeSwitch.state ? undefined : 0}
+                    topBottomPadding={otherStates.take_step ? undefined : 0}
                 >
                     <Range
+                        {...takeStepData}
                         min="1.0"
                         max="5"
+                        step={0.1}
                         currValue={take_step}
                         handle={handleTStepChange}
                     />
@@ -89,16 +125,22 @@ export const AutomaticLayout: FC = () => {
             <Cell description="Martingale is a trading tool in which the trade size increases after each correction to average price.">
                 <CellListItem color="#000">
                     <p className={styles.switch_title}>Martingale</p>
-                    <Switcher switchData={martingaleSwitch} />
+                    <Switcher
+                        switchData={{
+                            state: otherStates.take_mrt,
+                            handle: handleTakeMrtSwitch,
+                        }}
+                    />
                 </CellListItem>
                 <CellListItem
                     className={clsx(styles.wrapper, {
-                        [styles.wrapper__active]: martingaleSwitch.state,
+                        [styles.wrapper__active]: otherStates.take_mrt,
                     })}
-                    topBottomPadding={martingaleSwitch.state ? undefined : 0}
+                    topBottomPadding={otherStates.take_mrt ? undefined : 0}
                 >
                     <Range
-                        min="0.1"
+                        {...takeMrtData}
+                        min="1.0"
                         max="5"
                         currValue={take_mrt}
                         step={0.1}

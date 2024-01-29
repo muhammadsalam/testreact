@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { tgApp, useSwitch } from "shared/lib";
+import { tgApp } from "shared/lib";
 import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ export const DurationLayout: FC = () => {
     const {
         bot: { cycles, active_buy, active_def, active_tp },
         setBot,
+        otherStates,
+        setOtherStates,
     } = useBot();
 
     useEffect(() => {
@@ -47,7 +49,20 @@ export const DurationLayout: FC = () => {
         setBot((restBot) => ({ ...restBot, cycles: rangeData.value }));
     }, [rangeData.value]);
 
-    const fullCycleSwitch = useSwitch();
+    const handleCyclesSwitch = () => {
+        setOtherStates((prevState) => ({
+            ...prevState,
+            cycles: !prevState.cycles,
+        }));
+    };
+
+    useEffect(() => {
+        if (!otherStates.cycles) {
+            rangeData.setValue(1);
+            setBot((restBot) => ({ ...restBot, cycles: 1 }));
+        }
+    }, [otherStates]);
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -60,13 +75,18 @@ export const DurationLayout: FC = () => {
             <Cell description="Dynamic pricing is adjusting prices based on external elements such as demand, supply, market, and customer behavior.">
                 <CellListItem>
                     <p className={styles.switch_title}>Full сycles</p>
-                    <Switcher switchData={fullCycleSwitch} />
+                    <Switcher
+                        switchData={{
+                            state: otherStates.cycles,
+                            handle: handleCyclesSwitch,
+                        }}
+                    />
                 </CellListItem>
                 <CellListItem
                     className={clsx(styles.wrapper, {
-                        [styles.wrapper__active]: fullCycleSwitch.state,
+                        [styles.wrapper__active]: otherStates.cycles,
                     })}
-                    topBottomPadding={fullCycleSwitch.state ? undefined : 0}
+                    topBottomPadding={otherStates.cycles ? undefined : 0}
                 >
                     <div className={styles.progress}>
                         <FlexWrapper className={styles.progress_top}>
@@ -83,7 +103,7 @@ export const DurationLayout: FC = () => {
                         </FlexWrapper>
                         <div className={styles.rangeSlider}>
                             <input
-                                ref={rangeData.ref}
+                                ref={rangeData.innerRef}
                                 value={rangeData.value}
                                 onChange={({ target: { value: radius } }) =>
                                     rangeData.setValue(+radius)

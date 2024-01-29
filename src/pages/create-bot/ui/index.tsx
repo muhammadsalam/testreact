@@ -50,6 +50,22 @@ export interface BotModel {
 export interface botContext {
     bot: BotModel;
     setBot: Dispatch<SetStateAction<BotModel>>;
+    otherStates: {
+        def_mrt: boolean;
+        def_step_mrt: boolean;
+        take_step: boolean;
+        take_mrt: boolean;
+        cycles: boolean;
+    };
+    setOtherStates: Dispatch<
+        SetStateAction<{
+            def_mrt: boolean;
+            def_step_mrt: boolean;
+            take_step: boolean;
+            take_mrt: boolean;
+            cycles: boolean;
+        }>
+    >;
 }
 
 export const createBotContext = createContext<botContext | null>(null);
@@ -103,8 +119,8 @@ export const CreateBotPage = () => {
         io_calculate_type: "LO",
         io_count: 0,
         io_step: 0,
-        io_mrt: 0,
-        io_step_mrt: 0,
+        io_mrt: 1,
+        io_step_mrt: 1,
         stop_loss: 0,
         active_tp: true,
         take_type: "MANUAL",
@@ -112,8 +128,8 @@ export const CreateBotPage = () => {
         purchase_price: 0,
         take_profit: 0,
         take_amount: 0,
-        take_step: 0,
-        take_mrt: 0,
+        take_step: 1,
+        take_mrt: 1,
         takes: [
             {
                 step: 2,
@@ -123,9 +139,37 @@ export const CreateBotPage = () => {
         cycles: 1,
     });
 
+    const [otherStates, setOtherStates] = useState({
+        def_mrt: false,
+        def_step_mrt: false,
+        take_step: false,
+        take_mrt: false,
+        cycles: false,
+    });
+
+    useEffect(() => {
+        if (!otherStates.def_mrt) {
+            setNewBotData((prevState) => ({
+                ...prevState,
+                io_mrt: 1,
+            }));
+        }
+        if (!otherStates.def_step_mrt) {
+            setNewBotData((prevState) => ({
+                ...prevState,
+                io_step_mrt: 1,
+            }));
+        }
+    }, [otherStates]);
+
     return (
         <createBotContext.Provider
-            value={{ bot: newBotData, setBot: setNewBotData }}
+            value={{
+                bot: newBotData,
+                setBot: setNewBotData,
+                otherStates,
+                setOtherStates,
+            }}
         >
             {renderComponent()}
         </createBotContext.Provider>

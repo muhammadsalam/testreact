@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 export const useRange = (min: number, max: number, currValue: number) => {
     const [value, setValue] = useState<number>(currValue);
-    const ref = useRef<HTMLInputElement>(null);
+    const innerRef = useRef<HTMLInputElement>(null);
     const [offset, setOffset] = useState<number>(0);
 
     useLayoutEffect(() => {
@@ -14,5 +14,5 @@ export const useRange = (min: number, max: number, currValue: number) => {
         setOffset(leftOffset);
     }, [value]);
 
-    return { ref, value, setValue, offset };
+    return { innerRef, value, setValue, offset };
 };
