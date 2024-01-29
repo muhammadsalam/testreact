@@ -12,10 +12,11 @@ type DropdownItem = {
 
 export const Dropdown: FC<
     {
+        defaultValueIndex?: number;
         items: DropdownItem[];
         onSwitch?: React.Dispatch<React.SetStateAction<any>>;
     } & HTMLAttributes<HTMLDivElement>
-> = ({ items, onSwitch, ...props }) => {
+> = ({ defaultValueIndex, items, onSwitch, ...props }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const [isDropdownActive, setIsDropdownActive] = useState(false);
@@ -27,7 +28,9 @@ export const Dropdown: FC<
         setIsDropdownActive(false);
     });
 
-    const [activeELemIndex, setActiveELemIndex] = useState<number>(0);
+    const [activeELemIndex, setActiveELemIndex] = useState<number>(
+        defaultValueIndex || 0
+    );
     const handleElementClick = (index: number) => {
         setActiveELemIndex(index);
         setIsDropdownActive(false);

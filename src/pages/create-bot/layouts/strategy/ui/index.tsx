@@ -193,6 +193,9 @@ export const StrategyLayout: FC = () => {
                     <Dropdown
                         onSwitch={onFirstOrderTypeSwitch}
                         items={firstOrderItems}
+                        defaultValueIndex={firstOrderItems.findIndex(
+                            (item) => item.id === type_first_order
+                        )}
                     />
                 </CellListItem>
 
