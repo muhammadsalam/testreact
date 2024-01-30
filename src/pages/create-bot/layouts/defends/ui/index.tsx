@@ -118,6 +118,7 @@ export const DefendsLayout: FC = () => {
         def_step_mrt,
         io_count,
         stop_loss,
+        def_type,
     ]);
 
     const render = () => {
