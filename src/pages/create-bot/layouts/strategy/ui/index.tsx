@@ -54,20 +54,9 @@ export const StrategyLayout: FC = () => {
     );
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
-        console.log(value);
-        if (value.includes("e")) return;
-        if (Number(value) < 0) return;
-        if (
-            (value.startsWith("-") ||
-                value.startsWith("+") ||
-                value.startsWith("0")) &&
-            value.length > 1
-        ) {
-            value = value.slice(1);
-        }
         setAmountInputType(value);
         setBot((prevState) => {
-            return { ...prevState, ammount_first_order: Number(value) };
+            return { ...prevState, ammount_first_order: value };
         });
     };
 
@@ -90,23 +79,12 @@ export const StrategyLayout: FC = () => {
         });
     };
 
-    const [amountFO, setAmountFO] = useState<string>(
-        price_first_order.toString()
-    );
+    const [amountFO, setAmountFO] = useState<string>(price_first_order);
     const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
-        if (Number(value) < 0) return;
-        if (
-            (value.startsWith("-") ||
-                value.startsWith("+") ||
-                value.startsWith("0")) &&
-            value.length > 1
-        ) {
-            value = value.slice(1);
-        }
         setAmountFO(value);
         setBot((prevState) => {
-            return { ...prevState, price_first_order: Number(value) };
+            return { ...prevState, price_first_order: value };
         });
     };
 

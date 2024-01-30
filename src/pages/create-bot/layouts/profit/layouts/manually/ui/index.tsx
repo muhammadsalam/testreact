@@ -7,8 +7,8 @@ import { useBot } from "pages/create-bot/libs";
 import { inputNumber } from "features/input-number";
 
 interface step {
-    step: number;
-    amount: number;
+    step: string;
+    amount: string;
 }
 
 export const ManuallyLayout: FC = () => {
@@ -21,8 +21,8 @@ export const ManuallyLayout: FC = () => {
 
     const handleStepAdd = () => {
         const newStep = {
-            step: 1,
-            amount: 20,
+            step: "",
+            amount: "",
         };
 
         setSteps((restSteps) => [...restSteps, newStep]);
@@ -61,14 +61,14 @@ export const ManuallyLayout: FC = () => {
 
         setSteps((restSteps) => {
             const updatedSteps = [...restSteps];
-            updatedSteps[index].step = +value;
+            updatedSteps[index].step = value;
             return updatedSteps;
         });
 
         setBot((restBot) => ({
             ...restBot,
             takes: [...restBot.takes].map((item, arrIndex) =>
-                arrIndex === index ? { ...item, step: +value } : { ...item }
+                arrIndex === index ? { ...item, step: value } : { ...item }
             ),
         }));
     };
@@ -87,14 +87,14 @@ export const ManuallyLayout: FC = () => {
 
         setSteps((restSteps) => {
             const updatedSteps = [...restSteps];
-            updatedSteps[index].amount = +value;
+            updatedSteps[index].amount = value;
             return updatedSteps;
         });
 
         setBot((restBot) => ({
             ...restBot,
             takes: [...restBot.takes].map((item, arrIndex) =>
-                arrIndex === index ? { ...item, amount: +value } : { ...item }
+                arrIndex === index ? { ...item, amount: value } : { ...item }
             ),
         }));
     };

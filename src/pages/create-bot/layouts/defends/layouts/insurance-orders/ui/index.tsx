@@ -40,29 +40,29 @@ export const InsuranceOrdersLayout = () => {
         }));
     };
 
-    const handleIOMrt = (value: number) => {
+    const handleIOMrt = (value: string) => {
         setBot((prevState) => {
             return { ...prevState, io_mrt: value };
         });
     };
 
-    const handleIOStepMrt = (value: number) => {
+    const handleIOStepMrt = (value: string) => {
         setBot((prevState) => {
             return { ...prevState, io_step_mrt: value };
         });
     };
 
-    const martingaleRangeData = useRange(1, 5, io_mrt);
-    const dynamicPriceRangeData = useRange(1, 5, io_step_mrt);
+    const martingaleRangeData = useRange(1, 5, +io_mrt);
+    const dynamicPriceRangeData = useRange(1, 5, +io_step_mrt);
 
     useEffect(() => {
         if (!otherStates.def_mrt) {
-            handleIOMrt(1);
+            handleIOMrt("1");
             martingaleRangeData.setValue(1);
         }
 
         if (!otherStates.def_step_mrt) {
-            handleIOStepMrt(1);
+            handleIOStepMrt("1");
             dynamicPriceRangeData.setValue(1);
         }
     }, [otherStates]);
@@ -128,7 +128,7 @@ export const InsuranceOrdersLayout = () => {
                         {...martingaleRangeData}
                         min={"1.0"}
                         max={"5"}
-                        currValue={io_mrt}
+                        currValue={+io_mrt}
                         step={0.1}
                         handle={handleIOMrt}
                     />
@@ -156,7 +156,7 @@ export const InsuranceOrdersLayout = () => {
                         min={"1.0"}
                         max={"5"}
                         step={0.1}
-                        currValue={io_step_mrt}
+                        currValue={+io_step_mrt}
                         handle={handleIOStepMrt}
                     />
                 </CellListItem>

@@ -49,19 +49,18 @@ export const DurationLayout: FC = () => {
         setBot((restBot) => ({ ...restBot, cycles: rangeData.value }));
     }, [rangeData.value]);
 
+    useEffect(() => {
+        if (!otherStates.cycles) {
+            rangeData.setValue(1);
+        }
+    }, [otherStates]);
+
     const handleCyclesSwitch = () => {
         setOtherStates((prevState) => ({
             ...prevState,
             cycles: !prevState.cycles,
         }));
     };
-
-    useEffect(() => {
-        if (!otherStates.cycles) {
-            rangeData.setValue(1);
-            setBot((restBot) => ({ ...restBot, cycles: 1 }));
-        }
-    }, [otherStates]);
 
     return (
         <div className={styles.container}>

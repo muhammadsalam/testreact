@@ -25,13 +25,13 @@ export const AutomaticLayout: FC = () => {
         inputNumber(e.target.value, setTAmount, setBot, "take_amount");
     };
 
-    const handleTStepChange = (value: number) => {
+    const handleTStepChange = (value: string) => {
         setBot((prevState) => {
             return { ...prevState, take_step: value };
         });
     };
 
-    const handleTMrtChange = (value: number) => {
+    const handleTMrtChange = (value: string) => {
         setBot((prevState) => {
             return { ...prevState, take_mrt: value };
         });
@@ -52,16 +52,16 @@ export const AutomaticLayout: FC = () => {
         }));
     };
 
-    const takeStepData = useRange(1, 5, take_step);
-    const takeMrtData = useRange(1, 5, take_mrt);
+    const takeStepData = useRange(1, 5, +take_step);
+    const takeMrtData = useRange(1, 5, +take_mrt);
 
     useEffect(() => {
         if (!otherStates.take_step) {
-            handleTStepChange(1);
+            handleTStepChange("1");
             takeStepData.setValue(1);
         }
         if (!otherStates.take_mrt) {
-            handleTMrtChange(1);
+            handleTMrtChange("1");
             takeMrtData.setValue(1);
         }
     }, [otherStates]);
@@ -116,7 +116,7 @@ export const AutomaticLayout: FC = () => {
                         min="1.0"
                         max="5"
                         step={0.1}
-                        currValue={take_step}
+                        currValue={+take_step}
                         handle={handleTStepChange}
                     />
                 </CellListItem>
@@ -142,7 +142,7 @@ export const AutomaticLayout: FC = () => {
                         {...takeMrtData}
                         min="1.0"
                         max="5"
-                        currValue={take_mrt}
+                        currValue={+take_mrt}
                         step={0.1}
                         handle={handleTMrtChange}
                     />

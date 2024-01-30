@@ -8,7 +8,7 @@ interface RangeProps {
     max: string;
     currValue?: number;
     step?: number;
-    handle?: (value: number) => void;
+    handle?: (value: string) => void;
     value: number;
     innerRef: React.RefObject<HTMLInputElement>;
     setValue: React.Dispatch<React.SetStateAction<number>>;
@@ -26,7 +26,7 @@ export const Range: FC<RangeProps> = ({
     offset,
 }) => {
     useEffect(() => {
-        handle && handle(value);
+        handle && handle(value.toString());
     }, [value]);
 
     return (

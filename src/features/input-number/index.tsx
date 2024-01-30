@@ -12,24 +12,22 @@ export const inputNumber: InputNumberType = (
     value,
     handler,
     setBot,
-    botKey,
-    max
+    botKey
 ) => {
-    if (Number(value) < 0) return;
-    if (
-        (value.startsWith("-") ||
-            value.startsWith("+") ||
-            value.startsWith("0")) &&
-        value.length > 1
-    ) {
-        if (!(value.startsWith("0,") || value.startsWith("0."))) {
-            value = value.slice(1);
-        }
-    }
-    value.replace(",", ".");
+    // if (Number(value) < 0) return;
+    // if (
+    //     (value.startsWith("-") ||
+    //         value.startsWith("+") ||
+    //         value.startsWith("0")) &&
+    //     value.length > 1
+    // ) {
+    //     if (!(value.startsWith("0,") || value.startsWith("0."))) {
+    //         value = value.slice(1);
+    //     }
+    // }
+    // value.replace(",", ".");
 
-    if (max && +value > max) value = value.slice(max.toString().length - 1);
-    if (value === "") value = "0";
+    // if (value === "") value = "0";
 
     handler(value);
     setBot((prevState) => {
