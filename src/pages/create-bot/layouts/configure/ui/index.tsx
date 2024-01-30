@@ -31,6 +31,7 @@ export const ConfigureLayout: FC = () => {
     // }, []);
 
     const {
+        addAlert,
         bot: { title, active_buy, active_def, active_tp },
         setBot,
     } = useBot();
@@ -74,6 +75,14 @@ export const ConfigureLayout: FC = () => {
         handleContextSwitch("active_tp", state);
     };
 
+    const validation = (): boolean => {
+        if (title.length < 3) {
+            addAlert({ title: "Title must be at least 3 characters long" });
+            return false;
+        }
+        return true;
+    };
+
     useEffect(() => {
         tgApp.BackButton.show();
 
@@ -84,9 +93,11 @@ export const ConfigureLayout: FC = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            if (active_buy) window.location.hash = "#2";
-            else if (active_tp) window.location.hash = "#4";
-            else window.location.hash = "#5";
+            if (validation()) {
+                if (active_buy) window.location.hash = "#2";
+                else if (active_tp) window.location.hash = "#4";
+                else window.location.hash = "#5";
+            }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -99,7 +110,7 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [active_buy, active_def, active_tp]);
+    }, [active_buy, active_def, active_tp, title]);
 
     const handleTitleChange = ({
         target: { value },

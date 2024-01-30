@@ -1,5 +1,6 @@
 import {
     Dispatch,
+    ReactNode,
     SetStateAction,
     createContext,
     useEffect,
@@ -13,6 +14,7 @@ import {
     ProfitLayout,
     StrategyLayout,
 } from "../layouts";
+import { Notification, NotificationWrapper } from "entities/notification";
 
 export interface BotModel {
     user_id: number;
@@ -66,7 +68,22 @@ export interface botContext {
             cycles: boolean;
         }>
     >;
+    addAlert: ({
+        title,
+        icon,
+        ms,
+    }: {
+        title: string;
+        icon?: ReactNode;
+        ms?: number;
+    }) => void;
 }
+
+export type notification = {
+    id: number;
+    title: string;
+    icon?: ReactNode;
+};
 
 export const createBotContext = createContext<botContext | null>(null);
 
@@ -162,6 +179,22 @@ export const CreateBotPage = () => {
         }
     }, [otherStates]);
 
+    const [alerts, setAlerts] = useState<notification[]>([]);
+
+    type addAlertType = {
+        title: string;
+        icon?: ReactNode;
+        ms?: number;
+    };
+
+    const addAlert = ({ title, icon, ms }: addAlertType) => {
+        const newId = alerts[alerts.length - 1]?.id + 1 || 1;
+        setAlerts((prev) => [...prev, { title, icon, id: newId }]);
+        setTimeout(() => {
+            setAlerts((prev) => prev.filter((alert) => alert.id !== newId));
+        }, ms || 3000);
+    };
+
     return (
         <createBotContext.Provider
             value={{
@@ -169,8 +202,19 @@ export const CreateBotPage = () => {
                 setBot: setNewBotData,
                 otherStates,
                 setOtherStates,
+                addAlert,
             }}
         >
+            <NotificationWrapper>
+                {alerts.map((alert, index) => (
+                    <Notification
+                        key={index}
+                        title={alert.title}
+                        icon={alert.icon}
+                    />
+                ))}
+            </NotificationWrapper>
+
             {renderComponent()}
         </createBotContext.Provider>
     );
