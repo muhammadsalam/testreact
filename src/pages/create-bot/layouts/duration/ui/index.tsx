@@ -17,6 +17,10 @@ export const DurationLayout: FC = () => {
         setOtherStates,
     } = useBot();
 
+    const validation = () => {
+        return true;
+    };
+
     useEffect(() => {
         const backButtonHandler = () => {
             window.history.back();
@@ -24,9 +28,11 @@ export const DurationLayout: FC = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            window.location.hash =
-                "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
-            navigate("/"); // тут удалить
+            if (validation()) {
+                window.location.hash =
+                    "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
+                navigate("/"); // тут удалить
+            }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -41,7 +47,7 @@ export const DurationLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [active_buy, active_def, active_tp]);
+    }, [active_buy, active_def, active_tp, otherStates.cycles]);
 
     const rangeData = useRange(1, 10, cycles);
 
