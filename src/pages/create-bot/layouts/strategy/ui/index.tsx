@@ -93,7 +93,6 @@ export const StrategyLayout: FC = () => {
             addAlert({ title: "Invalid Price" });
             return false;
         }
-        addAlert({ title: price_first_order + " " + type_first_order });
         return true;
     };
 
