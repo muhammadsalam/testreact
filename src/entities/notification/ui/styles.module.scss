@@ -1,0 +1,27 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: fixed;
+    z-index: 10;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    max-width: 390px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.notification {
+    background-color: rgba(45, 45, 45, 0.8);
+    border-radius: 14px;
+    color: #fff;
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    justify-content: flex-start !important;
+}
