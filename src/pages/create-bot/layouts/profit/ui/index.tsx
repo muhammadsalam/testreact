@@ -68,8 +68,7 @@ export const ProfitLayout: FC = () => {
                     addAlert({
                         title:
                             "Invalid intermediate take profit in step" +
-                            i +
-                            1 +
+                            (i + 1) +
                             " (should be >0)",
                     });
                     return false;
@@ -79,8 +78,7 @@ export const ProfitLayout: FC = () => {
                     addAlert({
                         title:
                             "Invalid amount in step" +
-                            i +
-                            1 +
+                            (i + 1) +
                             " (should be 0< and >100)",
                     });
                     return false;
