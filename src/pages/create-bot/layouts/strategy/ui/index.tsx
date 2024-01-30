@@ -21,6 +21,7 @@ export const StrategyLayout: FC = () => {
     );
 
     const {
+        addAlert,
         bot: {
             ammount_first_order,
             type_first_order,
@@ -49,9 +50,8 @@ export const StrategyLayout: FC = () => {
     //     });
     // };
 
-    const [amountInputType, setAmountInputType] = useState<string>(
-        ammount_first_order.toString()
-    );
+    const [amountInputType, setAmountInputType] =
+        useState<string>(ammount_first_order);
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         setAmountInputType(value);
@@ -88,6 +88,15 @@ export const StrategyLayout: FC = () => {
         });
     };
 
+    const validation = (): boolean => {
+        if (+price_first_order <= 0 && type_first_order === "LIMIT") {
+            addAlert({ title: "Invalid Price" });
+            return false;
+        }
+        addAlert({ title: price_first_order + " " + type_first_order });
+        return true;
+    };
+
     useEffect(() => {
         if (!active_buy) {
             window.history.back();
@@ -99,9 +108,11 @@ export const StrategyLayout: FC = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            if (active_def) window.location.hash = "#3";
-            else if (active_tp) window.location.hash = "#4";
-            else window.location.hash = "#5";
+            if (validation()) {
+                if (active_def) window.location.hash = "#3";
+                else if (active_tp) window.location.hash = "#4";
+                else window.location.hash = "#5";
+            }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -113,7 +124,13 @@ export const StrategyLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [active_buy, active_def, active_tp]);
+    }, [
+        active_buy,
+        active_def,
+        active_tp,
+        price_first_order,
+        type_first_order,
+    ]);
 
     return (
         <div className={styles.container}>
