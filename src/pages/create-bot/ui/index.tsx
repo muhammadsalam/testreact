@@ -11,6 +11,7 @@ import {
     ConfigureLayout,
     DefendsLayout,
     DurationLayout,
+    PairListLayout,
     ProfitLayout,
     StrategyLayout,
 } from "../layouts";
@@ -20,7 +21,11 @@ export interface BotModel {
     user_id: number;
     wallet_id: number;
     title: string;
-    pair: string;
+    pair: {
+        id: string;
+        base: string;
+        quote: string;
+    };
     strategy: string;
     active_buy: boolean;
     ammount_first_order: string;
@@ -108,6 +113,8 @@ export const CreateBotPage = () => {
         switch (hash) {
             case "#1":
                 return <ConfigureLayout />;
+            case "#pair-list":
+                return <PairListLayout />;
             case "#2":
                 return <StrategyLayout />;
             case "#3":
@@ -125,7 +132,11 @@ export const CreateBotPage = () => {
         user_id: 19,
         wallet_id: 8,
         title: "bot 3",
-        pair: "BTCUSDT",
+        pair: {
+            id: "BTCUSDT",
+            base: "BTC",
+            quote: "USDT",
+        },
         strategy: "LONG",
         active_buy: false,
         ammount_first_order: "",

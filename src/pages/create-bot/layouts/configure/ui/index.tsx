@@ -32,7 +32,7 @@ export const ConfigureLayout: FC = () => {
 
     const {
         addAlert,
-        bot: { title, active_buy, active_def, active_tp },
+        bot: { title, active_buy, active_def, active_tp, pair },
         setBot,
     } = useBot();
 
@@ -146,12 +146,16 @@ export const ConfigureLayout: FC = () => {
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">
-                <button className={styles.navButton}>
+                <button
+                    className={styles.navButton}
+                    onClick={() => (window.location.hash = "#pair-list")}
+                >
                     <div className={styles.content}>
                         <BtcusdtIcon />
                         <div className={styles.content_info}>
                             <div className={styles.content_info_title}>
-                                BTC<span>USDT</span>
+                                {pair.base}
+                                <span>{pair.quote}</span>
                             </div>
                         </div>
                     </div>

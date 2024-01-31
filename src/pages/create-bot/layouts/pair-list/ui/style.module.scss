@@ -1,0 +1,125 @@
+.container {
+    max-width: 390px;
+    padding: 24px 16px;
+    margin: 0 auto;
+    display: grid;
+    gap: 24px;
+}
+
+.input {
+    background: url("../assets/search.svg") no-repeat 12px center
+        rgba(116, 116, 128, 0.12);
+    border: 0;
+    border-radius: 10px;
+    padding: 7px 12px 7px 42px;
+    color: #8e8e93;
+
+    &::placeholder {
+        color: #8e8e93;
+    }
+}
+
+.navButton {
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: stretch;
+    width: 100%;
+    font-weight: 510;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.43px;
+    background-color: #fff;
+    border: 0;
+    color: #000;
+    cursor: pointer;
+
+    & + & {
+        .content:after {
+            content: "";
+            display: block;
+            width: calc(100% + 16px);
+            height: 0.33px;
+            position: absolute;
+            background-color: #c8c7cb;
+            bottom: calc(100% + 10.1px);
+        }
+    }
+
+    &:first-of-type {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    &:last-of-type {
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    &_text {
+        color: #8e8e93;
+        font-size: 13px;
+        line-height: 18px;
+        letter-spacing: -0.078px;
+        text-transform: uppercase;
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        width: 100%;
+
+        &_info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            &_title {
+                color: #000;
+                font-size: 17px;
+                font-weight: 510;
+                line-height: 22px;
+                letter-spacing: -0.43px;
+                display: flex;
+                align-items: center;
+
+                span {
+                    color: #8e8e93;
+                }
+            }
+
+            &_block {
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 16px;
+
+                .circle {
+                    width: 4px;
+                    height: 4px;
+                    display: inline-block;
+                    margin: 0 6px;
+                    background-color: #c8c7cb;
+                    border-radius: 50%;
+                    vertical-align: middle;
+                }
+
+                .green {
+                    color: #34c759;
+                }
+
+                .red {
+                    color: #ff3b30;
+                }
+            }
+        }
+    }
+
+    &_icon {
+        transition: translate 0.123s ease-in-out;
+        margin-left: 12px;
+    }
+}

@@ -3,3 +3,4 @@ export * from './defends';
 export * from './duration';
 export * from './profit';
 export * from './strategy';
+export * from './pair-list';
