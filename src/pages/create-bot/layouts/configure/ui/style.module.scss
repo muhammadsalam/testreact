@@ -191,4 +191,12 @@
     color: #000;
     border: 0;
     outline: 0;
+
+    &:focus::placeholder {
+        color: transparent;
+    }
+
+    &::placeholder {
+        color: #000;
+    }
 }

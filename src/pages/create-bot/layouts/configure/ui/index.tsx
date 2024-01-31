@@ -75,10 +75,16 @@ export const ConfigureLayout: FC = () => {
     };
 
     const validation = (): boolean => {
-        if (title.length < 3) {
-            addAlert({ title: "Title must be at least 3 characters long" });
+        if (title.length < 3 || title.length > 20) {
+            addAlert({ title: "Title must be between 3 and 20" });
             return false;
         }
+
+        if (!(active_buy || active_def || active_tp)) {
+            addAlert({ title: "At least one strategy must be enabled" });
+            return false;
+        }
+
         return true;
     };
 
@@ -141,6 +147,7 @@ export const ConfigureLayout: FC = () => {
                     }}
                     onChange={(event) => handleTitleChange(event)}
                     className={styles.input}
+                    placeholder=""
                 />
             </Cell>
 

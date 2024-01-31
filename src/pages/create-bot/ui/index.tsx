@@ -133,7 +133,7 @@ export const CreateBotPage = () => {
     const [newBotData, setNewBotData] = useState<BotModel>({
         user_id: 19,
         wallet_id: 8,
-        title: "bot 3",
+        title: "",
         pair: {
             id: "ETHUSDT",
             base: "ETH",
@@ -156,7 +156,7 @@ export const CreateBotPage = () => {
         io_mrt: "1",
         io_step_mrt: "1",
         stop_loss: "",
-        active_tp: true,
+        active_tp: false,
         take_type: "MANUAL",
         existing_volume: "0.5",
         purchase_price: "",
