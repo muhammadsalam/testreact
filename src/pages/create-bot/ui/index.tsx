@@ -25,6 +25,8 @@ export interface BotModel {
         id: string;
         base: string;
         quote: string;
+        baseimg: string;
+        quoteimg: string;
     };
     strategy: string;
     active_buy: boolean;
@@ -133,9 +135,13 @@ export const CreateBotPage = () => {
         wallet_id: 8,
         title: "bot 3",
         pair: {
-            id: "BTCUSDT",
-            base: "BTC",
+            id: "ETHUSDT",
+            base: "ETH",
+            baseimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
             quote: "USDT",
+            quoteimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
         },
         strategy: "LONG",
         active_buy: false,

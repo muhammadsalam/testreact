@@ -1,16 +1,17 @@
-import { Cell } from "shared/ui";
+import { Cell, CurrencyIcon } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useBot } from "pages/create-bot/libs";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
-import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 
 interface Pair {
     id: string;
     symbol: string;
     base: string;
     quote: string;
+    baseimg: string;
+    quoteimg: string;
     limits: {
         amount: {
             min: number;
@@ -34,7 +35,11 @@ export const PairListLayout = () => {
             id: "BTCUSDT",
             symbol: "BTC/USDT",
             base: "BTC",
+            baseimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
             quote: "USDT",
+            quoteimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
             limits: {
                 amount: {
                     min: 1e-5,
@@ -50,59 +55,15 @@ export const PairListLayout = () => {
             id: "ETHUSDT",
             symbol: "ETH/USDT",
             base: "ETH",
+            baseimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
             quote: "USDT",
+            quoteimg:
+                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
             limits: {
                 amount: {
                     min: 0.0001,
                     max: 9000.0,
-                },
-                cost: {
-                    min: 5.0,
-                    max: 9000000.0,
-                },
-            },
-        },
-        {
-            id: "BNBUSDT",
-            symbol: "BNB/USDT",
-            base: "BNB",
-            quote: "USDT",
-            limits: {
-                amount: {
-                    min: 0.001,
-                    max: 900000.0,
-                },
-                cost: {
-                    min: 5.0,
-                    max: 9000000.0,
-                },
-            },
-        },
-        {
-            id: "BCCUSDT",
-            symbol: "BCC/USDT",
-            base: "BCC",
-            quote: "USDT",
-            limits: {
-                amount: {
-                    min: 1e-5,
-                    max: 90000.0,
-                },
-                cost: {
-                    min: 10.0,
-                    max: 9000000.0,
-                },
-            },
-        },
-        {
-            id: "NEOUSDT",
-            symbol: "NEO/USDT",
-            base: "NEO",
-            quote: "USDT",
-            limits: {
-                amount: {
-                    min: 0.01,
-                    max: 90000.0,
                 },
                 cost: {
                     min: 5.0,
@@ -162,7 +123,10 @@ export const PairListLayout = () => {
                 className={styles.navButton}
                 onClick={() => handlePairClick(pairItem)}
             >
-                <BtcusdtIcon />
+                <CurrencyIcon
+                    baseimg={pairItem.baseimg}
+                    quoteimg={pairItem.quoteimg}
+                />
                 <div className={styles.content}>
                     <div className={styles.content_info}>
                         <div className={styles.content_info_title}>

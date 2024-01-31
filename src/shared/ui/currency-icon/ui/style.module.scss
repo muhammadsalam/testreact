@@ -1,0 +1,21 @@
+.iconWrapper {
+    min-width: 28px;
+    min-height: 28px;
+    position: relative;
+}
+
+.quoteIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.baseIcon {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    z-index: 2;
+    box-sizing: content-box;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+}

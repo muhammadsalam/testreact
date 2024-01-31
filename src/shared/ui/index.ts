@@ -5,3 +5,4 @@ export { PaddingWrapper } from './padding-wrapper';
 export { Cell } from './cell';
 export { CellListItem } from './cell-list-item';
 export { Dropdown } from './dropdown';
+export { CurrencyIcon } from './currency-icon'

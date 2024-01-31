@@ -1,8 +1,7 @@
 import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
 import styles from "./style.module.scss";
-import { Cell, CellListItem, Switcher } from "shared/ui";
+import { Cell, CellListItem, CurrencyIcon, Switcher } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
-import BtcusdtIcon from "../../../../../assets/icons/btcusdt.svg?react";
 import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
@@ -151,7 +150,10 @@ export const ConfigureLayout: FC = () => {
                     onClick={() => (window.location.hash = "#pair-list")}
                 >
                     <div className={styles.content}>
-                        <BtcusdtIcon />
+                        <CurrencyIcon
+                            baseimg={pair.baseimg}
+                            quoteimg={pair.quoteimg}
+                        />
                         <div className={styles.content_info}>
                             <div className={styles.content_info_title}>
                                 {pair.base}
