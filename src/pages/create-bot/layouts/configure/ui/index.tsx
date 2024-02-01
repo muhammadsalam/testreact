@@ -75,8 +75,15 @@ export const ConfigureLayout: FC = () => {
     };
 
     const validation = (): boolean => {
-        if (title.length < 3 || title.length > 20) {
+        const titleWithoutSpaces = title
+            .replace(/^\s+|\s+$/g, "")
+            .replace(/\s+/g, " ");
+        if (titleWithoutSpaces.length < 3 || titleWithoutSpaces.length > 20) {
             addAlert({ title: "Title must be between 3 and 20" });
+            setBot((prevBot) => ({
+                ...prevBot,
+                title: titleWithoutSpaces,
+            }));
             return false;
         }
 
@@ -140,9 +147,7 @@ export const ConfigureLayout: FC = () => {
                     <input
                         type="text"
                         value={title}
-                        onClick={(e) => {
-                            handleInputScroll(e);
-                        }}
+                        onClick={handleInputScroll}
                         onFocus={(e) => {
                             handleInputFocus(
                                 e as unknown as FocusEvent<HTMLInputElement>
