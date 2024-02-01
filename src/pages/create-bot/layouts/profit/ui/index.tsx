@@ -96,7 +96,11 @@ export const ProfitLayout: FC = () => {
 
         if (take_type === "AUTO") {
             if (active_buy) {
-                if (+existing_volume < 0 || existing_volume.length === 0) {
+                if (
+                    !+existing_volume ||
+                    +existing_volume < 0 ||
+                    existing_volume.length === 0
+                ) {
                     addAlert({
                         title: "Invalid Existing Volume (should be >0)",
                     });
@@ -105,6 +109,7 @@ export const ProfitLayout: FC = () => {
             }
 
             if (+take_profit <= 1) {
+                console.log(take_profit);
                 addAlert({ title: "Invalid take profit (should be >1)" });
                 return false;
             }
@@ -135,6 +140,7 @@ export const ProfitLayout: FC = () => {
     };
 
     useEffect(() => {
+        console.log(validation());
         if (!active_tp) {
             window.history.back();
         }
