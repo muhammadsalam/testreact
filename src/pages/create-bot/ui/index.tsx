@@ -158,7 +158,7 @@ export const CreateBotPage = () => {
         stop_loss: "",
         active_tp: true,
         take_type: "MANUAL",
-        existing_volume: "0.5",
+        existing_volume: "",
         purchase_price: "",
         take_profit: "",
         take_amount: "",
