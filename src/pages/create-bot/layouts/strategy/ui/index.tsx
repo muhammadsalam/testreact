@@ -89,13 +89,14 @@ export const StrategyLayout: FC = () => {
     };
 
     const validation = (): boolean => {
-        if (ammount_first_order.length === 0 || +ammount_first_order < 200) {
-            // тут
+        if (+ammount_first_order <= 200) {
+            console.log(ammount_first_order);
             addAlert({
-                title: "Минимальное значение volume of the first order 200 (потом изменить)",
+                title: "Invalid volume of the first order (should be не меньше 200) [потом изменится через бэк]",
             });
             return false;
         }
+
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
             addAlert({ title: "Invalid Price" });
             return false;
@@ -136,6 +137,7 @@ export const StrategyLayout: FC = () => {
         active_tp,
         price_first_order,
         type_first_order,
+        ammount_first_order,
     ]);
 
     return (
