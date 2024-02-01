@@ -2,7 +2,6 @@ import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import clsx from "clsx";
 import { Cell } from "shared/ui";
-import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import { tgApp } from "shared/lib";
 import { AutomaticLayout, ManuallyLayout } from "../layouts";
 import { useBot } from "pages/create-bot/libs";
@@ -199,10 +198,7 @@ export const ProfitLayout: FC = () => {
             </div>
 
             <Cell title="Order type">
-                <button className={styles.navButton_button}>
-                    Limit Order
-                    <ArrowRightIcon className={styles.navButton_icon} />
-                </button>
+                <div className={styles.navButton_button}>Limit Order</div>
             </Cell>
 
             {render()}

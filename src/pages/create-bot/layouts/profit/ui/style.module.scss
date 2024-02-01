@@ -84,15 +84,6 @@
         border: 0;
         border-radius: 10px;
         color: #000;
-        cursor: pointer;
-    }
-    &:hover &_icon {
-        translate: 4px 0;
-    }
-
-    &_icon {
-        transition: translate 0.123s ease-in-out;
-        margin-left: 12px;
     }
 }
 
