@@ -52,9 +52,13 @@ export const ProfitLayout: FC = () => {
 
     const validation = (): boolean => {
         if (take_type === "MANUAL") {
-            if (+existing_volume < 0) {
-                addAlert({ title: "Invalid Existing Volume (should be >0)" });
-                return false;
+            if (!active_buy) {
+                if (+existing_volume < 0 || existing_volume.length === 0) {
+                    addAlert({
+                        title: "Invalid Existing Volume (should be >0)",
+                    });
+                    return false;
+                }
             }
 
             if (+takes < 0) {
@@ -122,6 +126,7 @@ export const ProfitLayout: FC = () => {
     };
 
     useEffect(() => {
+        console.log(validation());
         if (!active_tp) {
             window.history.back();
         }
