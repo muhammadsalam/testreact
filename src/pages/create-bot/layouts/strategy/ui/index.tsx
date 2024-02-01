@@ -36,11 +36,11 @@ export const StrategyLayout: FC = () => {
     const inputTypeItems = [
         {
             title: "From the first order",
-            id: "",
+            id: "something",
         },
         {
             title: "Market order",
-            id: "",
+            id: "something2",
         },
     ];
 
@@ -89,6 +89,13 @@ export const StrategyLayout: FC = () => {
     };
 
     const validation = (): boolean => {
+        if (ammount_first_order.length === 0 || +ammount_first_order < 200) {
+            // тут
+            addAlert({
+                title: "Минимальное значение volume of the first order 200 (потом изменить)",
+            });
+            return false;
+        }
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
             addAlert({ title: "Invalid Price" });
             return false;
