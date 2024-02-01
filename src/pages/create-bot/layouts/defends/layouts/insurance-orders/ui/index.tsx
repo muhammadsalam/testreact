@@ -1,4 +1,3 @@
-import ArrowRightIcon from "../../../../../../../assets/icons/arrow.svg?react";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
@@ -70,10 +69,7 @@ export const InsuranceOrdersLayout = () => {
     return (
         <>
             <Cell title="Type of insurance order">
-                <button className={styles.navButton_button}>
-                    Market Order
-                    <ArrowRightIcon className={styles.navButton_icon} />
-                </button>
+                <div className={styles.navButton_button}>Market Order</div>
             </Cell>
 
             <Cell>
