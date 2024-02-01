@@ -95,6 +95,10 @@
         border: 0.5px solid transparent;
         border-radius: 6.93px;
 
+        &:disabled {
+            color: #8e8e93;
+        }
+
         &:hover:not(&__active):not([disabled]) {
             cursor: pointer;
             background-color: rgba(116, 116, 128, 0.16);
