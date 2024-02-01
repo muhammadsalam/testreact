@@ -51,11 +51,6 @@
             color: #8e8e93;
         }
 
-        &:hover:not(&__active):not([disabled]) {
-            cursor: pointer;
-            background-color: rgba(116, 116, 128, 0.16);
-        }
-
         &__active {
             pointer-events: none;
             background-color: #fff;
