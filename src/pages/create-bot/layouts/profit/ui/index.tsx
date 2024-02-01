@@ -88,7 +88,7 @@ export const ProfitLayout: FC = () => {
                 }
             }
 
-            if (takes.reduce((total, take) => total + +take, 0) > 100) {
+            if (takes.reduce((total, take) => total + +take.amount, 0) > 100) {
                 addAlert({ title: "Total amount should be <= 100%" });
                 return false;
             }
@@ -109,7 +109,6 @@ export const ProfitLayout: FC = () => {
             }
 
             if (+take_profit <= 1) {
-                console.log(take_profit);
                 addAlert({ title: "Invalid take profit (should be >1)" });
                 return false;
             }
@@ -140,7 +139,6 @@ export const ProfitLayout: FC = () => {
     };
 
     useEffect(() => {
-        console.log(validation());
         if (!active_tp) {
             window.history.back();
         }
