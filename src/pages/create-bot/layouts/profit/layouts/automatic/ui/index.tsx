@@ -9,7 +9,14 @@ import { useRange } from "shared/ui/range/libs/use-range";
 
 export const AutomaticLayout: FC = () => {
     const {
-        bot: { take_profit, take_amount, take_step, take_mrt },
+        bot: {
+            take_profit,
+            take_amount,
+            take_step,
+            take_mrt,
+            active_buy,
+            existing_volume,
+        },
         setBot,
         otherStates,
         setOtherStates,
@@ -55,6 +62,16 @@ export const AutomaticLayout: FC = () => {
     const takeStepData = useRange(1, 5, +take_step);
     const takeMrtData = useRange(1, 5, +take_mrt);
 
+    const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
+    const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+        inputNumber(
+            e.target.value,
+            setExistingVolume,
+            setBot,
+            "existing_volume"
+        );
+    };
+
     useEffect(() => {
         if (!otherStates.take_step) {
             handleTStepChange("1");
@@ -68,6 +85,22 @@ export const AutomaticLayout: FC = () => {
 
     return (
         <>
+            {active_buy && (
+                <Cell title="Volume">
+                    <CellListItem>
+                        <p className={styles.listItem_title}>Existing volume</p>
+                        <input
+                            type="number"
+                            className={styles.listItem_input}
+                            onFocus={handleInputFocus}
+                            onClick={handleInputScroll}
+                            value={ExistingVolume}
+                            onChange={handleExistingVolume}
+                        />
+                    </CellListItem>
+                </Cell>
+            )}
+
             <Cell title="Take Profit">
                 <CellListItem>
                     <p className={styles.listItem_title}>Take Profit, %</p>
