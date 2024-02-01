@@ -41,14 +41,18 @@
 }
 
 .step_delete {
-    color: #ff3b30;
-    line-height: 22px;
-    letter-spacing: -0.31px;
-    font-size: 16px;
-    cursor: pointer;
-    border: 0;
-    background-color: transparent;
-    display: inline;
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        color: #ff3b30;
+        line-height: 22px;
+        letter-spacing: -0.31px;
+        font-size: 16px;
+        border: 0;
+        background-color: transparent;
+        display: inline;
+    }
 }
 
 .lists {
@@ -56,16 +60,20 @@
     gap: 16px;
 
     &_btn {
-        background-color: transparent;
-        border: 0;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        color: #007aff;
-        font-size: 17px;
-        line-height: 22px;
-        letter-spacing: -0.43px;
-        cursor: pointer;
+        &,
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: transparent;
+            border: 0;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            color: #007aff;
+            font-size: 17px;
+            line-height: 22px;
+            letter-spacing: -0.43px;
+        }
 
         &_icon {
             margin-right: 8px;
