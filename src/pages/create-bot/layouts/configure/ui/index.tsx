@@ -136,19 +136,23 @@ export const ConfigureLayout: FC = () => {
             </div>
 
             <Cell title="bot name">
-                <input
-                    type="text"
-                    value={title}
-                    onClick={(e) => {
-                        handleInputScroll(e);
-                        handleInputFocus(
-                            e as unknown as FocusEvent<HTMLInputElement>
-                        );
-                    }}
-                    onChange={(event) => handleTitleChange(event)}
-                    className={styles.input}
-                    placeholder=""
-                />
+                <label className={styles.input_label}>
+                    <input
+                        type="text"
+                        value={title}
+                        onClick={(e) => {
+                            handleInputScroll(e);
+                        }}
+                        onFocus={(e) => {
+                            handleInputFocus(
+                                e as unknown as FocusEvent<HTMLInputElement>
+                            );
+                        }}
+                        onChange={(event) => handleTitleChange(event)}
+                        className={styles.input}
+                        placeholder=""
+                    />
+                </label>
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">
