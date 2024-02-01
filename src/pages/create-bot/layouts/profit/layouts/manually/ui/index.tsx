@@ -13,7 +13,7 @@ interface step {
 
 export const ManuallyLayout: FC = () => {
     const {
-        bot: { existing_volume, takes },
+        bot: { existing_volume, takes, active_buy },
         setBot,
     } = useBot();
 
@@ -111,19 +111,21 @@ export const ManuallyLayout: FC = () => {
 
     return (
         <>
-            <Cell title="Volume">
-                <CellListItem>
-                    <p className={styles.listItem_title}>Existing volume</p>
-                    <input
-                        type="number"
-                        className={styles.listItem_input}
-                        onFocus={handleInputFocus}
-                        onClick={handleInputScroll}
-                        value={ExistingVolume}
-                        onChange={handleExistingVolume}
-                    />
-                </CellListItem>
-            </Cell>
+            {!active_buy && (
+                <Cell title="Volume">
+                    <CellListItem>
+                        <p className={styles.listItem_title}>Existing volume</p>
+                        <input
+                            type="number"
+                            className={styles.listItem_input}
+                            onFocus={handleInputFocus}
+                            onClick={handleInputScroll}
+                            value={ExistingVolume}
+                            onChange={handleExistingVolume}
+                        />
+                    </CellListItem>
+                </Cell>
+            )}
 
             <Cell title="Remaining by volume">
                 <CellListItem>
