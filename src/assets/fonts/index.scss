@@ -1,8 +1,7 @@
 @font-face {
     font-family: "SF Pro";
-    src: url("SF-Pro.eot");
-    src: local("SF Pro"), local("SF Pro"), url("SF-Pro.ttf") format("truetype"),
-        url("SF-Pro.eot?#iefix") format("embedded-opentype"),
+    src: url("SF-Pro.ttf");
+    src: url("SF-Pro.ttf") format("truetype"),
         url("SF-Pro.woff2") format("woff2"), url("SF-Pro.woff") format("woff");
 }
 
