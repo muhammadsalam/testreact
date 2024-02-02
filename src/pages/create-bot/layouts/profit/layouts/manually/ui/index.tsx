@@ -13,6 +13,7 @@ interface step {
 
 export const ManuallyLayout: FC = () => {
     const {
+        addAlert,
         bot: { existing_volume, takes, active_buy },
         setBot,
     } = useBot();
@@ -24,6 +25,18 @@ export const ManuallyLayout: FC = () => {
             step: "",
             amount: "",
         };
+
+        const totalAmount = takes.reduce(
+            (total, item) => total + +item.amount,
+            0
+        );
+
+        if (totalAmount >= 100) {
+            addAlert({
+                title: "Общий % amount уже 100%, куда уж больше",
+            });
+            return;
+        }
 
         setSteps((restSteps) => [...restSteps, newStep]);
         setBot((restBot) => ({
@@ -85,6 +98,23 @@ export const ManuallyLayout: FC = () => {
             e.target.value = value;
         }
 
+        // Проверять валидацию полей шагов в Take Profits сразу при написании. Если написал больше, чем 100%, то не будет появляться символ и выйдет плашка уведомления о том, что нельзя вводить больше 100% общего количества amount
+        // Если amount общий равен 100%, то нельзя добавлять больше step
+        // Если добавил 90шт, заполнил первые 2 на 100%, то остальные 88шт не будут учитываться.
+
+        const totalAmount = takes.reduce(
+            (total, item, elemIndex) =>
+                total + (elemIndex === index ? +value : +item.amount),
+            0
+        );
+
+        if (totalAmount > 100) {
+            addAlert({
+                title: "Общий % amount не может быть больше 100%",
+            });
+            return;
+        }
+
         setSteps((restSteps) => {
             const updatedSteps = [...restSteps];
             updatedSteps[index].amount = value;
@@ -132,10 +162,20 @@ export const ManuallyLayout: FC = () => {
                     <div className={styles.progressbar}>
                         <span
                             className={styles.progressbar_bar}
-                            style={{ width: "40%" }}
+                            style={{
+                                transition: "width .2s ease-in-out",
+                                width:
+                                    takes.reduce(
+                                        (total, item) => total + +item.amount,
+                                        0
+                                    ) + "%",
+                            }}
                         ></span>
                     </div>
-                    <span className={styles.listItem_span}>40%</span>
+                    <span className={styles.listItem_span}>
+                        {takes.reduce((total, item) => total + +item.amount, 0)}
+                        %
+                    </span>
                 </CellListItem>
             </Cell>
 
