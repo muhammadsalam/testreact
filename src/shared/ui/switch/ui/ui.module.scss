@@ -5,10 +5,10 @@
     width: 51px;
     border-radius: 16px;
     transition: background-color 0.123s ease-in-out;
-    cursor: pointer;
 
     &_slick {
-        display: inline-block;
+        pointer-events: none;
+        display: block;
         border-radius: 20px;
         background-color: #fff;
         height: 100%;
