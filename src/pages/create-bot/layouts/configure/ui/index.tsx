@@ -31,6 +31,7 @@ export const ConfigureLayout: FC = () => {
 
     const {
         addAlert,
+        handleDeleteAlert,
         bot: { title, active_buy, active_def, active_tp, pair },
         setBot,
     } = useBot();
@@ -106,6 +107,7 @@ export const ConfigureLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
+                handleDeleteAlert();
                 if (active_buy) window.location.hash = "#2";
                 else if (active_tp) window.location.hash = "#4";
                 else window.location.hash = "#5";

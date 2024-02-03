@@ -4,6 +4,7 @@ import {
     SetStateAction,
     createContext,
     useEffect,
+    useRef,
     useState,
 } from "react";
 import { tgApp } from "shared/lib";
@@ -84,10 +85,10 @@ export interface botContext {
         icon?: ReactNode;
         ms?: number;
     }) => void;
+    handleDeleteAlert: () => void;
 }
 
 export type notification = {
-    id: number;
     title: string;
     icon?: ReactNode;
 };
@@ -196,7 +197,8 @@ export const CreateBotPage = () => {
         }
     }, [otherStates]);
 
-    const [alerts, setAlerts] = useState<notification[]>([]);
+    const [alert, setAlert] = useState<notification | undefined>(undefined);
+    const timeoutId = useRef<any>(null);
 
     type addAlertType = {
         title: string;
@@ -205,12 +207,27 @@ export const CreateBotPage = () => {
     };
 
     const addAlert = ({ title, icon, ms }: addAlertType) => {
-        const newId = alerts[alerts.length - 1]?.id + 1 || 1;
-        setAlerts((prev) => [...prev, { title, icon, id: newId }]);
-        setTimeout(() => {
-            setAlerts((prev) => prev.filter((alert) => alert.id !== newId));
+        if (timeoutId.current) {
+            clearTimeout(timeoutId.current);
+        }
+
+        setAlert({ title, icon });
+
+        timeoutId.current = setTimeout(() => {
+            setAlert(undefined);
         }, ms || 3000);
     };
+
+    const handleDeleteAlert = () => {
+        setAlert(undefined);
+        if (timeoutId.current) clearTimeout(timeoutId.current);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (timeoutId.current) clearTimeout(timeoutId.current);
+        };
+    }, []);
 
     return (
         <createBotContext.Provider
@@ -220,16 +237,13 @@ export const CreateBotPage = () => {
                 otherStates,
                 setOtherStates,
                 addAlert,
+                handleDeleteAlert,
             }}
         >
             <NotificationWrapper>
-                {alerts.map((alert, index) => (
-                    <Notification
-                        key={index}
-                        title={alert.title}
-                        icon={alert.icon}
-                    />
-                ))}
+                {alert && (
+                    <Notification title={alert.title} icon={alert.icon} />
+                )}
             </NotificationWrapper>
 
             {renderComponent()}

@@ -21,6 +21,7 @@ export const DefendsLayout: FC = () => {
 
     const {
         addAlert,
+        handleDeleteAlert,
         otherStates: { def_mrt, def_step_mrt },
         bot: {
             def_type,
@@ -94,6 +95,7 @@ export const DefendsLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
+                handleDeleteAlert();
                 if (active_tp) window.location.hash = "#4";
                 else window.location.hash = "#5";
             }

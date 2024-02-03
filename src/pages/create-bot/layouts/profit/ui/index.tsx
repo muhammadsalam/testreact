@@ -28,6 +28,7 @@ export const ProfitLayout: FC = () => {
 
     const {
         addAlert,
+        handleDeleteAlert,
         otherStates,
         bot: {
             take_type,
@@ -52,7 +53,11 @@ export const ProfitLayout: FC = () => {
 
     const validation = (): boolean => {
         if (!active_buy) {
-            if (+existing_volume < 0 || existing_volume.length === 0) {
+            if (
+                !+existing_volume ||
+                +existing_volume < 0 ||
+                existing_volume.length === 0
+            ) {
                 addAlert({
                     title: "Invalid Existing Volume (should be >0)",
                 });
@@ -95,19 +100,6 @@ export const ProfitLayout: FC = () => {
         }
 
         if (take_type === "AUTO") {
-            if (active_buy) {
-                if (
-                    !+existing_volume ||
-                    +existing_volume < 0 ||
-                    existing_volume.length === 0
-                ) {
-                    addAlert({
-                        title: "Invalid Existing Volume (should be >0)",
-                    });
-                    return false;
-                }
-            }
-
             if (+take_profit <= 1) {
                 addAlert({ title: "Invalid take profit (should be >1)" });
                 return false;
@@ -150,6 +142,7 @@ export const ProfitLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
+                handleDeleteAlert();
                 window.location.hash = "#5";
             }
         };

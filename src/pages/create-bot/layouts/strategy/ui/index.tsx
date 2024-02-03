@@ -22,6 +22,7 @@ export const StrategyLayout: FC = () => {
 
     const {
         addAlert,
+        handleDeleteAlert,
         bot: {
             ammount_first_order,
             type_first_order,
@@ -116,6 +117,7 @@ export const StrategyLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
+                handleDeleteAlert();
                 if (active_def) window.location.hash = "#3";
                 else if (active_tp) window.location.hash = "#4";
                 else window.location.hash = "#5";

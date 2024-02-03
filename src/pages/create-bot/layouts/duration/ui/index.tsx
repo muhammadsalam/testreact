@@ -11,6 +11,7 @@ export const DurationLayout: FC = () => {
     const navigate = useNavigate();
 
     const {
+        handleDeleteAlert,
         bot: { cycles, active_buy, active_def, active_tp },
         setBot,
         otherStates,
@@ -29,6 +30,7 @@ export const DurationLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
+                handleDeleteAlert();
                 window.location.hash =
                     "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
                 navigate("/"); // тут удалить
