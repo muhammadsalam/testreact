@@ -166,8 +166,8 @@ export const CreateBotPage = () => {
         take_mrt: "1",
         takes: [
             {
-                step: "2",
-                amount: "35",
+                step: "",
+                amount: "",
             },
         ],
         cycles: 1,
