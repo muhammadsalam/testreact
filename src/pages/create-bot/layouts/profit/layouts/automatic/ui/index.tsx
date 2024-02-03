@@ -85,7 +85,7 @@ export const AutomaticLayout: FC = () => {
 
     return (
         <>
-            {active_buy && (
+            {!active_buy && (
                 <Cell title="Volume">
                     <CellListItem>
                         <p className={styles.listItem_title}>Existing volume</p>

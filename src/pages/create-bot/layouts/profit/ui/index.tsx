@@ -51,16 +51,16 @@ export const ProfitLayout: FC = () => {
     };
 
     const validation = (): boolean => {
-        if (take_type === "MANUAL") {
-            if (!active_buy) {
-                if (+existing_volume < 0 || existing_volume.length === 0) {
-                    addAlert({
-                        title: "Invalid Existing Volume (should be >0)",
-                    });
-                    return false;
-                }
+        if (!active_buy) {
+            if (+existing_volume < 0 || existing_volume.length === 0) {
+                addAlert({
+                    title: "Invalid Existing Volume (should be >0)",
+                });
+                return false;
             }
+        }
 
+        if (take_type === "MANUAL") {
             if (+takes < 0) {
                 addAlert({ title: "Invalid Takes (should be >0)" });
                 return false;
