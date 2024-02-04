@@ -12,8 +12,10 @@
   "dependencies": {
     "@telegram-web-app/core": "^0.0.1-beta.1",
     "@telegram-web-app/react": "^0.0.1-beta.1",
+    "@types/fontfaceobserver": "^2.1.3",
     "@types/react-router-dom": "^5.3.3",
     "clsx": "^2.1.0",
+    "fontfaceobserver": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-range": "^1.8.14",
