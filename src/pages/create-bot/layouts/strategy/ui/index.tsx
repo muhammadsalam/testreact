@@ -181,6 +181,7 @@ export const StrategyLayout: FC = () => {
                     </p>
                     <input
                         type="number"
+                        inputMode="numeric"
                         className={styles.list_item_input}
                         value={amountInputType}
                         onChange={handleITChange}
@@ -218,6 +219,7 @@ export const StrategyLayout: FC = () => {
                     </p>
                     <input
                         type="number"
+                        inputMode="numeric"
                         className={styles.list_item_input}
                         value={amountFO}
                         onChange={handleFOChange}

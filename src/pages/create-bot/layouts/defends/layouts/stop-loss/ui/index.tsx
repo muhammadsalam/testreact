@@ -22,6 +22,7 @@ export const StopLossLayout = () => {
                 <p className={styles.listItem_title}>Stop Loss, %</p>
                 <input
                     type="number"
+                    inputMode="numeric"
                     className={styles.listItem_input}
                     onFocus={handleInputFocus}
                     onClick={handleInputScroll}

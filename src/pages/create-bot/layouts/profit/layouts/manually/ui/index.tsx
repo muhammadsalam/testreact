@@ -147,6 +147,7 @@ export const ManuallyLayout: FC = () => {
                         <p className={styles.listItem_title}>Existing volume</p>
                         <input
                             type="number"
+                            inputMode="numeric"
                             className={styles.listItem_input}
                             onFocus={handleInputFocus}
                             onClick={handleInputScroll}
@@ -202,6 +203,7 @@ export const ManuallyLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
+                                    inputMode="numeric"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
@@ -215,6 +217,7 @@ export const ManuallyLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
+                                    inputMode="numeric"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
