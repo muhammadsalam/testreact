@@ -1,8 +1,8 @@
 @font-face {
     font-family: "SF Pro";
-    src: url("SF-Pro.ttf");
-    src: url("SF-Pro.ttf") format("truetype"),
-        url("SF-Pro.woff2") format("woff2"), url("SF-Pro.woff") format("woff");
+    src: url("SF-Pro.ttf") format("truetype");
+    font-stretch: normal;
+    // src: url("SF-Pro.ttf") format("truetype"),
 }
 
 @font-face {
