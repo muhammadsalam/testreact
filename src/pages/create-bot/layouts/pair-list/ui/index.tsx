@@ -1,9 +1,10 @@
 import { Cell, CurrencyIcon } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useBot } from "pages/create-bot/libs";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
+import axios from "axios";
 
 interface Pair {
     id: string;
@@ -30,50 +31,8 @@ export const PairListLayout = () => {
         setBot,
     } = useBot();
 
-    const [pairList] = useState<Pair[]>([
-        {
-            id: "BTCUSDT",
-            symbol: "BTC/USDT",
-            base: "BTC",
-            baseimg:
-                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
-            quote: "USDT",
-            quoteimg:
-                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
-            limits: {
-                amount: {
-                    min: 1e-5,
-                    max: 9000.0,
-                },
-                cost: {
-                    min: 5.0,
-                    max: 9000000.0,
-                },
-            },
-        },
-        {
-            id: "ETHUSDT",
-            symbol: "ETH/USDT",
-            base: "ETH",
-            baseimg:
-                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
-            quote: "USDT",
-            quoteimg:
-                "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
-            limits: {
-                amount: {
-                    min: 0.0001,
-                    max: 9000.0,
-                },
-                cost: {
-                    min: 5.0,
-                    max: 9000000.0,
-                },
-            },
-        },
-    ]);
-
-    const [activePair, setActivePair] = useState(pair);
+    const [activePair] = useState(pair);
+    const [pairList, setPairList] = useState<Pair[]>([]);
     const [newPairList, setNewPairList] = useState<Pair[]>(pairList);
 
     const [searchValue, setSearchValue] = useState<string>("");
@@ -90,9 +49,9 @@ export const PairListLayout = () => {
         );
     };
 
-    const handlePairClick = (item: Pair) => {
-        setActivePair(item);
-    };
+    // const handlePairClick = (item: Pair) => {
+    //     setActivePair(item);
+    // };
 
     useEffect(() => {
         const backButtonHandler = () => {
@@ -116,28 +75,71 @@ export const PairListLayout = () => {
         };
     }, [pair, activePair]);
 
+    console.log(tgApp.initData);
+
+    useEffect(() => {
+        axios
+            .get(
+                "https://back.anestheziabot.tra.infope9l.beget.tech/v1/get_pair"
+            )
+            .then((res) => {
+                setPairList(res.data);
+                setNewPairList(res.data);
+            });
+    }, []);
+
     const ListPairRender = () => {
         return newPairList.map((pairItem) => (
+            <PairItem pair={pairItem} />
+            // <button
+            //     key={pairItem.id}
+            //     className={styles.navButton}
+            //     onClick={() => handlePairClick(pairItem)}
+            // >
+            //     <CurrencyIcon
+            //         baseimg={pairItem.baseimg}
+            //         quoteimg={pairItem.quoteimg}
+            //     />
+            //     <div className={styles.content}>
+            //         <div className={styles.content_info}>
+            //             <div className={styles.content_info_title}>
+            //                 {pairItem.base}
+            //                 <span>{pairItem.quote}</span>
+            //             </div>
+            //         </div>
+            //         {activePair.id === pairItem.id && <CheckmarkIcon />}
+            //     </div>
+            // </button>
+        ));
+    };
+
+    const PairItem: FC<{ pair: Pair }> = ({ pair }) => {
+        const [isActivePair, setIsActivePair] = useState(pair.id === "BINANCE");
+
+        const handlePairClick = (pair: Pair) => {
+            // setActivePair(pair);
+            pair && true;
+            setIsActivePair(true);
+        };
+
+        return (
             <button
-                key={pairItem.id}
+                key={pair.id}
                 className={styles.navButton}
-                onClick={() => handlePairClick(pairItem)}
+                onClick={() => handlePairClick(pair)}
             >
-                <CurrencyIcon
-                    baseimg={pairItem.baseimg}
-                    quoteimg={pairItem.quoteimg}
-                />
+                <CurrencyIcon baseimg={pair.baseimg} quoteimg={pair.quoteimg} />
                 <div className={styles.content}>
                     <div className={styles.content_info}>
                         <div className={styles.content_info_title}>
-                            {pairItem.base}
-                            <span>{pairItem.quote}</span>
+                            {pair.base}
+                            <span>{pair.quote}</span>
                         </div>
                     </div>
-                    {activePair.id === pairItem.id && <CheckmarkIcon />}
+                    {isActivePair && <CheckmarkIcon />}
                 </div>
             </button>
-        ));
+        );
     };
 
     return (
