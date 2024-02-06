@@ -14,6 +14,29 @@ export const ProfilePage: FC = () => {
         tgApp.MainButton.hide();
     }, []);
 
+    // const [isFontsLoading, setIsFontsLoading] = useState({
+    //     "SF Pro": false,
+    //     SFRounded: false,
+    //     SFProDisplay: false,
+    // });
+    // let SFPro = new FontFaceObserver("SF Pro");
+    // SFPro.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, "SF Pro": true }));
+    // });
+    // let SFRounded = new FontFaceObserver("SFRounded");
+    // SFRounded.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, SFRounded: true }));
+    // });
+    // let SFProDisplay = new FontFaceObserver("SFProDisplay");
+    // SFProDisplay.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, SFProDisplay: true }));
+    // });
+
+    // если все шрифты не прогрузились
+    // if (Object.values(isFontsLoading).some((v) => !v)) {
+    //     return <Loader />;
+    // }
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
