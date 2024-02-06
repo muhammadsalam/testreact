@@ -61,6 +61,7 @@ export const MainLayout: FC<{
         const mainButtonHandler = () => {
             if (validation()) {
                 handleDeleteAlert();
+                tgApp.BackButton.hide();
                 navigate("/");
             }
         };

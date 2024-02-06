@@ -1,13 +1,14 @@
 import { Cell } from "shared/ui";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import styles from "./styles.module.scss";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import CheckmarkIcon from "assets/icons/checkmark.svg?react";
+import { tgApp } from "shared/lib";
 
 export const ExchangeSelectLayout: FC<{
-    handleExchangeChange: (title: string) => void;
+    setActiveExchange: React.Dispatch<React.SetStateAction<string>>;
     activeExchange: string;
-}> = ({ handleExchangeChange, activeExchange }) => {
+}> = ({ setActiveExchange, activeExchange }) => {
     const exchangeList = [
         {
             title: "Binance",
@@ -17,9 +18,38 @@ export const ExchangeSelectLayout: FC<{
         },
     ];
 
+    const [localActiveExchange, setLocalActiveExchange] =
+        useState(activeExchange);
+
     useEffect(() => {
-        // tgApp.setTitle;
+        tgApp.BackButton.show();
+
+        const backButtonHandler = () => {
+            tgApp.BackButton.hide();
+            history.back();
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        tgApp.MainButton.text = "Done";
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+        };
     }, []);
+
+    useEffect(() => {
+        const mainButtonHandler = () => {
+            setActiveExchange(localActiveExchange);
+            history.back();
+        };
+
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        return () => {
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, [localActiveExchange]);
 
     return (
         <Cell title="exchanges">
@@ -27,7 +57,7 @@ export const ExchangeSelectLayout: FC<{
                 <button
                     key={exchange.title}
                     className={styles.navButton}
-                    onClick={() => handleExchangeChange(exchange.title)}
+                    onClick={() => setLocalActiveExchange(exchange.title)}
                 >
                     <BinanceIcon />
                     <div className={styles.content}>
@@ -36,7 +66,9 @@ export const ExchangeSelectLayout: FC<{
                                 {exchange.title}
                             </div>
                         </div>
-                        {activeExchange === exchange.title && <CheckmarkIcon />}
+                        {localActiveExchange === exchange.title && (
+                            <CheckmarkIcon />
+                        )}
                     </div>
                 </button>
             ))}

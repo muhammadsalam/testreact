@@ -51,6 +51,8 @@ export const ProfilePage: FC = () => {
                 <button className={styles.btn__primary}>Creat new bot</button>
             </Link>
 
+            <Link to="/keyadd">add new key</Link>
+
             <Cell title="KEY Settings">
                 <button className={styles.navButton}>
                     <div className={styles.content}>

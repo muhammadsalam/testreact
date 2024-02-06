@@ -8,9 +8,6 @@ import { notification } from "pages/create-bot";
 
 export const AddKeyPage = () => {
     const [activeExchange, setActiveExchange] = useState("Binance");
-    const handleExchangeChange = (exchange: string) => {
-        setActiveExchange(exchange);
-    };
 
     const [alert, setAlert] = useState<notification | undefined>(undefined);
     const timeoutId = useRef<any>(null);
@@ -61,7 +58,7 @@ export const AddKeyPage = () => {
                     element={
                         <ExchangeSelectLayout
                             activeExchange={activeExchange}
-                            handleExchangeChange={handleExchangeChange}
+                            setActiveExchange={setActiveExchange}
                         />
                     }
                 />
