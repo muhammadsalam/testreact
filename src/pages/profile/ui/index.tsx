@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
@@ -8,11 +8,36 @@ import SolusdcIcon from "../../../assets/icons/solusdc.svg?react";
 import TwtusdtIcon from "../../../assets/icons/twtusdt.svg?react";
 import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
+import { Loader } from "widgets/loader";
+import FontFaceObserver from "fontfaceobserver";
 
 export const ProfilePage: FC = () => {
     useEffect(() => {
         tgApp.MainButton.hide();
     }, []);
+
+    // const [isFontsLoading, setIsFontsLoading] = useState({
+    //     "SF Pro": false,
+    //     SFRounded: false,
+    //     SFProDisplay: false,
+    // });
+    // let SFPro = new FontFaceObserver("SF Pro");
+    // SFPro.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, "SF Pro": true }));
+    // });
+    // let SFRounded = new FontFaceObserver("SFRounded");
+    // SFRounded.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, SFRounded: true }));
+    // });
+    // let SFProDisplay = new FontFaceObserver("SFProDisplay");
+    // SFProDisplay.load().then(() => {
+    //     setIsFontsLoading((prev) => ({ ...prev, SFProDisplay: true }));
+    // });
+
+    // если все шрифты не прогрузились
+    // if (Object.values(isFontsLoading).some((v) => !v)) {
+    //     return <Loader />;
+    // }
 
     return (
         <div className={styles.container}>
