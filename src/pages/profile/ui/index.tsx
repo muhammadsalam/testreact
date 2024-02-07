@@ -71,13 +71,13 @@ export const ProfilePage: FC = () => {
                 </Link>
             ) : (
                 <Cell title="KEY Settings">
-                    <button className={styles.navButton}>
+                    <Link to="/keyadd" className={styles.navButton}>
                         <div className={styles.content}>
                             <BinanceIcon />
-                            Binance
+                            {userData.exchange_type}
                         </div>
                         <ArrowRightIcon className={styles.navButton_icon} />
-                    </button>
+                    </Link>
                 </Cell>
             )}
 

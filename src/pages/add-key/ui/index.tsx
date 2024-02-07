@@ -5,9 +5,13 @@ import { ExchangeSelectLayout } from "../layout/exchange-select";
 import { Route, Routes } from "react-router-dom";
 import { Notification, NotificationWrapper } from "entities/notification";
 import { notification } from "pages/create-bot";
+import { useSelector } from "react-redux";
 
 export const AddKeyPage = () => {
-    const [activeExchange, setActiveExchange] = useState("Binance");
+    const exchange_type = useSelector(
+        (state: any) => state.user.data.exchange_type
+    );
+    const [activeExchange, setActiveExchange] = useState(exchange_type);
 
     const [alert, setAlert] = useState<notification | undefined>(undefined);
     const timeoutId = useRef<any>(null);

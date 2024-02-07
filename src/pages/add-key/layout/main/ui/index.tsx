@@ -5,8 +5,12 @@ import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { FC, ReactNode, useEffect, useState } from "react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import clsx from "clsx";
+import axios from "axios";
+import { exchangeType } from "shared/API/userSlice";
 
-export const MainLayout: FC<{
+interface MainLayoutProps {
     addAlert: ({
         title,
         icon,
@@ -18,7 +22,13 @@ export const MainLayout: FC<{
     }) => void;
     activeExchange: string;
     handleDeleteAlert: () => void;
-}> = ({ activeExchange, addAlert, handleDeleteAlert }) => {
+}
+
+export const MainLayout: FC<MainLayoutProps> = ({
+    activeExchange,
+    addAlert,
+    handleDeleteAlert,
+}) => {
     const [apikey, setApikey] = useState("");
     const handleApikeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setApikey(e.target.value);
@@ -57,12 +67,49 @@ export const MainLayout: FC<{
         };
     }, []);
 
+    const user = useSelector((state: any) => state.user);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const mainButtonHandler = () => {
             if (validation()) {
                 handleDeleteAlert();
-                tgApp.BackButton.hide();
-                navigate("/");
+                const data = {
+                    api_key: apikey,
+                    api_secret: secretKey,
+                    exchange: activeExchange.toUpperCase(),
+                };
+
+                const config = {
+                    headers: {
+                        Authorization: "Bearer " + user.token,
+                    },
+                };
+
+                console.log(user.token, config, data);
+
+                axios
+                    .post(
+                        "https://back.anestheziabot.tra.infope9l.beget.tech/v1/save_keys",
+                        data,
+                        config
+                    )
+                    .then((res) => res.data)
+                    .then((data) => {
+                        if (data.status === "success") {
+                            dispatch(exchangeType(activeExchange));
+                            tgApp.BackButton.hide();
+                            navigate("/");
+                        }
+                    })
+                    .catch((error) => {
+                        // тут изменить потом
+                        // addAlert({ title: error.response.data.detail });
+                        error && true;
+                        addAlert({
+                            title: "Не верные данные",
+                        });
+                    });
             }
         };
 
@@ -99,14 +146,20 @@ export const MainLayout: FC<{
             <Cell title="api key">
                 <label className={styles.input_label}>
                     <input
-                        type="number"
-                        inputMode="numeric"
-                        className={styles.input}
+                        type="text"
+                        className={clsx(styles.input, {
+                            [styles.input__placeholder]:
+                                user.data.exchange_type === activeExchange,
+                        })}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
                         value={apikey}
                         onChange={handleApikeyChange}
-                        placeholder="API key"
+                        placeholder={
+                            user.data.exchange_type === activeExchange
+                                ? "*****"
+                                : "API key"
+                        }
                     />
                 </label>
             </Cell>
@@ -114,14 +167,20 @@ export const MainLayout: FC<{
             <Cell title="Secret key">
                 <label className={styles.input_label}>
                     <input
-                        type="number"
-                        inputMode="numeric"
-                        className={styles.input}
+                        type="text"
+                        className={clsx(styles.input, {
+                            [styles.input__placeholder]:
+                                user.data.exchange_type === activeExchange,
+                        })}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
                         value={secretKey}
                         onChange={handleSecretKeyChange}
-                        placeholder="Secret key"
+                        placeholder={
+                            user.data.exchange_type === activeExchange
+                                ? "*****"
+                                : "Secret key"
+                        }
                     />
                 </label>
             </Cell>

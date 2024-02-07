@@ -3,10 +3,28 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { tgApp } from 'shared/lib';
 
-const initialState = {
+interface UserState {
+    token: string,
+    data: {
+        user_id: number | null,
+        used_balance: number,
+        profit: number,
+        wallet_id: number | null,
+        exchange_type: string | null,
+        bots: any[],
+    }
+
+}
+
+const initialState: UserState = {
     token: '',
     data: {
-
+        user_id: null,
+        used_balance: 0,
+        profit: 0,
+        wallet_id: null,
+        exchange_type: null,
+        bots: [],
     }
 }
 
@@ -39,6 +57,9 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        exchangeType: (state, action: PayloadAction<string>) => {
+            state.data.exchange_type = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<string>) => {
@@ -50,5 +71,7 @@ export const userSlice = createSlice({
     },
 
 })
+
+export const { exchangeType } = userSlice.actions;
 
 export default userSlice.reducer

@@ -5,16 +5,23 @@ import { FC, useEffect, useState } from "react";
 import CheckmarkIcon from "assets/icons/checkmark.svg?react";
 import { tgApp } from "shared/lib";
 
-export const ExchangeSelectLayout: FC<{
+interface ExchangeSelectLayoutProps {
     setActiveExchange: React.Dispatch<React.SetStateAction<string>>;
     activeExchange: string;
-}> = ({ setActiveExchange, activeExchange }) => {
+}
+
+export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = ({
+    setActiveExchange,
+    activeExchange,
+}) => {
     const exchangeList = [
         {
             title: "Binance",
+            id: "BINANCE",
         },
         {
             title: "Binance Testnet",
+            id: "BINANCE_TESTNET",
         },
     ];
 
@@ -57,7 +64,7 @@ export const ExchangeSelectLayout: FC<{
                 <button
                     key={exchange.title}
                     className={styles.navButton}
-                    onClick={() => setLocalActiveExchange(exchange.title)}
+                    onClick={() => setLocalActiveExchange(exchange.id)}
                 >
                     <BinanceIcon />
                     <div className={styles.content}>
@@ -66,7 +73,7 @@ export const ExchangeSelectLayout: FC<{
                                 {exchange.title}
                             </div>
                         </div>
-                        {localActiveExchange === exchange.title && (
+                        {localActiveExchange === exchange.id && (
                             <CheckmarkIcon />
                         )}
                     </div>

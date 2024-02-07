@@ -22,7 +22,7 @@
 }
 
 .navButton {
-    padding: 13px 16px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,6 +133,12 @@
 
     &::placeholder {
         color: #b9b9ba;
+    }
+
+    &__placeholder::placeholder {
+        color: #000;
+        font-size: 20px;
+        translate: 0 6px;
     }
 
     &_label {
