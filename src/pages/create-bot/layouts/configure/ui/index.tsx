@@ -6,6 +6,7 @@ import ChartIcon from "../../../../../assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { useBot } from "pages/create-bot/libs";
+import { useSelector } from "react-redux";
 // import axios from "axios";
 
 export const ConfigureLayout: FC = () => {
@@ -32,9 +33,11 @@ export const ConfigureLayout: FC = () => {
     const {
         addAlert,
         handleDeleteAlert,
-        bot: { title, active_buy, active_def, active_tp, pair },
+        bot: { title, active_buy, active_def, active_tp },
         setBot,
     } = useBot();
+
+    const { activePair } = useSelector((state: any) => state.pairs);
 
     const handleContextSwitch = (
         key: "active_buy" | "active_def" | "active_tp",
@@ -169,13 +172,13 @@ export const ConfigureLayout: FC = () => {
                 >
                     <div className={styles.content}>
                         <CurrencyIcon
-                            baseimg={pair.baseimg}
-                            quoteimg={pair.quoteimg}
+                            baseimg={activePair.baseimg}
+                            quoteimg={activePair.quoteimg}
                         />
                         <div className={styles.content_info}>
                             <div className={styles.content_info_title}>
-                                {pair.base}
-                                <span>{pair.quote}</span>
+                                {activePair.base}
+                                <span>{activePair.quote}</span>
                             </div>
                         </div>
                     </div>

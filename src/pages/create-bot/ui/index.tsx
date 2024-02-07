@@ -17,6 +17,9 @@ import {
     StrategyLayout,
 } from "../layouts";
 import { Notification, NotificationWrapper } from "entities/notification";
+import { useDispatch } from "react-redux";
+import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
+import { AppDispatch } from "app/AppStore";
 
 export interface BotModel {
     user_id: number;
@@ -223,7 +226,12 @@ export const CreateBotPage = () => {
         if (timeoutId.current) clearTimeout(timeoutId.current);
     };
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchPairs());
+
         return () => {
             if (timeoutId.current) clearTimeout(timeoutId.current);
         };

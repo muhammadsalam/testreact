@@ -2,11 +2,11 @@ import { Cell, CurrencyIcon } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { useBot } from "pages/create-bot/libs";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setActive } from "../model/pairSlice";
 
-interface Pair {
+export interface Pair {
     id: string;
     symbol: string;
     base: string;
@@ -26,21 +26,28 @@ interface Pair {
 }
 
 export const PairListLayout = () => {
-    const {
-        bot: { pair },
-        setBot,
-    } = useBot();
+    const dispatch = useDispatch();
 
-    const [activePair] = useState(pair);
+    // const {
+    //     bot: { pair },
+    //     setBot,
+    // } = useBot();
+
+    const { activePair } = useSelector((state: any) => state.pairs);
+    const [localActivePair, setLocalActivePair] = useState(activePair);
     const [pairList, setPairList] = useState<Pair[]>([]);
     const [newPairList, setNewPairList] = useState<Pair[]>(pairList);
+
+    const { list } = useSelector((state: any) => state.pairs);
+    useEffect(() => {
+        setPairList(list);
+        setNewPairList(list);
+    }, [list]);
 
     const [searchValue, setSearchValue] = useState<string>("");
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
-        console.log("debounce");
         handleNewPairListRender(e.target.value);
-        console.log("debounce done");
     };
 
     const handleNewPairListRender = (value: string) => {
@@ -49,10 +56,6 @@ export const PairListLayout = () => {
         );
     };
 
-    // const handlePairClick = (item: Pair) => {
-    //     setActivePair(item);
-    // };
-
     useEffect(() => {
         const backButtonHandler = () => {
             window.history.back();
@@ -60,10 +63,7 @@ export const PairListLayout = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            setBot((prevBot) => ({
-                ...prevBot,
-                pair: activePair,
-            }));
+            dispatch(setActive(localActivePair));
             window.location.hash = "#1";
         };
         tgApp.MainButton.onClick(mainButtonHandler);
@@ -73,52 +73,24 @@ export const PairListLayout = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [pair, activePair]);
+    }, [localActivePair]);
 
     console.log(tgApp.initData);
 
-    useEffect(() => {
-        axios
-            .get(
-                "https://back.anestheziabot.tra.infope9l.beget.tech/v1/get_pair"
-            )
-            .then((res) => {
-                setPairList(res.data);
-                setNewPairList(res.data);
-            });
-    }, []);
-
     const ListPairRender = () => {
         return newPairList.map((pairItem) => (
-            <PairItem pair={pairItem} />
-            // <button
-            //     key={pairItem.id}
-            //     className={styles.navButton}
-            //     onClick={() => handlePairClick(pairItem)}
-            // >
-            //     <CurrencyIcon
-            //         baseimg={pairItem.baseimg}
-            //         quoteimg={pairItem.quoteimg}
-            //     />
-            //     <div className={styles.content}>
-            //         <div className={styles.content_info}>
-            //             <div className={styles.content_info_title}>
-            //                 {pairItem.base}
-            //                 <span>{pairItem.quote}</span>
-            //             </div>
-            //         </div>
-            //         {activePair.id === pairItem.id && <CheckmarkIcon />}
-            //     </div>
-            // </button>
+            <PairItem key={pairItem.id} pair={pairItem} />
         ));
     };
 
     const PairItem: FC<{ pair: Pair }> = ({ pair }) => {
-        const [isActivePair, setIsActivePair] = useState(pair.id === "BINANCE");
+        const [isActivePair, setIsActivePair] = useState(
+            localActivePair.id === pair.id
+        );
 
         const handlePairClick = (pair: Pair) => {
-            // setActivePair(pair);
-            pair && true;
+            if (pair.id === localActivePair.id) return;
+            setLocalActivePair(pair);
             setIsActivePair(true);
         };
 
