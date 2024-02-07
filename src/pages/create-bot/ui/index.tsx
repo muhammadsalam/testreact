@@ -19,7 +19,6 @@ import {
 import { Notification, NotificationWrapper } from "entities/notification";
 import { useDispatch } from "react-redux";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
-import { AppDispatch } from "app/AppStore";
 
 export interface BotModel {
     user_id: number;

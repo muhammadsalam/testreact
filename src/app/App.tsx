@@ -4,7 +4,7 @@ import { ProfilePage } from "pages/profile";
 import { tgApp } from "shared/lib";
 import { CreateBotPage } from "pages/create-bot";
 import { AddKeyPage } from "pages/add-key";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "shared/API/userSlice";
 
 export const App: FC = () => {
@@ -14,10 +14,11 @@ export const App: FC = () => {
     }, []);
 
     const dispatch = useDispatch();
+    const user = useSelector((state: any) => state.user);
 
     useEffect(() => {
         // @ts-ignore
-        dispatch(fetchUser());
+        dispatch(fetchUser(user));
     }, []);
 
     return (
