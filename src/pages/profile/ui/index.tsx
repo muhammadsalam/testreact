@@ -4,8 +4,6 @@ import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import BinanceIcon from "../../../assets/icons/binance.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
-import SolusdcIcon from "../../../assets/icons/solusdc.svg?react";
-import TwtusdtIcon from "../../../assets/icons/twtusdt.svg?react";
 import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
 import { useSelector } from "react-redux";
@@ -83,15 +81,16 @@ export const ProfilePage: FC = () => {
                 </Cell>
             )}
 
-            {userData.bots.length > 0 ? (
+            {userData.bots?.length > 0 ? (
                 <Cell title="list of bots">
                     {userData.bots.map((item: any, index: number) => (
-                        <button className={styles.navButton}>
+                        <button className={styles.navButton} key={index}>
                             <div className={styles.content}>
                                 <BtcusdtIcon />
                                 <div className={styles.content_info}>
                                     <div className={styles.content_info_title}>
                                         BTC<span>USDT</span>
+                                        {item.id}
                                     </div>
                                     <div className={styles.content_info_block}>
                                         TP: 05{" "}
