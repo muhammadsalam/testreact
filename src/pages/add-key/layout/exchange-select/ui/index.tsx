@@ -1,7 +1,7 @@
 import { Cell } from "shared/ui";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import styles from "./styles.module.scss";
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import CheckmarkIcon from "assets/icons/checkmark.svg?react";
 import { tgApp } from "shared/lib";
 
@@ -10,75 +10,74 @@ interface ExchangeSelectLayoutProps {
     activeExchange: string;
 }
 
-export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = ({
-    setActiveExchange,
-    activeExchange,
-}) => {
-    const exchangeList = [
-        {
-            title: "Binance",
-            id: "BINANCE",
-        },
-        {
-            title: "Binance Testnet",
-            id: "BINANCE_TESTNET",
-        },
-    ];
+export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
+    ({ setActiveExchange, activeExchange }) => {
+        const exchangeList = [
+            {
+                title: "Binance",
+                id: "BINANCE",
+            },
+            {
+                title: "Binance Testnet",
+                id: "BINANCE_TESTNET",
+            },
+        ];
 
-    const [localActiveExchange, setLocalActiveExchange] =
-        useState(activeExchange);
+        const [localActiveExchange, setLocalActiveExchange] =
+            useState(activeExchange);
 
-    useEffect(() => {
-        tgApp.BackButton.show();
+        useEffect(() => {
+            tgApp.BackButton.show();
 
-        const backButtonHandler = () => {
-            tgApp.BackButton.hide();
-            history.back();
-        };
-        tgApp.BackButton.onClick(backButtonHandler);
+            const backButtonHandler = () => {
+                tgApp.BackButton.hide();
+                history.back();
+            };
+            tgApp.BackButton.onClick(backButtonHandler);
 
-        tgApp.MainButton.text = "Done";
-        tgApp.MainButton.color = "#007AFF";
+            tgApp.MainButton.text = "Done";
+            tgApp.MainButton.color = "#007AFF";
 
-        return () => {
-            tgApp.BackButton.offClick(backButtonHandler);
-        };
-    }, []);
+            return () => {
+                tgApp.BackButton.offClick(backButtonHandler);
+            };
+        }, []);
 
-    useEffect(() => {
-        const mainButtonHandler = () => {
-            setActiveExchange(localActiveExchange);
-            history.back();
-        };
+        useEffect(() => {
+            const mainButtonHandler = () => {
+                setActiveExchange(localActiveExchange);
+                history.back();
+            };
 
-        tgApp.MainButton.onClick(mainButtonHandler);
+            tgApp.MainButton.onClick(mainButtonHandler);
 
-        return () => {
-            tgApp.MainButton.offClick(mainButtonHandler);
-        };
-    }, [localActiveExchange]);
+            return () => {
+                tgApp.MainButton.offClick(mainButtonHandler);
+            };
+        }, [localActiveExchange]);
 
-    return (
-        <Cell title="exchanges">
-            {exchangeList.map((exchange) => (
-                <button
-                    key={exchange.title}
-                    className={styles.navButton}
-                    onClick={() => setLocalActiveExchange(exchange.id)}
-                >
-                    <BinanceIcon />
-                    <div className={styles.content}>
-                        <div className={styles.content_info}>
-                            <div className={styles.content_info_title}>
-                                {exchange.title}
+        return (
+            <Cell title="exchanges">
+                {exchangeList.map((exchange) => (
+                    <button
+                        key={exchange.title}
+                        className={styles.navButton}
+                        onClick={() => setLocalActiveExchange(exchange.id)}
+                    >
+                        <BinanceIcon />
+                        <div className={styles.content}>
+                            <div className={styles.content_info}>
+                                <div className={styles.content_info_title}>
+                                    {exchange.title}
+                                </div>
                             </div>
+                            {localActiveExchange === exchange.id && (
+                                <CheckmarkIcon />
+                            )}
                         </div>
-                        {localActiveExchange === exchange.id && (
-                            <CheckmarkIcon />
-                        )}
-                    </div>
-                </button>
-            ))}
-        </Cell>
-    );
-};
+                    </button>
+                ))}
+            </Cell>
+        );
+    }
+);
