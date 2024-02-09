@@ -84,13 +84,17 @@ export const ProfilePage: FC = () => {
             {userData.bots?.length > 0 ? (
                 <Cell title="list of bots">
                     {userData.bots.map((item: any, index: number) => (
-                        <button className={styles.navButton} key={index}>
+                        <Link
+                            to={"/bot/" + item.id}
+                            className={styles.navButton}
+                            key={index}
+                        >
                             <div className={styles.content}>
                                 <BtcusdtIcon />
                                 <div className={styles.content_info}>
                                     <div className={styles.content_info_title}>
-                                        BTC<span>USDT</span>
-                                        {item.id}
+                                        {/* BTC<span>USDT</span> */}
+                                        {item.pair}
                                     </div>
                                     <div className={styles.content_info_block}>
                                         TP: 05{" "}
@@ -104,7 +108,7 @@ export const ProfilePage: FC = () => {
                                 </div>
                             </div>
                             <ArrowRightIcon className={styles.navButton_icon} />
-                        </button>
+                        </Link>
                     ))}
                     {/* <button className={styles.navButton}>
                         <div className={styles.content}>
