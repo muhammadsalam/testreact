@@ -35,6 +35,7 @@ export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (
             "Authorization": "Bearer " + token
         }
     })
+
     return response.data;
 });
 
@@ -66,7 +67,7 @@ export const userSlice = createSlice({
             state.token = action.payload;
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
-            state.data = action.payload.data;
+            state.data = action.payload;
         });
     },
 
