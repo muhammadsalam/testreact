@@ -16,9 +16,9 @@ import {
     ProfitLayout,
     StrategyLayout,
 } from "../layouts";
-import { Notification, NotificationWrapper } from "entities/notification";
 import { useDispatch } from "react-redux";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
+import { Route, Routes } from "react-router-dom";
 
 export interface BotModel {
     user_id: number;
@@ -199,7 +199,7 @@ export const CreateBotPage = () => {
         }
     }, [otherStates]);
 
-    const [alert, setAlert] = useState<notification | undefined>(undefined);
+    const [, setAlert] = useState<notification | undefined>(undefined);
     const timeoutId = useRef<any>(null);
 
     type addAlertType = {
@@ -237,6 +237,30 @@ export const CreateBotPage = () => {
     }, []);
 
     return (
+        // <createBotContext.Provider
+        //     value={{
+        //         bot: newBotData,
+        //         setBot: setNewBotData,
+        //         otherStates,
+        //         setOtherStates,
+        //         addAlert,
+        //         handleDeleteAlert,
+        //     }}
+        // >
+        // </createBotContext.Provider>
+        <Routes>
+            <Route path="/step1/*" element={<ConfigureLayout />} />
+            <Route path="/step2/" element={<>2step</>} />
+            <Route path="/step3/" element={<>3step</>} />
+            {/* <Route path="/pair-list" element={<PairListLayout />} />
+                <Route path="/strategy" element={<StrategyLayout />} />
+                <Route path="/defends" element={<DefendsLayout />} />
+                <Route path="/profit" element={<ProfitLayout />} />
+                <Route path="/duration" element={<DurationLayout />} /> */}
+        </Routes>
+    );
+
+    return (
         <createBotContext.Provider
             value={{
                 bot: newBotData,
@@ -247,12 +271,6 @@ export const CreateBotPage = () => {
                 handleDeleteAlert,
             }}
         >
-            <NotificationWrapper>
-                {alert && (
-                    <Notification title={alert.title} icon={alert.icon} />
-                )}
-            </NotificationWrapper>
-
             {renderComponent()}
         </createBotContext.Provider>
     );

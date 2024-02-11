@@ -60,12 +60,12 @@ export const ProfilePage: FC = () => {
                 )}
             </div>
 
-            <Link to="/createbot" style={{ display: "contents" }}>
+            <Link to="createbot/step1" style={{ display: "contents" }}>
                 <button className={styles.btn__primary}>Creat new bot</button>
             </Link>
 
             {userData.wallet_id === null ? (
-                <Link to="/keyadd" className={styles.keyadd_link}>
+                <Link to="keyadd" className={styles.keyadd_link}>
                     <PlusIcon className={styles.keyadd_link_icon} />
                     Add a key
                 </Link>

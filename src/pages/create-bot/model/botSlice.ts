@@ -1,76 +1,108 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
+interface Pair {
+    id: string;
+    base: string;
+    quote: string;
+    baseimg: string;
+    quoteimg: string;
+}
+
+interface Take {
+    step: string;
+    amount: string;
+}
+
 export interface BotModel {
     user_id: number;
     wallet_id: number;
     title: string;
-    pair: string;
+    pair: Pair;
     strategy: string;
     active_buy: boolean;
-    ammount_first_order: number;
+    ammount_first_order: string;
     type_first_order: string;
-    price_first_order: number;
+    price_first_order: string;
     active_def: boolean;
-    def_type: string;
+    def_type: "IO" | "SL";
     io_calculate_type: string;
-    io_count: number;
-    io_step: number;
-    io_mrt: number;
-    io_step_mrt: number;
-    stop_loss: number;
+    io_count: string;
+    io_step: string;
+    io_mrt: string;
+    io_step_mrt: string;
+    stop_loss: string;
     active_tp: boolean;
-    take_type: string;
-    take_profit: number;
-    take_amount: number;
-    take_step: number;
-    take_mrt: number;
-    takes: any[];
+    take_type: "MANUAL" | "AUTO";
+    take_profit: string;
+    take_amount: string;
+    take_step: string;
+    take_mrt: string;
+    existing_volume: string;
+    purchase_price: string;
+    takes: Take[];
     cycles: number;
 }
+
 const initialState: BotModel = {
     user_id: 19,
-    wallet_id: 6,
-    title: "Bot1",
-    pair: "BTCUSDT",
+    wallet_id: 8,
+    title: "",
+    pair: {
+        id: "ETHUSDT",
+        base: "ETH",
+        baseimg:
+            "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
+        quote: "USDT",
+        quoteimg:
+            "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
+    },
     strategy: "LONG",
     active_buy: true,
-    ammount_first_order: 1,
+    ammount_first_order: "",
     type_first_order: "LIMIT",
-    price_first_order: 1,
+    price_first_order: "",
     active_def: true,
     def_type: "IO",
     io_calculate_type: "LO",
-    io_count: 10,
-    io_step: 1,
-    io_mrt: 1,
-    io_step_mrt: 1,
-    stop_loss: 1,
+    io_count: "",
+    io_step: "",
+    io_mrt: "1",
+    io_step_mrt: "1",
+    stop_loss: "",
     active_tp: true,
-    take_type: "AUTO",
-    take_profit: 2,
-    take_amount: 50,
-    take_step: 1,
-    take_mrt: 1,
-    takes: [],
-    cycles: 0,
+    take_type: "MANUAL",
+    existing_volume: "",
+    purchase_price: "",
+    take_profit: "",
+    take_amount: "",
+    take_step: "1",
+    take_mrt: "1",
+    takes: [
+        {
+            step: "",
+            amount: "",
+        },
+    ],
+    cycles: 1,
 }
 
+type FieldValue<T extends keyof BotModel> = {
+    field: T;
+    value: BotModel[T];
+};
+
 export const botSlice = createSlice({
-    name: 'counter',
+    name: 'newBot',
     initialState,
     reducers: {
-        setTitle: (state, action: PayloadAction<string>) => {
-            state.title = action.payload
-            console.log(state.title);
-        },
-        toggle: (state, action?: PayloadAction<boolean>) => {
-            state.active_buy = action ? action.payload : !state.active_buy
-        },
+        setField: <T extends keyof BotModel>(state: BotModel, action: PayloadAction<FieldValue<T>>) => {
+            state[action.payload.field] = action.payload.value;
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { toggle, setTitle } = botSlice.actions
+export const { setField } = botSlice.actions
 
 export default botSlice.reducer

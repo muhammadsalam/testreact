@@ -1,69 +1,51 @@
-import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
+import { FC, useEffect, ChangeEvent, FocusEvent, useCallback } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, CurrencyIcon, Switcher } from "shared/ui";
-import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
-import ChartIcon from "../../../../../assets/icons/chart.svg?react";
+import ArrowRightIcon from "assets/icons/arrow.svg?react";
+import ChartIcon from "assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { useBot } from "pages/create-bot/libs";
-import { useSelector } from "react-redux";
-// import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { setField } from "pages/create-bot/model/botSlice";
+import { deleteAlert, setAlert } from "entities/notification";
+import { Link } from "react-router-dom";
 
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const apiUrl =
-    //         "https://back.anestheziabot.tra.infope9l.beget.tech/v1/token";
+    const { title, active_buy, active_def, active_tp } = useSelector(
+        (state: RootState) => state.newBot
+    );
 
-    //     const data = JSON.stringify({
-    //         user_id: window.Telegram.WebApp.initData,
-    //     });
+    const switches = {
+        active_buy,
+        active_def,
+        active_tp,
+    };
 
-    //     axios
-    //         .post(apiUrl, data)
-    //         .then(() => {
-    //             // console.log("Отправился");
-    //         })
-    //         .catch((error: any) => {
-    //             // console.log(error);
-    //         });
-    // }, []);
+    const activePair = useSelector(
+        (state: RootState) => state.pairs.activePair
+    );
 
-    const {
-        addAlert,
-        handleDeleteAlert,
-        bot: { title, active_buy, active_def, active_tp },
-        setBot,
-    } = useBot();
-
-    const { activePair } = useSelector((state: any) => state.pairs);
+    const dispatch = useDispatch();
 
     const handleContextSwitch = (
         key: "active_buy" | "active_def" | "active_tp",
         state?: boolean
     ) => {
-        setBot((prevBot) => {
-            const newState = state !== undefined ? state : !prevBot[key];
-            if (key === "active_buy" && !newState) {
-                return {
-                    ...prevBot,
-                    active_buy: false,
-                    active_def: false,
-                };
-            } else if (key === "active_def" && newState) {
-                return {
-                    ...prevBot,
-                    active_buy: true,
-                    active_def: true,
-                };
-            } else {
-                return {
-                    ...prevBot,
-                    [key]: newState,
-                };
-            }
-        });
+        const newValue = state !== undefined ? state : !switches[key];
+
+        if (key === "active_buy" && !newValue) {
+            console.log(state, active_buy);
+            dispatch(setField({ field: "active_buy", value: false }));
+            dispatch(setField({ field: "active_def", value: false }));
+        } else if (key === "active_def" && newValue) {
+            dispatch(setField({ field: "active_buy", value: true }));
+            dispatch(setField({ field: "active_def", value: true }));
+        } else {
+            dispatch(setField({ field: key, value: newValue }));
+        }
     };
 
     const handleStrategySwitch: (state?: boolean) => void = (state) => {
@@ -78,26 +60,25 @@ export const ConfigureLayout: FC = () => {
         handleContextSwitch("active_tp", state);
     };
 
-    const validation = (): boolean => {
+    const validation = useCallback((): boolean => {
         const titleWithoutSpaces = title
             .replace(/^\s+|\s+$/g, "")
             .replace(/\s+/g, " ");
         if (titleWithoutSpaces.length < 3 || titleWithoutSpaces.length > 20) {
-            addAlert({ title: "Title must be between 3 and 20" });
-            setBot((prevBot) => ({
-                ...prevBot,
-                title: titleWithoutSpaces,
-            }));
+            dispatch(setAlert({ title: "Title must be between 3 and 20" }));
+            dispatch(setField({ field: "title", value: titleWithoutSpaces }));
             return false;
         }
 
         if (!(active_buy || active_def || active_tp)) {
-            addAlert({ title: "At least one strategy must be enabled" });
+            dispatch(
+                setAlert({ title: "At least one strategy must be enabled" })
+            );
             return false;
         }
 
         return true;
-    };
+    }, [title, active_buy, active_def, active_tp]);
 
     useEffect(() => {
         tgApp.BackButton.show();
@@ -110,10 +91,11 @@ export const ConfigureLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
-                handleDeleteAlert();
-                if (active_buy) window.location.hash = "#2";
-                else if (active_tp) window.location.hash = "#4";
-                else window.location.hash = "#5";
+                dispatch(deleteAlert());
+                console.log(active_buy, active_def, active_tp);
+                if (active_buy) navigate("/createbot/step2");
+                else if (active_tp) navigate("/createbot/step4");
+                else navigate("/createbot/step5");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
@@ -127,15 +109,12 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [active_buy, active_def, active_tp, title]);
+    }, []);
 
     const handleTitleChange = ({
         target: { value },
     }: ChangeEvent<HTMLInputElement>) => {
-        setBot((prevBot) => ({
-            ...prevBot,
-            title: value,
-        }));
+        dispatch(setField({ field: "title", value }));
     };
 
     return (
@@ -166,10 +145,7 @@ export const ConfigureLayout: FC = () => {
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">
-                <button
-                    className={styles.navButton}
-                    onClick={() => (window.location.hash = "#pair-list")}
-                >
+                <Link to={"pair-list"} className={styles.navButton}>
                     <div className={styles.content}>
                         <CurrencyIcon
                             baseimg={activePair.baseimg}
@@ -183,7 +159,7 @@ export const ConfigureLayout: FC = () => {
                         </div>
                     </div>
                     <ArrowRightIcon className={styles.navButton_icon} />
-                </button>
+                </Link>
             </Cell>
 
             <Cell title="trade">
