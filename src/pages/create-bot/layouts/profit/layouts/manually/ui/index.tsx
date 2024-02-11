@@ -70,8 +70,9 @@ export const ManuallyLayout: FC = () => {
         }
 
         setSteps((restSteps) => {
-            const updatedSteps = [...restSteps];
-            updatedSteps[index].step = value;
+            const updatedSteps = restSteps.map((step, stepIndex) =>
+                stepIndex === index ? { ...step, step: value } : step
+            );
             return updatedSteps;
         });
 
@@ -134,7 +135,12 @@ export const ManuallyLayout: FC = () => {
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setExistingVolume, "existing_volume");
+        inputNumber(
+            e.target.value,
+            setExistingVolume,
+            "existing_volume",
+            dispatch
+        );
     };
 
     return (

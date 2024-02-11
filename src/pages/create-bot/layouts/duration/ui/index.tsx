@@ -30,9 +30,7 @@ export const DurationLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                window.location.hash =
-                    "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
-                navigate("/"); // тут удалить
+                navigate("/"); // тут изменить
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);

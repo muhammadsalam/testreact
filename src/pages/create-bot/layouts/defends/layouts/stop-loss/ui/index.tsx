@@ -3,15 +3,16 @@ import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
 import { inputNumber } from "features/input-number";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 
 export const StopLossLayout = () => {
+    const dispatch = useDispatch();
     const stop_loss = useSelector((state: RootState) => state.newBot.stop_loss);
 
     const [StopLoss, setStopLoss] = useState("" + stop_loss);
     const handleStopLoss = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setStopLoss, "stop_loss");
+        inputNumber(e.target.value, setStopLoss, "stop_loss", dispatch);
     };
 
     return (

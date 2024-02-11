@@ -1,4 +1,4 @@
-import { FC, useEffect, ChangeEvent, FocusEvent, useCallback } from "react";
+import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, CurrencyIcon, Switcher } from "shared/ui";
 import ArrowRightIcon from "assets/icons/arrow.svg?react";
@@ -61,7 +61,7 @@ export const ConfigureLayout: FC = () => {
         handleContextSwitch("active_tp", state);
     };
 
-    const validation = useCallback((): boolean => {
+    const validation = (): boolean => {
         const titleWithoutSpaces = title
             .replace(/^\s+|\s+$/g, "")
             .replace(/\s+/g, " ");
@@ -79,7 +79,7 @@ export const ConfigureLayout: FC = () => {
         }
 
         return true;
-    }, [title, active_buy, active_def, active_tp]);
+    };
 
     useEffect(() => {
         tgApp.BackButton.show();
@@ -110,7 +110,7 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
+    }, [title, active_buy, active_def, active_tp]);
 
     const handleTitleChange = ({
         target: { value },

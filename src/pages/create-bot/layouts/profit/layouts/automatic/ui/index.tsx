@@ -24,12 +24,12 @@ export const AutomaticLayout: FC = () => {
 
     const [TProfit, setTProfit] = useState("" + take_profit);
     const handleTProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTProfit, "take_profit");
+        inputNumber(e.target.value, setTProfit, "take_profit", dispatch);
     };
 
     const [TAmount, setTAmount] = useState("" + take_amount);
     const handleTAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTAmount, "take_amount");
+        inputNumber(e.target.value, setTAmount, "take_amount", dispatch);
     };
 
     const handleTStepChange = (value: string) => {
@@ -63,7 +63,12 @@ export const AutomaticLayout: FC = () => {
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setExistingVolume, "existing_volume");
+        inputNumber(
+            e.target.value,
+            setExistingVolume,
+            "existing_volume",
+            dispatch
+        );
     };
 
     useEffect(() => {

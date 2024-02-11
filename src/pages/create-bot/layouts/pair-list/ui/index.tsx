@@ -82,7 +82,7 @@ export const PairListLayout = () => {
 
         const mainButtonHandler = () => {
             dispatch(setActive(localActivePair));
-            window.location.hash = "#1";
+            window.history.back();
         };
         tgApp.MainButton.onClick(mainButtonHandler);
         tgApp.MainButton.text = "Done";

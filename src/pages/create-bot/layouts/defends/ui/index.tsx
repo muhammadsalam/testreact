@@ -8,8 +8,10 @@ import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setField } from "pages/create-bot";
 import { addAlert, deleteAlert } from "entities/notification";
+import { useNavigate } from "react-router-dom";
 
 export const DefendsLayout: FC = () => {
+    const navigate = useNavigate();
     const tabs = [
         {
             title: "Insurance orders",
@@ -104,8 +106,8 @@ export const DefendsLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                if (active_tp) window.location.hash = "#4";
-                else window.location.hash = "#5";
+                if (active_tp) navigate("/createbot/step4");
+                else navigate("/createbot/step5");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);

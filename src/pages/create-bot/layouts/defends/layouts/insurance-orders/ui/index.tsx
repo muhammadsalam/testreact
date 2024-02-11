@@ -18,12 +18,12 @@ export const InsuranceOrdersLayout = () => {
 
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOCount, "io_count", 10);
+        inputNumber(e.target.value, SetIOCount, "io_count", dispatch, 10);
     };
 
     const [IOStep, SetIOStep] = useState("" + io_step);
     const handleIOStep = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOStep, "io_step");
+        inputNumber(e.target.value, SetIOStep, "io_step", dispatch);
     };
 
     const handleMartingaleSwitch = () => {

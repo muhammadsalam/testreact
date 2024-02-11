@@ -9,6 +9,7 @@ import { RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
 import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 
 type Tab = {
     title: string;
@@ -30,6 +31,8 @@ const tabs: Tab[] = [
 ];
 
 export const ProfitLayout: FC = () => {
+    const navigate = useNavigate();
+
     const {
         take_type,
         active_buy,
@@ -157,7 +160,7 @@ export const ProfitLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                window.location.hash = "#5";
+                navigate("/createbot/step5");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);

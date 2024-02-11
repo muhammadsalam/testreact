@@ -8,8 +8,11 @@ import { RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
 import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 
 export const StrategyLayout: FC = () => {
+    const navigate = useNavigate();
+
     const tabs = [
         {
             title: "Manually",
@@ -108,17 +111,16 @@ export const StrategyLayout: FC = () => {
         }
 
         const backButtonHandler = () => {
-            window.location.hash = "#1";
+            navigate("/createbot/step1");
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
             if (validation()) {
-                // handleDeleteAlert();
                 dispatch(deleteAlert());
-                if (active_def) window.location.hash = "#3";
-                else if (active_tp) window.location.hash = "#4";
-                else window.location.hash = "#5";
+                if (active_def) navigate("/createbot/step3");
+                else if (active_tp) navigate("/createbot/step4");
+                else navigate("/createbot/step5");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
