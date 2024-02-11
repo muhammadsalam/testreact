@@ -3,7 +3,11 @@ import styles from "./style.module.scss";
 import { clsx } from "clsx";
 import { tgApp } from "shared/lib";
 import { InsuranceOrdersLayout, StopLossLayout } from "../layouts";
-import { useBot } from "pages/create-bot/libs"; // Import BotModel
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setField } from "pages/create-bot";
+import { addAlert, deleteAlert } from "entities/notification";
 
 export const DefendsLayout: FC = () => {
     const tabs = [
@@ -20,62 +24,66 @@ export const DefendsLayout: FC = () => {
     ];
 
     const {
-        addAlert,
-        handleDeleteAlert,
+        def_type,
+        active_buy,
+        active_def,
+        active_tp,
+        io_count,
+        io_step,
+        io_mrt,
+        io_step_mrt,
+        stop_loss,
         otherStates: { def_mrt, def_step_mrt },
-        bot: {
-            def_type,
-            active_buy,
-            active_def,
-            active_tp,
-            io_count,
-            io_step,
-            io_mrt,
-            io_step_mrt,
-            stop_loss,
-        },
-        setBot,
-    } = useBot();
+    } = useSelector((state: RootState) => state.newBot);
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [activeTab, setActiveTab] = useState<string>(def_type);
     const handleTabChange = (tabId: "IO" | "SL") => {
         setActiveTab(tabId);
-        setBot((prev) => ({ ...prev, def_type: tabId }));
+        dispatch(setField({ field: "def_type", value: tabId }));
     };
 
     const validation = (): boolean => {
         if (def_type === "IO") {
             if (+io_count < 1 || +io_count > 10) {
-                addAlert({
-                    title: "limit of insurance orders should be between 1 and 10",
-                });
+                dispatch(
+                    addAlert({
+                        title: "limit of insurance orders should be between 1 and 10",
+                    })
+                );
                 return false;
             }
             if (+io_step < 1 || +io_step > 99) {
-                addAlert({
-                    title: "step of insurance orders should be between 1 and 99",
-                });
+                dispatch(
+                    addAlert({
+                        title: "step of insurance orders should be between 1 and 99",
+                    })
+                );
                 return false;
             }
             if (def_mrt && (+io_mrt < 1 || +io_mrt > 5)) {
-                addAlert({
-                    title: "martingale of insurance orders should be between 1 and 5",
-                });
+                dispatch(
+                    addAlert({
+                        title: "martingale of insurance orders should be between 1 and 5",
+                    })
+                );
                 return false;
             }
             if (def_step_mrt && (+io_step_mrt < 1 || +io_step_mrt > 5)) {
-                addAlert({
-                    title: "dynamic price of insurance orders should be between 1 and 5",
-                });
+                dispatch(
+                    addAlert({
+                        title: "dynamic price of insurance orders should be between 1 and 5",
+                    })
+                );
                 return false;
             }
         }
 
         if (def_type === "SL") {
             if (+stop_loss < 1 || +stop_loss > 99) {
-                addAlert({
-                    title: "stop loss should be between 1 and 99",
-                });
+                dispatch(
+                    addAlert({ title: "stop loss should be between 1 and 99" })
+                );
                 return false;
             }
         }
@@ -95,7 +103,7 @@ export const DefendsLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
-                handleDeleteAlert();
+                dispatch(deleteAlert());
                 if (active_tp) window.location.hash = "#4";
                 else window.location.hash = "#5";
             }

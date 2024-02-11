@@ -1,19 +1,15 @@
-import { BotModel } from "pages/create-bot";
+import { BotModel, setField } from "pages/create-bot";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
 
 type InputNumberType = (
     value: string,
     handler: (value: React.SetStateAction<string>) => void,
-    setBot: (value: React.SetStateAction<BotModel>) => void,
     botKey: keyof BotModel,
     max?: number
 ) => void;
 
-export const inputNumber: InputNumberType = (
-    value,
-    handler,
-    setBot,
-    botKey
-) => {
+export const inputNumber: InputNumberType = (value, handler, botKey) => {
     // if (Number(value) < 0) return;
     // if (
     //     (value.startsWith("-") ||
@@ -29,8 +25,7 @@ export const inputNumber: InputNumberType = (
 
     // if (value === "") value = "0";
 
+    const dispatch: Dispatch<any> = useDispatch();
     handler(value);
-    setBot((prevState) => {
-        return { ...prevState, [botKey]: Number(value) };
-    });
+    dispatch(setField({ field: botKey, value: Number(value) }));
 };

@@ -16,31 +16,38 @@ const initialState: notification = {
 
 let timeoutId: NodeJS.Timeout | null = null;
 
+export const addAlert = (notification: notification) => (dispatch: any) => {
+    // Отменить старый таймер, если он существует
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
+
+    dispatch({
+        type: 'alert/setAlert',
+        payload: {
+            ...notification,
+            isActive: true,
+        },
+    });
+
+    // Установить новый таймер
+    timeoutId = setTimeout(() => {
+        dispatch({
+            type: 'alert/deleteAlert',
+        });
+    }, 3000);
+};
+
 export const alertSlice = createSlice({
     name: 'alert',
     initialState,
     reducers: {
-        deleteAlert: (state) => {
-            if (timeoutId) clearTimeout(timeoutId);
-
-            state.isActive = false;
-            state.title = '';
-            state.icon = undefined;
+        deleteAlert: () => {
+            return { title: '' };
         },
         setAlert: (state, action: PayloadAction<notification>) => {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-            }
-
-            state.isActive = true;
-            state.title = action.payload.title;
-            state.icon = action.payload.icon;
-
-            timeoutId = setTimeout(() => {
-                state.isActive = false;
-                state.title = '';
-                state.icon = undefined;
-            }, 3000);
+            return action.payload;
+            state;
         }
     },
 })

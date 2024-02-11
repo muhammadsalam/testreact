@@ -42,6 +42,13 @@ export interface BotModel {
     purchase_price: string;
     takes: Take[];
     cycles: number;
+    otherStates: {
+        def_mrt: boolean;
+        def_step_mrt: boolean;
+        take_step: boolean;
+        take_mrt: boolean;
+        cycles: boolean;
+    };
 }
 
 const initialState: BotModel = {
@@ -85,6 +92,13 @@ const initialState: BotModel = {
         },
     ],
     cycles: 1,
+    otherStates: {
+        def_mrt: false,
+        def_step_mrt: false,
+        take_step: false,
+        take_mrt: false,
+        cycles: false,
+    }
 }
 
 type FieldValue<T extends keyof BotModel> = {

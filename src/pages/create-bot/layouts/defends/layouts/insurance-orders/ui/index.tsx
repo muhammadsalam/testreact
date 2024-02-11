@@ -2,53 +2,57 @@ import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
-import { useBot } from "pages/create-bot/libs";
 import { useState, useEffect } from "react";
 import { inputNumber } from "features/input-number";
 import { useRange } from "shared/ui/range/libs/use-range";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setField } from "pages/create-bot";
 
 export const InsuranceOrdersLayout = () => {
-    const {
-        bot: { io_count, io_step, io_mrt, io_step_mrt },
-        setBot,
-        setOtherStates,
-        otherStates,
-    } = useBot();
+    const { io_count, io_step, io_mrt, io_step_mrt, otherStates } = useSelector(
+        (state: RootState) => state.newBot
+    );
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOCount, setBot, "io_count", 10);
+        inputNumber(e.target.value, SetIOCount, "io_count", 10);
     };
 
     const [IOStep, SetIOStep] = useState("" + io_step);
     const handleIOStep = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOStep, setBot, "io_step");
+        inputNumber(e.target.value, SetIOStep, "io_step");
     };
 
     const handleMartingaleSwitch = () => {
-        setOtherStates((prevState) => ({
-            ...prevState,
-            def_mrt: !prevState.def_mrt,
-        }));
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: { ...otherStates, def_mrt: !otherStates.def_mrt },
+            })
+        );
     };
 
     const handleDynamicPriceSwitch = () => {
-        setOtherStates((prevState) => ({
-            ...prevState,
-            def_step_mrt: !prevState.def_step_mrt,
-        }));
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: {
+                    ...otherStates,
+                    def_step_mrt: !otherStates.def_step_mrt,
+                },
+            })
+        );
     };
 
     const handleIOMrt = (value: string) => {
-        setBot((prevState) => {
-            return { ...prevState, io_mrt: value };
-        });
+        dispatch(setField({ field: "io_mrt", value: value }));
     };
 
     const handleIOStepMrt = (value: string) => {
-        setBot((prevState) => {
-            return { ...prevState, io_step_mrt: value };
-        });
+        dispatch(setField({ field: "io_step_mrt", value: value }));
     };
 
     const martingaleRangeData = useRange(1, 5, +io_mrt);

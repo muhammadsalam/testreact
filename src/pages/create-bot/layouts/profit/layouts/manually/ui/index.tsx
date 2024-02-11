@@ -3,8 +3,12 @@ import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
-import { useBot } from "pages/create-bot/libs";
 import { inputNumber } from "features/input-number";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { addAlert } from "entities/notification";
+import { setField } from "pages/create-bot";
 
 interface step {
     step: string;
@@ -12,11 +16,10 @@ interface step {
 }
 
 export const ManuallyLayout: FC = () => {
-    const {
-        addAlert,
-        bot: { existing_volume, takes, active_buy },
-        setBot,
-    } = useBot();
+    const { existing_volume, takes, active_buy } = useSelector(
+        (state: RootState) => state.newBot
+    );
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [steps, setSteps] = useState<step[]>(takes);
 
@@ -32,32 +35,26 @@ export const ManuallyLayout: FC = () => {
         );
 
         if (totalAmount >= 100) {
-            addAlert({
-                title: "Общий % amount уже 100%, куда уж больше",
-            });
+            dispatch(
+                addAlert({ title: "Общий % amount уже 100%, куда уж больше" })
+            );
             return;
         }
 
         setSteps((restSteps) => [...restSteps, newStep]);
-        setBot((restBot) => ({
-            ...restBot,
-            takes: [...restBot.takes, newStep],
-        }));
+        dispatch(setField({ field: "takes", value: [...takes, newStep] }));
     };
 
     const handleStepDelete = (index: number) => {
         setSteps((restSteps) =>
             restSteps.filter((_, arrIndex) => arrIndex !== index)
         );
-        setBot((restBot) => {
-            const newTakes = restBot.takes.filter(
-                (_, arrIndex) => arrIndex !== index
-            );
-            return {
-                ...restBot,
-                takes: newTakes,
-            };
-        });
+        dispatch(
+            setField({
+                field: "takes",
+                value: takes.filter((_, arrIndex) => arrIndex !== index),
+            })
+        );
     };
 
     const handleStepChange = (
@@ -78,12 +75,14 @@ export const ManuallyLayout: FC = () => {
             return updatedSteps;
         });
 
-        setBot((restBot) => ({
-            ...restBot,
-            takes: [...restBot.takes].map((item, arrIndex) =>
-                arrIndex === index ? { ...item, step: value } : { ...item }
-            ),
-        }));
+        dispatch(
+            setField({
+                field: "takes",
+                value: [...takes].map((item, arrIndex) =>
+                    arrIndex === index ? { ...item, step: value } : { ...item }
+                ),
+            })
+        );
     };
 
     const handleAmountChange = (
@@ -109,9 +108,9 @@ export const ManuallyLayout: FC = () => {
         );
 
         if (totalAmount > 100) {
-            addAlert({
-                title: "Общий % amount не может быть больше 100%",
-            });
+            dispatch(
+                addAlert({ title: "Общий % amount не может быть больше 100%" })
+            );
             return;
         }
 
@@ -121,22 +120,21 @@ export const ManuallyLayout: FC = () => {
             return updatedSteps;
         });
 
-        setBot((restBot) => ({
-            ...restBot,
-            takes: [...restBot.takes].map((item, arrIndex) =>
-                arrIndex === index ? { ...item, amount: value } : { ...item }
-            ),
-        }));
+        dispatch(
+            setField({
+                field: "takes",
+                value: [...takes].map((item, arrIndex) =>
+                    arrIndex === index
+                        ? { ...item, amount: value }
+                        : { ...item }
+                ),
+            })
+        );
     };
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setExistingVolume,
-            setBot,
-            "existing_volume"
-        );
+        inputNumber(e.target.value, setExistingVolume, "existing_volume");
     };
 
     return (

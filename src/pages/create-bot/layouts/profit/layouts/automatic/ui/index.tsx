@@ -3,60 +3,59 @@ import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
-import { useBot } from "pages/create-bot/libs";
 import { inputNumber } from "features/input-number";
 import { useRange } from "shared/ui/range/libs/use-range";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setField } from "pages/create-bot";
 
 export const AutomaticLayout: FC = () => {
     const {
-        bot: {
-            take_profit,
-            take_amount,
-            take_step,
-            take_mrt,
-            active_buy,
-            existing_volume,
-        },
-        setBot,
+        take_profit,
+        take_amount,
+        take_step,
+        take_mrt,
+        active_buy,
+        existing_volume,
         otherStates,
-        setOtherStates,
-    } = useBot();
+    } = useSelector((state: RootState) => state.newBot);
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [TProfit, setTProfit] = useState("" + take_profit);
     const handleTProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTProfit, setBot, "take_profit");
+        inputNumber(e.target.value, setTProfit, "take_profit");
     };
 
     const [TAmount, setTAmount] = useState("" + take_amount);
     const handleTAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTAmount, setBot, "take_amount");
+        inputNumber(e.target.value, setTAmount, "take_amount");
     };
 
     const handleTStepChange = (value: string) => {
-        setBot((prevState) => {
-            return { ...prevState, take_step: value };
-        });
+        dispatch(setField({ field: "take_step", value: value }));
     };
 
     const handleTMrtChange = (value: string) => {
-        setBot((prevState) => {
-            return { ...prevState, take_mrt: value };
-        });
+        dispatch(setField({ field: "take_mrt", value: value }));
     };
 
     const handleTakeStepSwitch = () => {
-        setOtherStates((prevState) => ({
-            ...prevState,
-            take_step: !prevState.take_step,
-        }));
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: { ...otherStates, take_step: !otherStates.take_step },
+            })
+        );
     };
 
     const handleTakeMrtSwitch = () => {
-        console.log("take_mrt", take_mrt);
-        setOtherStates((prevState) => ({
-            ...prevState,
-            take_mrt: !prevState.take_mrt,
-        }));
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: { ...otherStates, take_mrt: !otherStates.take_mrt },
+            })
+        );
     };
 
     const takeStepData = useRange(1, 5, +take_step);
@@ -64,12 +63,7 @@ export const AutomaticLayout: FC = () => {
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setExistingVolume,
-            setBot,
-            "existing_volume"
-        );
+        inputNumber(e.target.value, setExistingVolume, "existing_volume");
     };
 
     useEffect(() => {

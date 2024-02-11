@@ -3,7 +3,11 @@ import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import clsx from "clsx";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { useBot } from "pages/create-bot/libs";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { setField } from "pages/create-bot";
+import { addAlert, deleteAlert } from "entities/notification";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const StrategyLayout: FC = () => {
     const tabs = [
@@ -21,18 +25,15 @@ export const StrategyLayout: FC = () => {
     );
 
     const {
-        addAlert,
-        handleDeleteAlert,
-        bot: {
-            ammount_first_order,
-            type_first_order,
-            price_first_order,
-            active_buy,
-            active_def,
-            active_tp,
-        },
-        setBot,
-    } = useBot();
+        ammount_first_order,
+        type_first_order,
+        price_first_order,
+        active_buy,
+        active_def,
+        active_tp,
+    } = useSelector((state: RootState) => state.newBot);
+
+    const dispatch: Dispatch<any> = useDispatch();
 
     const inputTypeItems = [
         {
@@ -56,9 +57,7 @@ export const StrategyLayout: FC = () => {
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         setAmountInputType(value);
-        setBot((prevState) => {
-            return { ...prevState, ammount_first_order: value };
-        });
+        dispatch(setField({ field: "ammount_first_order", value }));
     };
 
     // ======================
@@ -75,31 +74,29 @@ export const StrategyLayout: FC = () => {
     ];
 
     const onFirstOrderTypeSwitch = (type: string) => {
-        setBot((prevState) => {
-            return { ...prevState, type_first_order: type };
-        });
+        dispatch(setField({ field: "type_first_order", value: type }));
     };
 
     const [amountFO, setAmountFO] = useState<string>(price_first_order);
     const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         setAmountFO(value);
-        setBot((prevState) => {
-            return { ...prevState, price_first_order: value };
-        });
+        dispatch(setField({ field: "price_first_order", value }));
     };
 
     const validation = (): boolean => {
         if (+ammount_first_order <= 200) {
             console.log(ammount_first_order);
-            addAlert({
-                title: "Invalid volume of the first order (should be не меньше 200) [потом изменится через бэк]",
-            });
+            dispatch(
+                addAlert({
+                    title: "Invalid volume of the first order (should be не меньше 200) [потом изменится через бэк]",
+                })
+            );
             return false;
         }
 
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
-            addAlert({ title: "Invalid Price" });
+            dispatch(addAlert({ title: "Invalid Price" }));
             return false;
         }
         return true;
@@ -117,7 +114,8 @@ export const StrategyLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
-                handleDeleteAlert();
+                // handleDeleteAlert();
+                dispatch(deleteAlert());
                 if (active_def) window.location.hash = "#3";
                 else if (active_tp) window.location.hash = "#4";
                 else window.location.hash = "#5";

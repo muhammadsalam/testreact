@@ -8,8 +8,9 @@ import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { setField } from "pages/create-bot/model/botSlice";
-import { deleteAlert, setAlert } from "entities/notification";
+import { addAlert, deleteAlert } from "entities/notification";
 import { Link } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ export const ConfigureLayout: FC = () => {
         (state: RootState) => state.pairs.activePair
     );
 
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
 
     const handleContextSwitch = (
         key: "active_buy" | "active_def" | "active_tp",
@@ -65,14 +66,14 @@ export const ConfigureLayout: FC = () => {
             .replace(/^\s+|\s+$/g, "")
             .replace(/\s+/g, " ");
         if (titleWithoutSpaces.length < 3 || titleWithoutSpaces.length > 20) {
-            dispatch(setAlert({ title: "Title must be between 3 and 20" }));
+            dispatch(addAlert({ title: "Title must be between 3 and 20" }));
             dispatch(setField({ field: "title", value: titleWithoutSpaces }));
             return false;
         }
 
         if (!(active_buy || active_def || active_tp)) {
             dispatch(
-                setAlert({ title: "At least one strategy must be enabled" })
+                addAlert({ title: "At least one strategy must be enabled" })
             );
             return false;
         }

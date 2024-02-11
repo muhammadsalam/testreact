@@ -2,30 +2,21 @@ import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../../../assets/icons/arrow.svg?react";
 import styles from "./styles.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { FC, ReactNode, memo, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import axios from "axios";
 import { exchangeType } from "shared/API/userSlice";
+import { addAlert, deleteAlert } from "entities/notification";
+import { Dispatch } from "@reduxjs/toolkit";
 
-interface MainLayoutProps {
-    addAlert: ({
-        title,
-        icon,
-        ms,
-    }: {
-        title: string;
-        icon?: ReactNode;
-        ms?: number;
-    }) => void;
-    activeExchange: string;
-    handleDeleteAlert: () => void;
-}
+export const MainLayout: FC<{ activeExchange: string }> = memo(
+    ({ activeExchange }) => {
+        const user = useSelector((state: any) => state.user);
+        const dispatch: Dispatch<any> = useDispatch();
 
-export const MainLayout: FC<MainLayoutProps> = memo(
-    ({ activeExchange, addAlert, handleDeleteAlert }) => {
         const [apikey, setApikey] = useState("");
         const handleApikeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setApikey(e.target.value);
@@ -42,7 +33,9 @@ export const MainLayout: FC<MainLayoutProps> = memo(
 
         const validation = () => {
             if (apikey === "" || secretKey === "") {
-                addAlert({ title: "To add a key, fill in all fields" });
+                dispatch(
+                    addAlert({ title: "To add a key, fill in all fields" })
+                );
                 return false;
             }
             return true;
@@ -66,13 +59,10 @@ export const MainLayout: FC<MainLayoutProps> = memo(
             };
         }, []);
 
-        const user = useSelector((state: any) => state.user);
-        const dispatch = useDispatch();
-
         useEffect(() => {
             const mainButtonHandler = () => {
                 if (validation()) {
-                    handleDeleteAlert();
+                    dispatch(deleteAlert());
                     const data = {
                         api_key: apikey,
                         api_secret: secretKey,
@@ -101,13 +91,10 @@ export const MainLayout: FC<MainLayoutProps> = memo(
                                 navigate("/");
                             }
                         })
-                        .catch((error) => {
+                        .catch(() => {
                             // тут изменить потом
                             // addAlert({ title: error.response.data.detail });
-                            error && true;
-                            addAlert({
-                                title: "Не верные данные",
-                            });
+                            dispatch(addAlert({ title: "Не верные данные" }));
                         });
                 }
             };

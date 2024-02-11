@@ -5,18 +5,17 @@ import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { useBot } from "pages/create-bot/libs";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { Dispatch } from "@reduxjs/toolkit";
+import { deleteAlert } from "entities/notification";
+import { setField } from "pages/create-bot";
 
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
-
-    const {
-        handleDeleteAlert,
-        bot: { cycles, active_buy, active_def, active_tp },
-        setBot,
-        otherStates,
-        setOtherStates,
-    } = useBot();
+    const dispatch: Dispatch<any> = useDispatch();
+    const { cycles, active_buy, active_def, active_tp, otherStates } =
+        useSelector((state: RootState) => state.newBot);
 
     const validation = () => {
         return true;
@@ -30,7 +29,7 @@ export const DurationLayout: FC = () => {
 
         const mainButtonHandler = () => {
             if (validation()) {
-                handleDeleteAlert();
+                dispatch(deleteAlert());
                 window.location.hash =
                     "#" + (3 + +active_buy + +active_def + +active_tp); // тут изменить
                 navigate("/"); // тут удалить
@@ -54,7 +53,7 @@ export const DurationLayout: FC = () => {
     const rangeData = useRange(1, 10, cycles);
 
     useEffect(() => {
-        setBot((restBot) => ({ ...restBot, cycles: rangeData.value }));
+        dispatch(setField({ field: "cycles", value: rangeData.value }));
     }, [rangeData.value]);
 
     useEffect(() => {
@@ -64,10 +63,12 @@ export const DurationLayout: FC = () => {
     }, [otherStates]);
 
     const handleCyclesSwitch = () => {
-        setOtherStates((prevState) => ({
-            ...prevState,
-            cycles: !prevState.cycles,
-        }));
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: { ...otherStates, cycles: !otherStates.cycles },
+            })
+        );
     };
 
     return (

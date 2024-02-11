@@ -13,6 +13,7 @@ import { RootState } from "./AppStore";
 export const App: FC = () => {
     useEffect(() => {
         tgApp.setHeaderColor("#F2F2F7");
+        tgApp.setBackgroundColor("#f2f2f7");
         tgApp.expand();
     }, []);
 
