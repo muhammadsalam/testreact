@@ -9,6 +9,7 @@ import { fetchUser } from "shared/API/userSlice";
 import { BotPage } from "pages/bot";
 import { Notification, NotificationWrapper } from "entities/notification";
 import { RootState } from "./AppStore";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const App: FC = () => {
     useEffect(() => {
@@ -17,11 +18,11 @@ export const App: FC = () => {
         tgApp.expand();
     }, []);
 
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
     const alert = useSelector((state: RootState) => state.alert);
 
     useEffect(() => {
-        // @ts-ignore
+        tgApp.ready();
         dispatch(fetchUser());
     }, []);
 

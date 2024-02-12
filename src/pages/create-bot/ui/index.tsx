@@ -13,13 +13,14 @@ import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
 import { Route, Routes } from "react-router-dom";
 import { RootState } from "app/AppStore";
 import { setField } from "../model/botSlice";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const CreateBotPage = () => {
     const { def_mrt, def_step_mrt } = useSelector(
         (state: RootState) => state.newBot.otherStates
     );
 
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
         if (!def_mrt) {
@@ -32,7 +33,6 @@ export const CreateBotPage = () => {
     }, [def_mrt, def_step_mrt]);
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(fetchPairs());
     }, []);
 
