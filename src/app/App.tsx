@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ProfilePage } from "pages/profile";
 import { tgApp } from "shared/lib";
@@ -10,6 +10,8 @@ import { BotPage } from "pages/bot";
 import { Notification, NotificationWrapper } from "entities/notification";
 import { RootState } from "./AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
+import { Loader } from "widgets/loader";
+import FontFaceObserver from "fontfaceobserver";
 
 export const App: FC = () => {
     useEffect(() => {
@@ -25,6 +27,33 @@ export const App: FC = () => {
         tgApp.ready();
         dispatch(fetchUser());
     }, []);
+
+    const [isFontsLoading, setIsFontsLoading] = useState({
+        SFPro: false,
+        SFRounded: false,
+        SFProDisplay: false,
+    });
+
+    useEffect(() => {
+        let SFPro = new FontFaceObserver("SF Pro");
+        SFPro.load(null, 140000).then(() => {
+            setIsFontsLoading((prev) => ({ ...prev, SFPro: true }));
+        });
+        let SFRounded = new FontFaceObserver("SFRounded");
+        SFRounded.load(null, 140000).then(() => {
+            setIsFontsLoading((prev) => ({ ...prev, SFRounded: true }));
+        });
+        let SFProDisplay = new FontFaceObserver("SFProDisplay");
+        SFProDisplay.load(null, 140000).then(() => {
+            setIsFontsLoading((prev) => ({ ...prev, SFProDisplay: true }));
+        });
+    }, []);
+
+    // return <Loader />;
+    // // если все шрифты не прогрузились
+    if (Object.values(isFontsLoading).some((v) => !v)) {
+        return <Loader />;
+    }
 
     return (
         <>
