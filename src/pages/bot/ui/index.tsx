@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Cell, CellListItem } from "shared/ui";
 import { tgApp } from "shared/lib";
+import clsx from "clsx";
 
 interface BotData {
     // purchase_price: 0;
@@ -20,7 +21,7 @@ interface BotData {
     // price_first_order: 40000;
     // stop_loss: 0;
     // cycles: 1;
-    // pair: "BTCUSDT";
+    pair: string;
     // active_def: true;
     // active_tp: true;
     // status: "STARTED";
@@ -112,36 +113,50 @@ export const BotPage = () => {
         if (botData) {
             if (botData[key] && datetime) {
                 const date = new Date(datetime * 1000);
-                return `${date.getDate()}.${date.getMonth() + 1}.${(
-                    date.getFullYear() + ""
-                ).slice(
-                    2
-                )} (${date.getHours()}:${date.getMinutes()}:${date.getMilliseconds()})`;
+                const tdate = {
+                    day: date.getDate(),
+                    month: date.toLocaleString("en", { month: "long" }),
+                    hours: date.getHours(),
+                    minutes: date.getMinutes(),
+                    meridiem: date.getHours() > 12 ? "PM" : "AM",
+                };
+
+                return `${tdate.day} ${tdate.month} at ${tdate.hours}:${
+                    tdate.minutes
+                } ${tdate.meridiem.toLowerCase()}`;
             } else return "" + botData[key];
         }
+    };
+
+    const tabs = [
+        {
+            title: "Insurance",
+            disabled: false,
+            id: "I_ORDER",
+        },
+        {
+            title: "Take Profit",
+            disabled: false,
+            id: "TAKE_PROFIT",
+        },
+    ];
+
+    const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
+    const handleTabChange = (tabId: "I_ORDER" | "TAKE_PROFIT") => {
+        setActiveTab(tabId);
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.top}>
-                <p className={styles.top_title}>Bot title - {botData?.title}</p>
-                <p className={styles.top_subtitle}>
-                    Some subtitle under title here
-                </p>
+                <p className={styles.top_title}>{botData?.pair}</p>
+                <p className={styles.top_subtitle}>{botData?.title}</p>
+                <a className={styles.top_link}>Bot details</a>
             </div>
 
-            <Cell>
+            <Cell title="socket activation time">
                 <CellListItem>
-                    price_socket_time
-                    <span className={styles.black_color}>
-                        {getDate(
-                            botData && botData?.price_socket_time,
-                            "price_socket_time"
-                        )}
-                    </span>
-                </CellListItem>
-                <CellListItem>
-                    user_socket_time
+                    Socket user
                     <span className={styles.black_color}>
                         {getDate(
                             botData && botData?.user_socket_time,
@@ -149,75 +164,113 @@ export const BotPage = () => {
                         )}
                     </span>
                 </CellListItem>
+                <CellListItem>
+                    Socket pair
+                    <span className={styles.black_color}>
+                        {getDate(
+                            botData && botData?.price_socket_time,
+                            "price_socket_time"
+                        )}
+                    </span>
+                </CellListItem>
             </Cell>
 
+            <div className={styles.tabs}>
+                {tabs.map((tab, index) => (
+                    <button
+                        key={index}
+                        className={clsx(
+                            styles.tabs_button,
+                            activeTab === tab.id && styles.tabs_button__active
+                        )}
+                        onClick={() =>
+                            handleTabChange(tab.id as "I_ORDER" | "TAKE_PROFIT")
+                        } // Use handleTabChange instead of setActiveTab
+                    >
+                        {tab.title}
+                    </button>
+                ))}
+            </div>
+
             {botData &&
-                botData.orders.map((order, index) => {
-                    return (
-                        <Cell key={index} title={`order ${index + 1}`}>
-                            <CellListItem>
-                                id
-                                <span className={styles.black_color}>
-                                    {order.id}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                bot_id
-                                <span className={styles.black_color}>
-                                    {order.bot_id}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                amount_input
-                                <span className={styles.black_color}>
-                                    {order.amount_input}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                amount_output
-                                <span className={styles.black_color}>
-                                    {order.amount_output}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                cycle
-                                <span className={styles.black_color}>
-                                    {order.cycle}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                order_type
-                                <span className={styles.black_color}>
-                                    {order.order_type}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                pair
-                                <span className={styles.black_color}>
-                                    {order.pair}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                price
-                                <span className={styles.black_color}>
-                                    {order.price}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                status
-                                <span className={styles.black_color}>
-                                    {order.status}
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                type
-                                <span className={styles.black_color}>
-                                    {order.type}
-                                </span>
-                            </CellListItem>
-                        </Cell>
-                    );
-                })}
+                botData.orders
+                    .filter((x) => {
+                        if (activeTab === "I_ORDER")
+                            return x.type !== "TAKE_PROFIT";
+                        return x.type === "TAKE_PROFIT";
+                    })
+                    .map((order, index) => {
+                        return (
+                            <Cell key={index} title={order.type}>
+                                <div className={styles.order_wrapper}>
+                                    <div className={styles.order_item}>
+                                        status
+                                        <span
+                                            className={clsx(
+                                                styles.black_color,
+                                                {
+                                                    [styles.status__success]:
+                                                        order.status ===
+                                                        "CREATED",
+                                                    [styles.status__warning]:
+                                                        order.status ===
+                                                        "READY_TO_PLACED",
+                                                    [styles.status__error]:
+                                                        order.status ===
+                                                        "CANCELED",
+                                                }
+                                            )}
+                                        >
+                                            {order.status}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        amount_input
+                                        <span className={styles.black_color}>
+                                            {order.amount_input}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        amount_output
+                                        <span className={styles.black_color}>
+                                            {order.amount_output}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        price
+                                        <span className={styles.black_color}>
+                                            {order.price}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        order_type
+                                        <span className={styles.black_color}>
+                                            {order.order_type}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        id
+                                        <span className={styles.black_color}>
+                                            {order.id}
+                                        </span>
+                                    </div>
+                                    <div className={styles.order_item}>
+                                        bot_id
+                                        <span className={styles.black_color}>
+                                            {order.bot_id}
+                                        </span>
+                                    </div>
+
+                                    <div className={styles.order_item}>
+                                        cycle
+                                        <span className={styles.black_color}>
+                                            {order.cycle}
+                                        </span>
+                                    </div>
+                                </div>
+                            </Cell>
+                        );
+                    })}
 
             {/* <Cell title="orders">
                 {botData &&
