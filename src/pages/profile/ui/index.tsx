@@ -71,10 +71,12 @@ export const ProfilePage: FC = () => {
                                 <BtcusdtIcon />
                                 <div className={styles.content_info}>
                                     <div className={styles.content_info_title}>
-                                        {/* BTC<span>USDT</span> */}
                                         {item.pair}
                                     </div>
-                                    <div className={styles.content_info_block}>
+                                    <div className={styles.info_titleBlock}>
+                                        {item.title}
+                                    </div>
+                                    {/* <div className={styles.content_info_block}>
                                         TP: 05{" "}
                                         <span className={styles.circle}></span>
                                         TP: 05{" "}
@@ -82,7 +84,7 @@ export const ProfilePage: FC = () => {
                                         <span className={styles.green}>
                                             DEP: 70 ₮ 􀄯
                                         </span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <ArrowRightIcon className={styles.navButton_icon} />
