@@ -6,8 +6,24 @@ import BinanceIcon from "assets/icons/binance.svg?react";
 import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import clsx from "clsx";
+import { useEffect } from "react";
+import { tgApp } from "shared/lib";
 
 export const KeysPage = () => {
+    useEffect(() => {
+        tgApp.BackButton.show();
+
+        const backButtonHandler = () => {
+            window.history.back();
+        };
+
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+        };
+    }, []);
+
     const exchange_type = useSelector(
         (state: RootState) => state.user.data.exchange_type
     );
