@@ -7,6 +7,47 @@
     gap: 24px;
 }
 
+.exContainer {
+    height: var(--tg-viewport-height);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0;
+    max-width: calc(264px + 48px);
+
+    &_title {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.45px;
+        color: #000000;
+    }
+
+    &_ph {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.23px;
+        color: #000000;
+        margin-top: 8px;
+    }
+
+    &_btn {
+        padding: 13px 16px;
+        background-color: #007aff;
+        font-weight: 590;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.43px;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        margin-top: 24px;
+    }
+}
+
 .top {
     display: flex;
     flex-direction: column;

@@ -3,8 +3,30 @@ import styles from "./styles.module.scss";
 import PlusIcon from "assets/icons/plus.svg?react";
 import { Cell, CellListItem } from "shared/ui";
 import BinanceIcon from "assets/icons/binance.svg?react";
+import { useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import clsx from "clsx";
 
 export const KeysPage = () => {
+    const exchange_type = useSelector(
+        (state: RootState) => state.user.data.exchange_type
+    );
+
+    if (exchange_type === null) {
+        return (
+            <div className={clsx(styles.container, styles.exContainer)}>
+                <strong className={styles.exContainer_title}>
+                    API Key are not yet available
+                </strong>
+                <p className={styles.exContainer_ph}>
+                    At least one api key must be added to create a bot
+                </p>
+                <Link to="/keyadd" className={styles.exContainer_btn}>
+                    Add API Key
+                </Link>
+            </div>
+        );
+    }
     return (
         <div className={styles.container}>
             <div className={styles.top}>
