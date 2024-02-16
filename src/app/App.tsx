@@ -66,7 +66,7 @@ export const App: FC = () => {
                 <Routes>
                     <Route path="/" element={<ProfilePage />} />
                     <Route path="/keyadd/*" element={<AddKeyPage />} />
-                    <Route path="/bot/:id" element={<BotPage />} />
+                    <Route path="/bot/:id/*" element={<BotPage />} />
                     <Route path="/createbot/*" element={<CreateBotPage />} />
                 </Routes>
             </Router>

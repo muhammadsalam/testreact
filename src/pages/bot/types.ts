@@ -1,0 +1,44 @@
+export interface BotData {
+    purchase_price: number;
+    // io_step: 5;
+    take_step: number;
+    // user_id: 21;
+    // io_mrt: 9;
+    wallet_id: number;
+    type_first_order: "LIMIT" | "MARKET";
+    // io_step_mrt: 1;
+    take_mrt: number;
+    ammount_first_order: number;
+    price_first_order: number;
+    stop_loss: number;
+    cycles: number;
+    pair: string;
+    // active_def: true;
+    // active_tp: true;
+    // status: "STARTED";
+    strategy: "LONG";
+    def_type: "IO" | "SL";
+    take_type: "AUTO" | "MANUAL";
+    // id: 152;
+    active_buy: boolean;
+    // io_calculate_type: "LO";
+    take_profit: number;
+    existing_volume: number;
+    // io_count: 3;
+    take_ammount: number;
+    price_socket_time: null | number;
+    user_socket_time: null | number;
+    title: string;
+    orders: {
+        pair: string;
+        amount_input: number;
+        status: string;
+        order_type: string;
+        id: number;
+        price: number;
+        bot_id: number;
+        amount_output: number;
+        type: string;
+        cycle: number;
+    }[];
+}
