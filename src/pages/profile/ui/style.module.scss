@@ -194,3 +194,22 @@
         margin-left: 12px;
     }
 }
+
+.keys_btn {
+    text-decoration: none;
+
+    .navButton {
+        padding: 9px 16px;
+    }
+
+    .content {
+        color: #000;
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #8e8e93;
+    }
+}

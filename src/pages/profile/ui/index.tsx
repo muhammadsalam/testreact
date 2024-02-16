@@ -1,14 +1,13 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Cell } from "shared/ui";
+import { Cell, CellListItem } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
-import BinanceIcon from "../../../assets/icons/binance.svg?react";
+import KeysIcon from "../../../assets/icons/keys.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
-import PlusIcon from "assets/icons/plus.svg?react";
 
 export const ProfilePage: FC = () => {
     useEffect(() => {
@@ -41,22 +40,24 @@ export const ProfilePage: FC = () => {
                 <button className={styles.btn__primary}>Creat new bot</button>
             </Link>
 
-            {userData.wallet_id === null ? (
-                <Link to="keyadd" className={styles.keyadd_link}>
-                    <PlusIcon className={styles.keyadd_link_icon} />
-                    Add a key
-                </Link>
-            ) : (
-                <Cell title="KEY Settings">
-                    <Link to="/keyadd" className={styles.navButton}>
+            <Link to="/keys" className={clsx(styles.keys_btn)}>
+                <Cell>
+                    <CellListItem
+                        className={styles.navButton}
+                        topBottomPadding={0}
+                        leftRightPadding={0}
+                    >
                         <div className={styles.content}>
-                            <BinanceIcon />
-                            {userData.exchange_type}
+                            <KeysIcon />
+                            API Keys
                         </div>
-                        <ArrowRightIcon className={styles.navButton_icon} />
-                    </Link>
+                        <div className={styles.right}>
+                            1
+                            <ArrowRightIcon />
+                        </div>
+                    </CellListItem>
                 </Cell>
-            )}
+            </Link>
 
             {userData.bots?.length > 0 ? (
                 <Cell title="list of bots">

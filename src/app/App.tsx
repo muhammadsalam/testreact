@@ -12,6 +12,7 @@ import { RootState } from "./AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Loader } from "widgets/loader";
 import FontFaceObserver from "fontfaceobserver";
+import { KeysPage } from "pages/keys";
 
 export const App: FC = () => {
     useEffect(() => {
@@ -65,6 +66,7 @@ export const App: FC = () => {
             <Router>
                 <Routes>
                     <Route path="/" element={<ProfilePage />} />
+                    <Route path="/keys/*" element={<KeysPage />} />
                     <Route path="/keyadd/*" element={<AddKeyPage />} />
                     <Route path="/bot/:id/*" element={<BotPage />} />
                     <Route path="/createbot/*" element={<CreateBotPage />} />
