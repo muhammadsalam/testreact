@@ -4,6 +4,7 @@ import {
     ConfigureLayout,
     DefendsLayout,
     DurationLayout,
+    KeysListLayout,
     PairListLayout,
     ProfitLayout,
     StrategyLayout,
@@ -40,6 +41,7 @@ export const CreateBotPage = () => {
         <Routes>
             <Route path="/step1" element={<ConfigureLayout />} />
             <Route path="/step1/pair-list" element={<PairListLayout />} />
+            <Route path="/step1/keys-list" element={<KeysListLayout />} />
             <Route path="/step2" element={<StrategyLayout />} />
             <Route path="/step3" element={<DefendsLayout />} />
             <Route path="/step4" element={<ProfitLayout />} />

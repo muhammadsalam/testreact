@@ -59,7 +59,7 @@
 }
 
 .navButton {
-    padding: 13px 16px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -146,6 +146,15 @@
         transition: translate 0.123s ease-in-out;
         margin-left: 12px;
     }
+}
+
+.content_title {
+    margin: 3px 0;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.43px;
+    color: #8e8e93;
 }
 
 .cell_description {

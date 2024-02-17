@@ -2,6 +2,7 @@ import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, CurrencyIcon, Switcher } from "shared/ui";
 import ArrowRightIcon from "assets/icons/arrow.svg?react";
+import BinanceIcon from "assets/icons/binance.svg?react";
 import ChartIcon from "assets/icons/chart.svg?react";
 import { useNavigate } from "react-router-dom";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
@@ -15,9 +16,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
 
-    const { title, active_buy, active_def, active_tp } = useSelector(
-        (state: RootState) => state.newBot
-    );
+    const { title, active_buy, active_def, active_tp, exchange_type } =
+        useSelector((state: RootState) => state.newBot);
 
     const switches = {
         active_buy,
@@ -110,7 +110,7 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [title, active_buy, active_def, active_tp]);
+    }, [title, active_buy, active_def, active_tp, exchange_type]);
 
     const handleTitleChange = ({
         target: { value },
@@ -143,6 +143,24 @@ export const ConfigureLayout: FC = () => {
                         placeholder=""
                     />
                 </label>
+            </Cell>
+
+            <Cell title="API Key settings">
+                <Link to={"keys-list"} className={styles.navButton}>
+                    {exchange_type === null ? (
+                        <div className={styles.content_title}>API Key</div>
+                    ) : (
+                        <div className={styles.content}>
+                            <BinanceIcon />
+                            <div className={styles.content_info}>
+                                <div className={styles.content_info_title}>
+                                    {exchange_type.title}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <ArrowRightIcon className={styles.navButton_icon} />
+                </Link>
             </Cell>
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">

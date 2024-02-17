@@ -15,12 +15,17 @@ interface Take {
 }
 
 export interface BotModel {
+    exchange_type: {
+        title: string,
+        id: string,
+        hash: string,
+    } | null,
     user_id: number;
     wallet_id: number;
     title: string;
     pair: Pair;
     strategy: string;
-    active_buy: boolean;
+    active_buy: 'BN' | 'OS';
     ammount_first_order: string;
     type_first_order: string;
     price_first_order: string;
@@ -52,6 +57,11 @@ export interface BotModel {
 }
 
 const initialState: BotModel = {
+    exchange_type: {
+        title: "Binance",
+        id: "BINANCE",
+        hash: "0x8d5...e2dE",
+    },
     user_id: 19,
     wallet_id: 8,
     title: "",
@@ -65,7 +75,7 @@ const initialState: BotModel = {
             "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
     },
     strategy: "LONG",
-    active_buy: true,
+    active_buy: 'BN',
     ammount_first_order: "",
     type_first_order: "LIMIT",
     price_first_order: "",
