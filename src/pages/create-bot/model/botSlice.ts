@@ -57,11 +57,7 @@ export interface BotModel {
 }
 
 const initialState: BotModel = {
-    exchange_type: {
-        title: "Binance",
-        id: "BINANCE",
-        hash: "0x8d5...e2dE",
-    },
+    exchange_type: null,
     user_id: 19,
     wallet_id: 8,
     title: "",

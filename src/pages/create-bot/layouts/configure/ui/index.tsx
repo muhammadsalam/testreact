@@ -1,6 +1,6 @@
 import { FC, useEffect, ChangeEvent, FocusEvent } from "react";
 import styles from "./style.module.scss";
-import { Cell, CellListItem, CurrencyIcon, Switcher } from "shared/ui";
+import { Cell, CurrencyIcon } from "shared/ui";
 import ArrowRightIcon from "assets/icons/arrow.svg?react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import ChartIcon from "assets/icons/chart.svg?react";
@@ -16,50 +16,12 @@ import { Dispatch } from "@reduxjs/toolkit";
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
 
-    const { title, active_buy, active_def, active_tp, exchange_type } =
-        useSelector((state: RootState) => state.newBot);
-
-    const switches = {
-        active_buy,
-        active_def,
-        active_tp,
-    };
-
-    const activePair = useSelector(
-        (state: RootState) => state.pairs.activePair
-    );
+    const {
+        newBot: { title, exchange_type },
+        pairs: { activePair },
+    } = useSelector((state: RootState) => state);
 
     const dispatch: Dispatch<any> = useDispatch();
-
-    const handleContextSwitch = (
-        key: "active_buy" | "active_def" | "active_tp",
-        state?: boolean
-    ) => {
-        const newValue = state !== undefined ? state : !switches[key];
-
-        if (key === "active_buy" && !newValue) {
-            console.log(state, active_buy);
-            dispatch(setField({ field: "active_buy", value: false }));
-            dispatch(setField({ field: "active_def", value: false }));
-        } else if (key === "active_def" && newValue) {
-            dispatch(setField({ field: "active_buy", value: true }));
-            dispatch(setField({ field: "active_def", value: true }));
-        } else {
-            dispatch(setField({ field: key, value: newValue }));
-        }
-    };
-
-    const handleStrategySwitch: (state?: boolean) => void = (state) => {
-        handleContextSwitch("active_buy", state);
-    };
-
-    const handleDefendsSwitch: (state?: boolean) => void = (state) => {
-        handleContextSwitch("active_def", state);
-    };
-
-    const handleTakeProfitSwitch: (state?: boolean) => void = (state) => {
-        handleContextSwitch("active_tp", state);
-    };
 
     const validation = (): boolean => {
         const titleWithoutSpaces = title
@@ -70,11 +32,8 @@ export const ConfigureLayout: FC = () => {
             dispatch(setField({ field: "title", value: titleWithoutSpaces }));
             return false;
         }
-
-        if (!(active_buy || active_def || active_tp)) {
-            dispatch(
-                addAlert({ title: "At least one strategy must be enabled" })
-            );
+        if (exchange_type === null) {
+            dispatch(addAlert({ title: "Choose API Key" }));
             return false;
         }
 
@@ -93,24 +52,20 @@ export const ConfigureLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                console.log(active_buy, active_def, active_tp);
-                if (active_buy) navigate("/createbot/step2");
-                else if (active_tp) navigate("/createbot/step4");
-                else navigate("/createbot/step5");
+                navigate("/createbot/step2");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
         tgApp.MainButton.show();
-        tgApp.MainButton.text =
-            "Next to step 2 / " + (3 + +active_buy + +active_def + +active_tp);
+        tgApp.MainButton.text = "Next to step 2 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [title, active_buy, active_def, active_tp, exchange_type]);
+    }, [title, exchange_type]);
 
     const handleTitleChange = ({
         target: { value },
@@ -186,36 +141,6 @@ export const ConfigureLayout: FC = () => {
                     <ChartIcon />
                     Long
                 </div>
-            </Cell>
-
-            <Cell title="additionally">
-                <CellListItem color="#000">
-                    Strategy
-                    <Switcher
-                        switchData={{
-                            state: active_buy,
-                            handle: handleStrategySwitch,
-                        }}
-                    />
-                </CellListItem>
-                <CellListItem color="#000">
-                    Defends
-                    <Switcher
-                        switchData={{
-                            state: active_def,
-                            handle: handleDefendsSwitch,
-                        }}
-                    />
-                </CellListItem>
-                <CellListItem color="#000">
-                    Take Profit
-                    <Switcher
-                        switchData={{
-                            state: active_tp,
-                            handle: handleTakeProfitSwitch,
-                        }}
-                    />
-                </CellListItem>
             </Cell>
         </div>
     );
