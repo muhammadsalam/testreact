@@ -5,7 +5,8 @@
     &_select {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 5px;
+        color: #007aff;
     }
 
     &_list {
@@ -36,13 +37,21 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            user-select: none;
+
+            &_wrapper {
+                & + & {
+                    border-top: 0.33px solid rgba(60, 60, 67, 0.36);
+                }
+            }
+
+            &__disabled {
+                opacity: 0.3;
+                pointer-events: none;
+            }
 
             span {
                 font-weight: 590;
-            }
-
-            & + & {
-                border-top: 0.33px solid rgba(60, 60, 67, 0.36);
             }
 
             &:first-of-type {

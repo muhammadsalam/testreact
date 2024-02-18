@@ -25,7 +25,11 @@ export interface BotModel {
     title: string;
     pair: Pair;
     strategy: string;
-    active_buy: 'BN' | 'OS';
+    active_buy: {
+        title: string,
+        id: "BUYING_COIN" | "COINS_FROM_WALLET" | "BY_INDICATOR",
+        disabled?: boolean,
+    };
     ammount_first_order: string;
     type_first_order: string;
     price_first_order: string;
@@ -71,7 +75,10 @@ const initialState: BotModel = {
             "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
     },
     strategy: "LONG",
-    active_buy: 'BN',
+    active_buy: {
+        title: "Buying a coin",
+        id: "BUYING_COIN",
+    },
     ammount_first_order: "",
     type_first_order: "LIMIT",
     price_first_order: "",

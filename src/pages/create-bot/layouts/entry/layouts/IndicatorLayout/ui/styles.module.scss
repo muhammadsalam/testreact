@@ -1,0 +1,107 @@
+.block {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &_title {
+        margin-top: 16px;
+        font-weight: 590;
+        font-size: 22px;
+        line-height: 28px;
+        letter-spacing: -0.264px;
+        color: #000000;
+    }
+
+    &_ph {
+        margin-top: 8px;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.43px;
+        color: #000000;
+    }
+
+    &_btn {
+        margin-top: 28px;
+        border: 0;
+        display: inline;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.43px;
+        color: #007aff;
+        outline: none;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    &_wrapper {
+        max-width: 390px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 16px 16px;
+        background-color: rgba(242, 242, 247, 1);
+        border-radius: 10px 10px 0px 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        textarea {
+            resize: none;
+        }
+    }
+
+    &_top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &_title {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: -0.45px;
+            color: #000000;
+        }
+
+        &_btn {
+            border: 0;
+            line-height: 0;
+            border-radius: 50%;
+            background-color: transparent;
+            outline: none;
+        }
+    }
+
+    &_textarea {
+        padding: 16px;
+        border-radius: 10px;
+        border: 0;
+        color: #000;
+        background-color: #fff;
+        resize: none;
+        outline: none;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        letter-spacing: -0.31px;
+        height: 120px;
+
+        &::placeholder {
+            color: #8e8e93;
+        }
+    }
+}
