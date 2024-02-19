@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 type DropdownItem = {
     title: string;
-    id: string;
+    id: string | null;
     disabled?: boolean;
 };
 

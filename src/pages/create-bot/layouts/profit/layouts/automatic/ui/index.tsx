@@ -10,6 +10,17 @@ import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setField } from "pages/create-bot";
 
+const tabs: { title: string; id: "part" | "full" }[] = [
+    {
+        title: "Full",
+        id: "full",
+    },
+    {
+        title: "Part",
+        id: "part",
+    },
+];
+
 export const AutomaticLayout: FC = () => {
     const {
         take_profit,
@@ -60,6 +71,7 @@ export const AutomaticLayout: FC = () => {
 
     const takeStepData = useRange(1, 5, +take_step);
     const takeMrtData = useRange(1, 5, +take_mrt);
+    const totalAmoutForSale = useRange(1, 100, 100);
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +81,15 @@ export const AutomaticLayout: FC = () => {
             "existing_volume",
             dispatch
         );
+    };
+
+    const [activeTab, setActiveTab] = useState<"full" | "part">(tabs[0].id);
+    const handleTabChange = (tabId: "full" | "part") => {
+        if (tabId === activeTab) return;
+        if (tabId === "full") {
+            totalAmoutForSale.setValue(100);
+        }
+        setActiveTab(tabId);
     };
 
     useEffect(() => {
@@ -114,10 +135,55 @@ export const AutomaticLayout: FC = () => {
                         onChange={handleTProfitChange}
                     />
                 </CellListItem>
+            </Cell>
+
+            <Cell>
                 <CellListItem>
-                    <p className={styles.listItem_title}>
-                        First Take Profit quantity, %
-                    </p>
+                    Total amount for sale
+                    <div className={styles.tabs}>
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                className={clsx(
+                                    styles.tabs_button,
+                                    activeTab === tab.id &&
+                                        styles.tabs_button__active
+                                )}
+                                onClick={() => handleTabChange(tab.id)}
+                            >
+                                {tab.title}
+                            </button>
+                        ))}
+                    </div>
+                </CellListItem>
+                <CellListItem className="s">
+                    <Range
+                        lineClassName={styles.rangeLine}
+                        topClassName={styles.rangeTop}
+                        sliderClassName={clsx(styles.rangeWrapper, {
+                            [styles.rangeWrapperOverflow]: activeTab === "full",
+                        })}
+                        bubbleClassName={clsx({
+                            [styles.rangeBubble]: activeTab === "full",
+                        })}
+                        inputClassName={clsx({
+                            [styles.rangeInputEvents]: activeTab === "full",
+                        })}
+                        {...totalAmoutForSale}
+                        min={"1"}
+                        max={"100"}
+                        currValue={100}
+                    />
+                    <span>
+                        {activeTab === "full" ? "100" : totalAmoutForSale.value}
+                        %
+                    </span>
+                </CellListItem>
+            </Cell>
+
+            <Cell>
+                <CellListItem>
+                    <p className={styles.listItem_title}>Take Amount, %</p>
                     <input
                         type="number"
                         inputMode="numeric"

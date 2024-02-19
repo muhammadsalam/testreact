@@ -116,8 +116,10 @@ export const ManuallyLayout: FC = () => {
         }
 
         setSteps((restSteps) => {
-            const updatedSteps = [...restSteps];
-            updatedSteps[index].amount = value;
+            const updatedSteps = restSteps.map((step, stepIndex) => ({
+                ...step,
+                amount: stepIndex === index ? value : step.amount,
+            }));
             return updatedSteps;
         });
 

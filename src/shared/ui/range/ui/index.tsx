@@ -4,6 +4,11 @@ import { FC, useEffect } from "react";
 import { FlexWrapper } from "shared/ui";
 
 interface RangeProps {
+    lineClassName?: string;
+    topClassName?: string;
+    sliderClassName?: string;
+    bubbleClassName?: string;
+    inputClassName?: string;
     min: string;
     max: string;
     currValue?: number;
@@ -16,6 +21,11 @@ interface RangeProps {
 }
 
 export const Range: FC<RangeProps> = ({
+    lineClassName,
+    topClassName,
+    sliderClassName,
+    bubbleClassName,
+    inputClassName,
     step = 1,
     min,
     max,
@@ -31,7 +41,7 @@ export const Range: FC<RangeProps> = ({
 
     return (
         <div className={styles.wrapper}>
-            <FlexWrapper>
+            <FlexWrapper className={topClassName}>
                 <span className={styles.rangeText}>{min}</span>
                 <span
                     className={clsx(
@@ -43,7 +53,7 @@ export const Range: FC<RangeProps> = ({
                 </span>
                 <span className={styles.rangeText}>{max}</span>
             </FlexWrapper>
-            <div className={styles.rangeSlider}>
+            <div className={clsx(styles.rangeSlider, [sliderClassName])}>
                 <input
                     ref={innerRef}
                     value={value}
@@ -54,17 +64,17 @@ export const Range: FC<RangeProps> = ({
                     min={min}
                     max={max}
                     step={step}
-                    className={styles.rangeSlider_input}
+                    className={clsx(styles.rangeSlider_input, inputClassName)}
                 />
                 <div
                     style={{
                         left: offset + "%",
                     }}
-                    className={styles.rangeSlider_bubble}
+                    className={clsx(styles.rangeSlider_bubble, bubbleClassName)}
                 ></div>
                 <div
                     style={{ width: offset + "%" }}
-                    className={styles.rangeSlider_line}
+                    className={clsx(styles.rangeSlider_line, lineClassName)}
                 ></div>
             </div>
         </div>

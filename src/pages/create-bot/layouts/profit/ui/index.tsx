@@ -1,7 +1,6 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import clsx from "clsx";
-import { Cell } from "shared/ui";
+import { Cell, CellListItem, Dropdown } from "shared/ui";
 import { tgApp } from "shared/lib";
 import { AutomaticLayout, ManuallyLayout } from "../layouts";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,22 +10,27 @@ import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
-type Tab = {
+const profitDropdown: {
     title: string;
-    disabled: boolean;
-    id: "MANUAL" | "AUTO";
-};
-
-const tabs: Tab[] = [
+    disabled?: boolean;
+    id: "MANUAL" | "AUTO" | "BY_INDICATOR" | null;
+}[] = [
     {
         title: "Manually",
-        disabled: false,
         id: "MANUAL",
     },
     {
         title: "Automatic",
-        disabled: false,
         id: "AUTO",
+    },
+    {
+        title: "By indicator",
+        id: "BY_INDICATOR",
+        disabled: true,
+    },
+    {
+        title: "None",
+        id: null,
     },
 ];
 
@@ -47,12 +51,6 @@ export const ProfitLayout: FC = () => {
         otherStates,
     } = useSelector((state: RootState) => state.newBot);
     const dispatch: Dispatch<any> = useDispatch();
-
-    const [activeTab, setActiveTab] = useState<"MANUAL" | "AUTO">(take_type);
-    const handleTabChange = (tabId: "MANUAL" | "AUTO") => {
-        setActiveTab(tabId);
-        dispatch(setField({ field: "take_type", value: tabId }));
-    };
 
     const validation = (): boolean => {
         if (!active_buy) {
@@ -148,10 +146,6 @@ export const ProfitLayout: FC = () => {
     };
 
     useEffect(() => {
-        if (!active_tp) {
-            window.history.back();
-        }
-
         const backButtonHandler = () => {
             window.history.back();
         };
@@ -165,11 +159,7 @@ export const ProfitLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text =
-            "Next to step " +
-            (3 + +active_buy + +active_def) +
-            " / " +
-            (4 + +active_buy + +active_def);
+        tgApp.MainButton.text = "Next to step 5 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
@@ -192,11 +182,13 @@ export const ProfitLayout: FC = () => {
     ]);
 
     const render = () => {
-        switch (activeTab) {
+        switch (take_type) {
             case "MANUAL":
                 return <ManuallyLayout />;
             case "AUTO":
                 return <AutomaticLayout />;
+            default:
+                return null;
         }
     };
 
@@ -209,23 +201,24 @@ export const ProfitLayout: FC = () => {
                 </p>
             </div>
 
-            <div className={styles.tabs}>
-                {tabs.map((tab, index) => (
-                    <button
-                        key={index}
-                        className={clsx(
-                            styles.tabs_button,
-                            activeTab === tab.id && styles.tabs_button__active
+            <Cell description="By enabling a Take Profit, you will not use the existing coins in your wallet">
+                <CellListItem>
+                    <p className={styles.black_color}>Type of first order</p>
+                    <Dropdown
+                        onSwitch={(item) =>
+                            dispatch(
+                                setField({
+                                    field: "take_type",
+                                    value: item.id,
+                                })
+                            )
+                        }
+                        defaultValueIndex={profitDropdown.findIndex(
+                            (item) => item.id === take_type
                         )}
-                        onClick={() => handleTabChange(tab.id)}
-                    >
-                        {tab.title}
-                    </button>
-                ))}
-            </div>
-
-            <Cell title="Order type">
-                <div className={styles.navButton_button}>Limit Order</div>
+                        items={profitDropdown}
+                    />
+                </CellListItem>
             </Cell>
 
             {render()}
