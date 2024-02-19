@@ -52,9 +52,9 @@ export const CoinsFromWalletLayout = () => {
         }
 
         if (
-            !+existing_volume ||
-            +existing_volume <= 0 ||
-            existing_volume.length === 0
+            !+purchase_price ||
+            +purchase_price <= 0 ||
+            purchase_price.length === 0
         ) {
             dispatch(
                 addAlert({
