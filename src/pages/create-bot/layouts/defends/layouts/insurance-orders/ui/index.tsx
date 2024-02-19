@@ -72,10 +72,6 @@ export const InsuranceOrdersLayout = () => {
 
     return (
         <>
-            <Cell title="Type of insurance order">
-                <div className={styles.navButton_button}>Market Order</div>
-            </Cell>
-
             <Cell>
                 <CellListItem>
                     <p className={styles.listItem_title}>

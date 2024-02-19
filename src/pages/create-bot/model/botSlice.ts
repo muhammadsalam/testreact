@@ -34,7 +34,10 @@ export interface BotModel {
     type_first_order: string;
     price_first_order: string;
     active_def: boolean;
-    def_type: "IO" | "SL";
+    def_type: {
+        title: string;
+        id: 'IO' | 'SL' | null;
+    };
     io_calculate_type: string;
     io_count: string;
     io_step: string;
@@ -83,7 +86,10 @@ const initialState: BotModel = {
     type_first_order: "LIMIT",
     price_first_order: "",
     active_def: true,
-    def_type: "IO",
+    def_type: {
+        title: "Insurance orders",
+        id: "IO",
+    },
     io_calculate_type: "LO",
     io_count: "",
     io_step: "",

@@ -1,6 +1,5 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { clsx } from "clsx";
 import { tgApp } from "shared/lib";
 import { InsuranceOrdersLayout, StopLossLayout } from "../layouts";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,21 +8,25 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { setField } from "pages/create-bot";
 import { addAlert, deleteAlert } from "entities/notification";
 import { useNavigate } from "react-router-dom";
+import { Cell, CellListItem, Dropdown } from "shared/ui";
+
+const defendsDropdown = [
+    {
+        title: "Insurance orders",
+        id: "IO",
+    },
+    {
+        title: "Stop Loss",
+        id: "SL",
+    },
+    {
+        title: "None",
+        id: "NONE",
+    },
+];
 
 export const DefendsLayout: FC = () => {
     const navigate = useNavigate();
-    const tabs = [
-        {
-            title: "Insurance orders",
-            disabled: false,
-            id: "IO",
-        },
-        {
-            title: "Stop Loss",
-            disabled: false,
-            id: "SL",
-        },
-    ];
 
     const {
         def_type,
@@ -39,14 +42,8 @@ export const DefendsLayout: FC = () => {
     } = useSelector((state: RootState) => state.newBot);
     const dispatch: Dispatch<any> = useDispatch();
 
-    const [activeTab, setActiveTab] = useState<string>(def_type);
-    const handleTabChange = (tabId: "IO" | "SL") => {
-        setActiveTab(tabId);
-        dispatch(setField({ field: "def_type", value: tabId }));
-    };
-
     const validation = (): boolean => {
-        if (def_type === "IO") {
+        if (def_type.id === "IO") {
             if (+io_count < 1 || +io_count > 10) {
                 dispatch(
                     addAlert({
@@ -81,7 +78,7 @@ export const DefendsLayout: FC = () => {
             }
         }
 
-        if (def_type === "SL") {
+        if (def_type.id === "SL") {
             if (+stop_loss < 1 || +stop_loss > 99) {
                 dispatch(
                     addAlert({ title: "stop loss should be between 1 and 99" })
@@ -94,10 +91,6 @@ export const DefendsLayout: FC = () => {
     };
 
     useEffect(() => {
-        if (!active_def) {
-            window.history.back();
-        }
-
         const backButtonHandler = () => {
             window.history.back();
         };
@@ -112,7 +105,7 @@ export const DefendsLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text = "Next to step 4 / " + (5 + +active_tp);
+        tgApp.MainButton.text = "Next to step 4 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
@@ -134,7 +127,7 @@ export const DefendsLayout: FC = () => {
     ]);
 
     const render = () => {
-        switch (activeTab) {
+        switch (def_type.id) {
             case "IO":
                 return <InsuranceOrdersLayout />;
             case "SL":
@@ -149,25 +142,29 @@ export const DefendsLayout: FC = () => {
             <div className={styles.top}>
                 <h1 className={styles.top_title}>Defends</h1>
                 <p className={styles.top_subtitle}>
-                    Select the type of trading for detailed bot setup
+                    Select Insurance orders or Stop loss for detailed bot setup
                 </p>
             </div>
 
-            <div className={styles.tabs}>
-                {tabs.map((tab, index) => (
-                    <button
-                        key={index}
-                        className={clsx(
-                            styles.tabs_button,
-                            activeTab === tab.id && styles.tabs_button__active
+            <Cell description="By enabling a defends, you will not use the existing coins in your wallet">
+                <CellListItem>
+                    <p className={styles.black_color}>Defends</p>
+                    <Dropdown
+                        onSwitch={(item) =>
+                            dispatch(
+                                setField({
+                                    field: "def_type",
+                                    value: item,
+                                })
+                            )
+                        }
+                        defaultValueIndex={defendsDropdown.findIndex(
+                            (item) => item.id === def_type.id
                         )}
-                        onClick={() => handleTabChange(tab.id as "IO" | "SL")} // Use handleTabChange instead of setActiveTab
-                        disabled={tab.disabled}
-                    >
-                        {tab.title}
-                    </button>
-                ))}
-            </div>
+                        items={defendsDropdown}
+                    />
+                </CellListItem>
+            </Cell>
 
             {render()}
         </div>
