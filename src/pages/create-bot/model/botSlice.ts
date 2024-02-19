@@ -45,7 +45,7 @@ export interface BotModel {
     io_step_mrt: string;
     stop_loss: string;
     active_tp: boolean;
-    take_type: "MANUAL" | "AUTO";
+    take_type: "MANUAL" | "AUTO" | "BY_INDICATOR" | null;
     take_profit: string;
     take_amount: string;
     take_step: string;

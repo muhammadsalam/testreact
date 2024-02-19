@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
-import { handleInputFocus, handleInputScroll } from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import clsx from "clsx";
 import { inputNumber } from "features/input-number";
 import { useRange } from "shared/ui/range/libs/use-range";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setField } from "pages/create-bot";
+import { addAlert, deleteAlert } from "entities/notification";
+import { useNavigate } from "react-router-dom";
 
 const tabs: { title: string; id: "part" | "full" }[] = [
     {
@@ -102,6 +104,59 @@ export const AutomaticLayout: FC = () => {
             takeMrtData.setValue(1);
         }
     }, [otherStates]);
+
+    const validation = () => {
+        if (+take_profit <= 1) {
+            dispatch(addAlert({ title: "Invalid take profit (should be >1)" }));
+            return false;
+        }
+
+        if (+take_amount < 1 || +take_amount > 100) {
+            dispatch(
+                addAlert({
+                    title: "Invalid first take profit quantity (should be 0< and >100)",
+                })
+            );
+            return false;
+        }
+
+        if (otherStates.take_step && (+take_step < 1 || +take_step > 5)) {
+            dispatch(
+                addAlert({
+                    title: "Invalid step take profit (should be 1< and >5)",
+                })
+            );
+            return false;
+        }
+
+        if (otherStates.take_mrt && (+take_mrt < 1 || +take_mrt > 5)) {
+            dispatch(
+                addAlert({
+                    title: "Invalid martingale take profit (should be 1< and >5)",
+                })
+            );
+            return false;
+        }
+
+        return true;
+    };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const mainButtonHandler = () => {
+            if (validation()) {
+                dispatch(deleteAlert());
+                navigate("/createbot/step5");
+            }
+        };
+
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        return () => {
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, [otherStates, take_profit, take_amount, take_mrt, take_step]);
 
     return (
         <>

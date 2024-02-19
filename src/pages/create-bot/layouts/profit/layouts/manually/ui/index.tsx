@@ -1,14 +1,15 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
-import { handleInputFocus, handleInputScroll } from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { inputNumber } from "features/input-number";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
-import { addAlert } from "entities/notification";
+import { addAlert, deleteAlert } from "entities/notification";
 import { setField } from "pages/create-bot";
+import { useNavigate } from "react-router-dom";
 
 interface step {
     step: string;
@@ -144,6 +145,63 @@ export const ManuallyLayout: FC = () => {
             dispatch
         );
     };
+
+    const validation = () => {
+        if (+takes < 0) {
+            dispatch(addAlert({ title: "Invalid Takes (should be >0)" }));
+            return false;
+        }
+
+        for (let i = 0; i < takes.length; i++) {
+            if (+takes[i].step < 1) {
+                dispatch(
+                    addAlert({
+                        title:
+                            "Invalid intermediate take profit in step" +
+                            (i + 1) +
+                            " (should be >0)",
+                    })
+                );
+                return false;
+            }
+
+            if (+takes[i].amount < 1 || +takes[i].amount > 100) {
+                dispatch(
+                    addAlert({
+                        title:
+                            "Invalid amount in step" +
+                            (i + 1) +
+                            " (should be 0< and >100)",
+                    })
+                );
+                return false;
+            }
+        }
+
+        if (takes.reduce((total, take) => total + +take.amount, 0) > 100) {
+            dispatch(addAlert({ title: "Total amount should be <= 100%" }));
+            return false;
+        }
+
+        return true;
+    };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const mainButtonHandler = () => {
+            if (validation()) {
+                dispatch(deleteAlert());
+                navigate("/createbot/step5");
+            }
+        };
+
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        return () => {
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, [takes]);
 
     return (
         <>
