@@ -1,5 +1,5 @@
 .container {
-    max-width: 390px;
+    max-width: 600px;
     padding: 24px 16px;
     margin: 0 auto;
     display: flex;
@@ -117,9 +117,22 @@
     border: 0;
     color: #000;
     text-decoration: none;
+    gap: 12px;
 
-    & + & {
-        border-top: 1px solid #f2f2f7;
+    &__keys {
+        padding: 9px 16px;
+
+        .content {
+            padding: 13px 16px 13px 0 !important;
+            margin: -13px -16px -13px 0 !important;
+        }
+
+        .right {
+            color: rgba(142, 142, 147, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
     }
 
     &:first-of-type {
@@ -140,10 +153,17 @@
         text-transform: uppercase;
     }
 
+    & + & .content {
+        border-top: 1px solid #f2f2f7;
+    }
+
     .content {
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        padding: 10px 16px 10px 0;
+        margin: -10px -16px -10px 0;
+        flex-grow: 1;
 
         &_info {
             display: flex;
@@ -200,24 +220,5 @@
     &_icon {
         transition: translate 0.123s ease-in-out;
         margin-left: 12px;
-    }
-}
-
-.keys_btn {
-    text-decoration: none;
-
-    .navButton {
-        padding: 9px 16px;
-    }
-
-    .content {
-        color: #000;
-    }
-
-    .right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: #8e8e93;
     }
 }

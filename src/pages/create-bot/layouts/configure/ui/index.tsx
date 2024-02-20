@@ -95,7 +95,7 @@ export const ConfigureLayout: FC = () => {
                         }}
                         onChange={(event) => handleTitleChange(event)}
                         className={styles.input}
-                        placeholder=""
+                        placeholder="Bot name"
                     />
                 </label>
             </Cell>

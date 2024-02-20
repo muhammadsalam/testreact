@@ -211,25 +211,21 @@ export const AutomaticLayout: FC = () => {
                         ))}
                     </div>
                 </CellListItem>
-                <CellListItem className="s">
-                    <Range
-                        lineClassName={styles.rangeLine}
-                        topClassName={styles.rangeTop}
-                        sliderClassName={clsx(styles.rangeWrapper, {
-                            [styles.rangeWrapperOverflow]: activeTab === "full",
-                        })}
-                        bubbleClassName={clsx({
-                            [styles.rangeBubble]: activeTab === "full",
-                        })}
-                        inputClassName={clsx({
-                            [styles.rangeInputEvents]: activeTab === "full",
-                        })}
-                        {...totalAmoutForSale}
-                        min={"1"}
-                        max={"100"}
-                        currValue={100}
-                    />
-                    <span>
+                <CellListItem>
+                    {activeTab === "full" ? (
+                        <div className={styles.range_line}></div>
+                    ) : (
+                        <Range
+                            lineClassName={styles.rangeLine}
+                            topClassName={styles.rangeTop}
+                            sliderClassName={clsx(styles.rangeWrapper)}
+                            {...totalAmoutForSale}
+                            min={"1"}
+                            max={"100"}
+                            currValue={100}
+                        />
+                    )}
+                    <span className={styles.totalAmountSpan}>
                         {activeTab === "full" ? "100" : totalAmoutForSale.value}
                         %
                     </span>

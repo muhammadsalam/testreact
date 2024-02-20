@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Cell, CellListItem } from "shared/ui";
+import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import KeysIcon from "../../../assets/icons/keys.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
@@ -41,24 +41,21 @@ export const ProfilePage: FC = () => {
                 <button className={styles.btn__primary}>Creat new bot</button>
             </Link>
 
-            <Link to="/keys" className={clsx(styles.keys_btn)}>
-                <Cell>
-                    <CellListItem
-                        className={styles.navButton}
-                        topBottomPadding={0}
-                        leftRightPadding={0}
-                    >
-                        <div className={styles.content}>
-                            <KeysIcon />
-                            API Keys
-                        </div>
+            <Cell>
+                <Link
+                    to="/keys"
+                    className={clsx(styles.navButton, styles.navButton__keys)}
+                >
+                    <KeysIcon />
+                    <div className={styles.content}>
+                        API Keys
                         <div className={styles.right}>
                             {userData.wallets.count}
                             <ArrowRightIcon />
                         </div>
-                    </CellListItem>
-                </Cell>
-            </Link>
+                    </div>
+                </Link>
+            </Cell>
 
             {userData.bots?.length > 0 ? (
                 <Cell title="list of bots">
@@ -68,8 +65,8 @@ export const ProfilePage: FC = () => {
                             className={styles.navButton}
                             key={index}
                         >
+                            <BtcusdtIcon />
                             <div className={styles.content}>
-                                <BtcusdtIcon />
                                 <div className={styles.content_info}>
                                     <div className={styles.content_info_title}>
                                         {item.pair}
@@ -87,8 +84,10 @@ export const ProfilePage: FC = () => {
                                         </span>
                                     </div> */}
                                 </div>
+                                <ArrowRightIcon
+                                    className={styles.navButton_icon}
+                                />
                             </div>
-                            <ArrowRightIcon className={styles.navButton_icon} />
                         </Link>
                     ))}
                     {/* <button className={styles.navButton}>

@@ -1,5 +1,5 @@
 .container {
-    max-width: 390px;
+    max-width: 600px;
     padding: 24px 16px;
     margin: 0 auto;
     display: flex;
@@ -210,7 +210,7 @@
     }
 
     &::placeholder {
-        color: #000;
+        color: rgba(185, 185, 186, 1);
     }
 
     &_label {

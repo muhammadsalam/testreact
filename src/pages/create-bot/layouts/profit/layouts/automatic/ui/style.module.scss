@@ -3,13 +3,20 @@
 }
 
 .rangeWrapper {
-    max-width: 260px;
     border-radius: 10px;
 
     &::before,
     &:after {
         content: none;
     }
+}
+
+.range_line {
+    height: 4px;
+    width: 100%;
+    background-color: #0a84ff;
+    margin: 15px 6px;
+    border-radius: 10px;
 }
 
 .rangeInputEvents {
@@ -22,6 +29,14 @@
 
 .rangeBubble {
     display: none;
+}
+
+.totalAmountSpan {
+    margin-left: 12px;
+    width: 100%;
+    max-width: 44px;
+    display: block;
+    text-align: right;
 }
 
 .navButton {

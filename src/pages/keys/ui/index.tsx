@@ -56,21 +56,19 @@ export const KeysPage = () => {
             </Link>
 
             <Cell className={styles.list}>
-                {wallets.map((wallet) => {
-                    return (
-                        <button className={styles.button}>
-                            <BinanceIcon />
-                            <div className={styles.button_info}>
-                                <b className={styles.button_title}>
-                                    {wallet.exchange}
-                                </b>
-                                <p className={styles.button_ph}>
-                                    API key: {wallet.api_key}
-                                </p>
-                            </div>
-                        </button>
-                    );
-                })}
+                {wallets.map((wallet) => (
+                    <button className={styles.button} key={wallet.id}>
+                        <BinanceIcon />
+                        <div className={styles.button_info}>
+                            <b className={styles.button_title}>
+                                {wallet.exchange}
+                            </b>
+                            <p className={styles.button_ph}>
+                                API key: {wallet.api_key}
+                            </p>
+                        </div>
+                    </button>
+                ))}
             </Cell>
         </div>
     );

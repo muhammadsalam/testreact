@@ -97,7 +97,7 @@ const initialState: BotModel = {
     io_step_mrt: "1",
     stop_loss: "",
     active_tp: true,
-    take_type: "AUTO",
+    take_type: "MANUAL",
     existing_volume: "",
     purchase_price: "",
     take_profit: "",
