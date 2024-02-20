@@ -32,14 +32,20 @@
     border: none;
     background-color: #fff;
 
-    & + & {
-        border-top: 1px solid #f2f2f7;
+    & + & &_info_wrapper {
+        border-top: 1px solid rgba(242, 242, 247, 1);
     }
 
     &_info {
         display: flex;
         flex-direction: column;
         text-align: left;
+
+        &_wrapper {
+            flex-grow: 1;
+            padding: 10px 16px 10px 0;
+            margin: -10px -16px -10px 0;
+        }
 
         &_title {
             font-weight: 400;

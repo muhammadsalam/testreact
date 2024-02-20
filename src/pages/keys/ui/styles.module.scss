@@ -80,7 +80,23 @@
 .button {
     display: flex;
     align-items: center;
+    text-align: left;
     gap: 10px;
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    padding: 10px 16px;
+
+    & + & &_info {
+        border-top: 1px solid rgba(242, 242, 247, 1);
+        padding: 10px 16px 10px 0;
+        margin: -10px -16px -10px 0;
+    }
+
+    &_info {
+        flex-grow: 1;
+    }
 
     &_title {
         font-weight: 400;

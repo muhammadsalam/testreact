@@ -3,9 +3,9 @@ import { FC, memo, useCallback, useEffect, useState } from "react";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import { useSelector } from "react-redux";
-// import { setActive } from "../../pair-list/model/pairSlice";
 import styles from "./styles.module.scss";
 import { RootState } from "app/AppStore";
+import { FlexWrapper } from "shared/ui";
 
 const tempArrForKeys = [
     {
@@ -45,11 +45,15 @@ const KeyItem: FC<{
     return (
         <button className={styles.item} onClick={() => handlePairClick(item)}>
             <BinanceIcon />
-            <div className={styles.item_info}>
-                <div className={styles.item_info_title}>{item.title}</div>
-                <div className={styles.item_info_ph}>API key: {item.hash}</div>
-            </div>
-            {isActive && <CheckmarkIcon className={styles.item_check} />}
+            <FlexWrapper className={styles.item_info_wrapper}>
+                <div className={styles.item_info}>
+                    <div className={styles.item_info_title}>{item.title}</div>
+                    <div className={styles.item_info_ph}>
+                        API key: {item.hash}
+                    </div>
+                </div>
+                {isActive && <CheckmarkIcon className={styles.item_check} />}
+            </FlexWrapper>
         </button>
     );
 });
