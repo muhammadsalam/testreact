@@ -71,8 +71,8 @@ export const AutomaticLayout: FC = () => {
         );
     };
 
-    const takeStepData = useRange(1, 5, +take_step);
-    const takeMrtData = useRange(1, 5, +take_mrt);
+    const takeStepData = useRange(0.5, 5, +take_step);
+    const takeMrtData = useRange(0.5, 5, +take_mrt);
     const totalAmoutForSale = useRange(1, 100, 100);
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
@@ -120,7 +120,7 @@ export const AutomaticLayout: FC = () => {
             return false;
         }
 
-        if (otherStates.take_step && (+take_step < 1 || +take_step > 5)) {
+        if (otherStates.take_step && (+take_step < 0.5 || +take_step > 5)) {
             dispatch(
                 addAlert({
                     title: "Invalid step take profit (should be 1< and >5)",
@@ -129,7 +129,7 @@ export const AutomaticLayout: FC = () => {
             return false;
         }
 
-        if (otherStates.take_mrt && (+take_mrt < 1 || +take_mrt > 5)) {
+        if (otherStates.take_mrt && (+take_mrt < 0.5 || +take_mrt > 5)) {
             dispatch(
                 addAlert({
                     title: "Invalid martingale take profit (should be 1< and >5)",
@@ -269,7 +269,7 @@ export const AutomaticLayout: FC = () => {
                 >
                     <Range
                         {...takeStepData}
-                        min="1.0"
+                        min="0.5"
                         max="5"
                         step={0.1}
                         currValue={+take_step}
@@ -296,7 +296,7 @@ export const AutomaticLayout: FC = () => {
                 >
                     <Range
                         {...takeMrtData}
-                        min="1.0"
+                        min="0.5"
                         max="5"
                         currValue={+take_mrt}
                         step={0.1}

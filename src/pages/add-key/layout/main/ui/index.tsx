@@ -10,6 +10,7 @@ import axios from "axios";
 import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "app/AppStore";
+import { WalletType, addWallet } from "shared/API/userSlice";
 
 export const MainLayout: FC<{ activeExchange: string }> = memo(
     ({ activeExchange }) => {
@@ -74,8 +75,6 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                         },
                     };
 
-                    console.log(user.token, config, data);
-
                     axios
                         .post(
                             "https://back.anestheziabot.tra.infope9l.beget.tech/v1/save_keys",
@@ -83,17 +82,21 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                             config
                         )
                         .then((res) => res.data)
-                        .then((data) => {
-                            if (data.status === "success") {
-                                // dispatch(exchangeType(activeExchange));
-                                tgApp.BackButton.hide();
-                                navigate("/");
+                        .then(
+                            (data: { status: string; wallet: WalletType }) => {
+                                if (data.status === "success") {
+                                    dispatch(addWallet(data.wallet));
+                                    tgApp.BackButton.hide();
+                                    navigate("/");
+                                }
                             }
-                        })
-                        .catch(() => {
-                            // тут изменить потом
-                            // addAlert({ title: error.response.data.detail });
-                            dispatch(addAlert({ title: "Не верные данные" }));
+                        )
+                        .catch((error) => {
+                            dispatch(
+                                addAlert({
+                                    title: error.response.data.detail[0].msg,
+                                })
+                            );
                         });
                 }
             };
