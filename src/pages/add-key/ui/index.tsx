@@ -2,12 +2,9 @@ import { useState } from "react";
 import styles from "./style.module.scss";
 import { ExchangeSelectLayout, MainLayout } from "../layout";
 import { Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 export const AddKeyPage = () => {
-    const selectExchangeType = (state: any) => state.user.data.exchange_type;
-    const exchange_type = useSelector(selectExchangeType);
-    const [activeExchange, setActiveExchange] = useState(exchange_type);
+    const [activeExchange, setActiveExchange] = useState("");
 
     return (
         <div className={styles.container}>

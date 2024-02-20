@@ -2,9 +2,7 @@ import { tgApp } from "shared/lib";
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import BinanceIcon from "assets/icons/binance.svg?react";
-import { useSelector } from "react-redux";
 import styles from "./styles.module.scss";
-import { RootState } from "app/AppStore";
 import { FlexWrapper } from "shared/ui";
 
 const tempArrForKeys = [
@@ -61,13 +59,10 @@ const KeyItem: FC<{
 export const KeysListLayout = () => {
     // const dispatch = useDispatch();
 
-    const exchange_type = useSelector(
-        (state: RootState) => state.user.data.exchange_type
-    );
     const [localActiveKey, setLocalActiveKey] = useState({
-        title: exchange_type,
-        id: exchange_type,
-        hash: "0x8d5...e2dE",
+        title: null,
+        id: null,
+        hash: null,
     });
 
     useEffect(() => {

@@ -6,15 +6,14 @@ import { FC, memo, useEffect, useState } from "react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import clsx from "clsx";
 import axios from "axios";
-import { exchangeType } from "shared/API/userSlice";
 import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
+import { RootState } from "app/AppStore";
 
 export const MainLayout: FC<{ activeExchange: string }> = memo(
     ({ activeExchange }) => {
-        const user = useSelector((state: any) => state.user);
+        const user = useSelector((state: RootState) => state.user);
         const dispatch: Dispatch<any> = useDispatch();
 
         const [apikey, setApikey] = useState("");
@@ -86,7 +85,7 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                         .then((res) => res.data)
                         .then((data) => {
                             if (data.status === "success") {
-                                dispatch(exchangeType(activeExchange));
+                                // dispatch(exchangeType(activeExchange));
                                 tgApp.BackButton.hide();
                                 navigate("/");
                             }
@@ -120,14 +119,20 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                         to="/keyadd/select-exchange"
                         className={styles.navButton}
                     >
-                        <div className={styles.content}>
-                            <BinanceIcon />
-                            <div className={styles.content_info}>
-                                <div className={styles.content_info_title}>
-                                    {activeExchange}
+                        {activeExchange !== "" ? (
+                            <div className={styles.content}>
+                                <BinanceIcon />
+                                <div className={styles.content_info}>
+                                    <div className={styles.content_info_title}>
+                                        {activeExchange}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ) : (
+                            <span className={styles.placeholder_color}>
+                                Select an exchange
+                            </span>
+                        )}
                         <ArrowRightIcon className={styles.navButton_icon} />
                     </Link>
                 </Cell>
@@ -136,19 +141,12 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                     <label className={styles.input_label}>
                         <input
                             type="text"
-                            className={clsx(styles.input, {
-                                [styles.input__placeholder]:
-                                    user.data.exchange_type === activeExchange,
-                            })}
+                            className={styles.input}
                             onFocus={handleInputFocus}
                             onClick={handleInputScroll}
                             value={apikey}
                             onChange={handleApikeyChange}
-                            placeholder={
-                                user.data.exchange_type === activeExchange
-                                    ? "*****"
-                                    : "API key"
-                            }
+                            placeholder="API key"
                         />
                     </label>
                 </Cell>
@@ -157,19 +155,12 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                     <label className={styles.input_label}>
                         <input
                             type="text"
-                            className={clsx(styles.input, {
-                                [styles.input__placeholder]:
-                                    user.data.exchange_type === activeExchange,
-                            })}
+                            className={styles.input}
                             onFocus={handleInputFocus}
                             onClick={handleInputScroll}
                             value={secretKey}
                             onChange={handleSecretKeyChange}
-                            placeholder={
-                                user.data.exchange_type === activeExchange
-                                    ? "*****"
-                                    : "Secret key"
-                            }
+                            placeholder="Secret key"
                         />
                     </label>
                 </Cell>

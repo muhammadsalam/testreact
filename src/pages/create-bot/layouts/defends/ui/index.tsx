@@ -60,7 +60,7 @@ export const DefendsLayout: FC = () => {
                 );
                 return false;
             }
-            if (def_mrt && (+io_mrt < 1 || +io_mrt > 5)) {
+            if (def_mrt && (+io_mrt < 0.5 || +io_mrt > 5)) {
                 dispatch(
                     addAlert({
                         title: "martingale of insurance orders should be between 1 and 5",
@@ -68,7 +68,7 @@ export const DefendsLayout: FC = () => {
                 );
                 return false;
             }
-            if (def_step_mrt && (+io_step_mrt < 1 || +io_step_mrt > 5)) {
+            if (def_step_mrt && (+io_step_mrt < 0.5 || +io_step_mrt > 5)) {
                 dispatch(
                     addAlert({
                         title: "dynamic price of insurance orders should be between 1 and 5",

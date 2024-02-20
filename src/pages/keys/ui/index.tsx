@@ -12,6 +12,7 @@ import { tgApp } from "shared/lib";
 export const KeysPage = () => {
     useEffect(() => {
         tgApp.BackButton.show();
+        tgApp.MainButton.hide();
 
         const backButtonHandler = () => {
             window.history.back();
@@ -24,11 +25,11 @@ export const KeysPage = () => {
         };
     }, []);
 
-    const exchange_type = useSelector(
-        (state: RootState) => state.user.data.exchange_type
+    const wallets = useSelector(
+        (state: RootState) => state.user.data.wallets.data
     );
 
-    if (exchange_type === null) {
+    if (wallets.length === 0) {
         return (
             <div className={clsx(styles.container, styles.exContainer)}>
                 <strong className={styles.exContainer_title}>
@@ -55,34 +56,21 @@ export const KeysPage = () => {
             </Link>
 
             <Cell className={styles.list}>
-                <button className={styles.button}>
-                    <BinanceIcon />
-                    <div className={styles.button_info}>
-                        <b className={styles.button_title}>Binance</b>
-                        <p className={styles.button_ph}>
-                            API key: 0x8d5...e2dE
-                        </p>
-                    </div>
-                </button>
-
-                <button className={styles.button}>
-                    <BinanceIcon />
-                    <div className={styles.button_info}>
-                        <b className={styles.button_title}>Binance Testnet</b>
-                        <p className={styles.button_ph}>
-                            API key: 0x8d5...e2dE
-                        </p>
-                    </div>
-                </button>
-                <button className={styles.button}>
-                    <BinanceIcon />
-                    <div className={styles.button_info}>
-                        <b className={styles.button_title}>Binance</b>
-                        <p className={styles.button_ph}>
-                            API key: 0x8d5...e2dE
-                        </p>
-                    </div>
-                </button>
+                {wallets.map((wallet) => {
+                    return (
+                        <button className={styles.button}>
+                            <BinanceIcon />
+                            <div className={styles.button_info}>
+                                <b className={styles.button_title}>
+                                    {wallet.exchange}
+                                </b>
+                                <p className={styles.button_ph}>
+                                    API key: {wallet.api_key}
+                                </p>
+                            </div>
+                        </button>
+                    );
+                })}
             </Cell>
         </div>
     );

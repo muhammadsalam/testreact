@@ -55,8 +55,8 @@ export const InsuranceOrdersLayout = () => {
         dispatch(setField({ field: "io_step_mrt", value: value }));
     };
 
-    const martingaleRangeData = useRange(1, 5, +io_mrt);
-    const dynamicPriceRangeData = useRange(1, 5, +io_step_mrt);
+    const martingaleRangeData = useRange(0.5, 5, +io_mrt);
+    const dynamicPriceRangeData = useRange(0.5, 5, +io_step_mrt);
 
     useEffect(() => {
         if (!otherStates.def_mrt) {
@@ -124,7 +124,7 @@ export const InsuranceOrdersLayout = () => {
                 >
                     <Range
                         {...martingaleRangeData}
-                        min={"1.0"}
+                        min={"0.5"}
                         max={"5"}
                         currValue={+io_mrt}
                         step={0.1}
@@ -151,7 +151,7 @@ export const InsuranceOrdersLayout = () => {
                 >
                     <Range
                         {...dynamicPriceRangeData}
-                        min={"1.0"}
+                        min={"0.5"}
                         max={"5"}
                         step={0.1}
                         currValue={+io_step_mrt}

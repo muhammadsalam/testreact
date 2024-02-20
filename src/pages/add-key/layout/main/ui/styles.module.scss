@@ -21,8 +21,12 @@
     }
 }
 
+.placeholder_color {
+    color: rgba(185, 185, 186, 1);
+}
+
 .navButton {
-    padding: 10px 16px;
+    padding: 13px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;

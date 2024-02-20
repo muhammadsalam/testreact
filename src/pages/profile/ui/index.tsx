@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
+import { RootState } from "app/AppStore";
 
 export const ProfilePage: FC = () => {
     useEffect(() => {
@@ -15,16 +16,16 @@ export const ProfilePage: FC = () => {
         tgApp.BackButton.hide();
     }, []);
 
-    const userData = useSelector((state: any) => state.user.data);
+    const userData = useSelector((state: RootState) => state.user.data);
 
     return (
         <div className={styles.container}>
             <div className={styles.top}>
                 <p className={styles.top_title}>Deposit</p>
                 <strong className={styles.top_strong}>
-                    {userData.used_balance} <span>$</span>
+                    {userData.used_balance || "0.00"} <span>$</span>
                 </strong>
-                {+userData.profit !== 0 && (
+                {/* {+userData.profit !== 0 && (
                     <span
                         className={clsx(styles.top_sub, {
                             [styles.top_sub__red]: userData.profit < 0,
@@ -33,7 +34,7 @@ export const ProfilePage: FC = () => {
                         {userData.profit > 0 && "+"}
                         {userData.profit} $
                     </span>
-                )}
+                )} */}
             </div>
 
             <Link to="createbot/step1" style={{ display: "contents" }}>
@@ -52,7 +53,7 @@ export const ProfilePage: FC = () => {
                             API Keys
                         </div>
                         <div className={styles.right}>
-                            1
+                            {userData.wallets.count}
                             <ArrowRightIcon />
                         </div>
                     </CellListItem>
