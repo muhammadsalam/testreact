@@ -62,12 +62,7 @@ export const Dropdown: FC<
                 <span className={placeholderClassName}>
                     {items[activeELemIndex].title}
                 </span>
-                <ArrowBottomIcon
-                    style={{
-                        transition: "rotate .123s ease-in",
-                        rotate: isDropdownActive ? "90deg" : "0deg",
-                    }}
-                />
+                <ArrowBottomIcon />
             </div>
 
             <div
