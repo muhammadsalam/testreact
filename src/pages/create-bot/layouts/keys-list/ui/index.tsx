@@ -4,36 +4,18 @@ import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import BinanceIcon from "assets/icons/binance.svg?react";
 import styles from "./styles.module.scss";
 import { FlexWrapper } from "shared/ui";
-
-const tempArrForKeys = [
-    {
-        title: "Binance",
-        id: "BINANCE",
-        hash: "0x8d5...e2dE",
-    },
-    {
-        title: "Binance Testnet",
-        id: "BINANCE_TESTNET",
-        hash: "0x8d5...e2sE",
-    },
-    {
-        title: "Binance",
-        id: "BINANCE",
-        hash: "0x8d5...e3dE",
-    },
-];
+import { WalletType } from "shared/API/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { setField } from "pages/create-bot";
 
 const KeyItem: FC<{
-    item: {
-        title: string;
-        id: string;
-        hash: string;
-    };
+    item: WalletType;
     isActive: any;
     setLocalActiveKey: (value: any) => void;
 }> = memo(({ isActive, setLocalActiveKey, item }) => {
     const handlePairClick = useCallback(
-        (key: { title: string; id: string; hash: string }) => {
+        (key: WalletType) => {
             if (isActive) return;
             setLocalActiveKey(key);
         },
@@ -45,9 +27,11 @@ const KeyItem: FC<{
             <BinanceIcon />
             <FlexWrapper className={styles.item_info_wrapper}>
                 <div className={styles.item_info}>
-                    <div className={styles.item_info_title}>{item.title}</div>
+                    <div className={styles.item_info_title}>
+                        {item.exchange}
+                    </div>
                     <div className={styles.item_info_ph}>
-                        API key: {item.hash}
+                        API key: {item.api_key}
                     </div>
                 </div>
                 {isActive && <CheckmarkIcon className={styles.item_check} />}
@@ -57,12 +41,15 @@ const KeyItem: FC<{
 });
 
 export const KeysListLayout = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const tempArrForKeys = useSelector(
+        (state: RootState) => state.user.data.wallets.data
+    );
 
-    const [localActiveKey, setLocalActiveKey] = useState({
-        title: null,
-        id: null,
-        hash: null,
+    const [localActiveKey, setLocalActiveKey] = useState<WalletType>({
+        id: 0,
+        exchange: "",
+        api_key: "",
     });
 
     useEffect(() => {
@@ -72,7 +59,9 @@ export const KeysListLayout = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            // dispatch(setActive(localActiveKey)); // когда будет готово API
+            dispatch(
+                setField({ field: "wallet_id", value: localActiveKey.id })
+            );
             // пока нельзя выбрать, потому что API не готово
             window.history.back();
         };
@@ -95,7 +84,7 @@ export const KeysListLayout = () => {
                 {tempArrForKeys.map((keyItem, index) => (
                     <KeyItem
                         item={keyItem}
-                        isActive={localActiveKey.hash === keyItem.hash}
+                        isActive={localActiveKey.api_key === keyItem.api_key}
                         key={index}
                         setLocalActiveKey={setLocalActiveKey}
                     />

@@ -15,13 +15,8 @@ interface Take {
 }
 
 export interface BotModel {
-    exchange_type: {
-        title: string,
-        id: string,
-        hash: string,
-    } | null,
-    user_id: number;
-    wallet_id: number;
+    user_id: number | null;
+    wallet_id: number | null;
     title: string;
     pair: Pair;
     strategy: string;
@@ -64,9 +59,8 @@ export interface BotModel {
 }
 
 const initialState: BotModel = {
-    exchange_type: null,
-    user_id: 19,
-    wallet_id: 8,
+    user_id: null,
+    wallet_id: null,
     title: "",
     pair: {
         id: "ETHUSDT",

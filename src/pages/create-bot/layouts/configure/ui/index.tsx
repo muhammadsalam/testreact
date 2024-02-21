@@ -17,9 +17,13 @@ export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
 
     const {
-        newBot: { title, exchange_type },
+        newBot: { title, wallet_id },
         pairs: { activePair },
     } = useSelector((state: RootState) => state);
+
+    const wallets = useSelector(
+        (state: RootState) => state.user.data.wallets.data
+    );
 
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -65,7 +69,7 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [title, exchange_type]);
+    }, [title, wallet_id]);
 
     const handleTitleChange = ({
         target: { value },
@@ -102,14 +106,21 @@ export const ConfigureLayout: FC = () => {
 
             <Cell title="API Key settings">
                 <Link to={"keys-list"} className={styles.navButton}>
-                    {exchange_type === null ? (
+                    {wallet_id === null ? (
                         <div className={styles.content_title}>API Key</div>
                     ) : (
                         <div className={styles.content}>
                             <BinanceIcon />
                             <div className={styles.content_info}>
-                                <div className={styles.content_info_title}>
-                                    {exchange_type.title}
+                                <div
+                                    className={styles.content_info_title}
+                                    style={{ fontWeight: 400 }}
+                                >
+                                    {
+                                        wallets.find(
+                                            (wallet) => wallet.id === wallet_id
+                                        )?.exchange
+                                    }
                                 </div>
                             </div>
                         </div>
