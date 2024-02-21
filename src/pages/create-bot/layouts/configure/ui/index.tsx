@@ -36,10 +36,10 @@ export const ConfigureLayout: FC = () => {
             dispatch(setField({ field: "title", value: titleWithoutSpaces }));
             return false;
         }
-        // if (exchange_type === null) {
-        //     dispatch(addAlert({ title: "Choose API Key" }));
-        //     return false;
-        // }
+        if (wallet_id === null) {
+            dispatch(addAlert({ title: "Choose API Key" }));
+            return false;
+        }
 
         return true;
     };

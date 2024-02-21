@@ -1,7 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import { tgApp } from "shared/lib";
-import { Cell, CellListItem, FlexWrapper, Switcher } from "shared/ui";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import { Cell, CellListItem, Dropdown, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
@@ -11,11 +11,48 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { deleteAlert } from "entities/notification";
 import { setField } from "pages/create-bot";
 
+const settingNextDropdown = [
+    {
+        title: "For a price",
+        id: "FOR_PRICE",
+    },
+    {
+        title: "On correction",
+        id: "ON_CORRECTION",
+    },
+    {
+        title: "By indicator",
+        id: "BY_INDICATOR",
+        disabled: true,
+    },
+];
+
+const definitionTypeDropdown = [
+    {
+        title: "Percent",
+        id: "PERCENT",
+    },
+    {
+        title: "Fixed volume",
+        id: "FIXED",
+    },
+];
+
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const { cycles, active_buy, active_def, active_tp, otherStates } =
         useSelector((state: RootState) => state.newBot);
+
+    const [durPrice, setDurPrice] = useState("");
+    const handleDurPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDurPrice(e.target.value);
+    };
+
+    const [durAmount, setDurAmount] = useState("");
+    const handleDurAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDurAmount(e.target.value);
+    };
 
     const validation = () => {
         return true;
@@ -161,6 +198,65 @@ export const DurationLayout: FC = () => {
                             </div>
                         </div>
                     </div>
+                </CellListItem>
+            </Cell>
+
+            <Cell title="Settings nexts inputs">
+                <CellListItem>
+                    Price definition type
+                    <Dropdown
+                        disabledIsClicked={false}
+                        disabledIsMarked={true}
+                        defaultValueIndex={settingNextDropdown.findIndex(
+                            (item) => item.id === "FOR_PRICE"
+                        )}
+                        items={settingNextDropdown}
+                    />
+                </CellListItem>
+                <CellListItem>
+                    <p className={styles.listItem_title}>Price</p>
+                    <input
+                        type="number"
+                        inputMode="numeric"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                        onChange={handleDurPrice}
+                        value={durPrice}
+                    />
+                </CellListItem>
+            </Cell>
+
+            <Cell>
+                <CellListItem>
+                    Volume definition type
+                    <Dropdown
+                        onSwitch={(item) =>
+                            dispatch(
+                                setField({
+                                    field: "def_type",
+                                    value: item,
+                                })
+                            )
+                        }
+                        defaultValueIndex={definitionTypeDropdown.findIndex(
+                            (item) => item.id === "PERCENT"
+                        )}
+                        items={definitionTypeDropdown}
+                    />
+                </CellListItem>
+                <CellListItem>
+                    <p className={styles.listItem_title}>Entry volume, %</p>
+                    <input
+                        type="number"
+                        inputMode="numeric"
+                        className={styles.listItem_input}
+                        onFocus={handleInputFocus}
+                        onClick={handleInputScroll}
+                        onChange={handleDurAmount}
+                        value={durAmount}
+                        max={99}
+                    />
                 </CellListItem>
             </Cell>
         </div>

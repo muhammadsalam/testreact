@@ -48,6 +48,10 @@
             &__disabled {
                 opacity: 0.3;
                 pointer-events: none;
+
+                &_color {
+                    color: rgba(142, 142, 147, 1);
+                }
             }
 
             span {
@@ -65,4 +69,14 @@
             }
         }
     }
+}
+
+.mark {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #ffffff;
+    padding: 0px 4px;
+    background: #ff9500;
+    border-radius: 38px;
 }

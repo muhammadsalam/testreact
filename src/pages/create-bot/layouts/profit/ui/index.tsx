@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 
 const profitDropdown: {
     title: string;
@@ -31,6 +32,24 @@ const profitDropdown: {
         id: null,
     },
 ];
+
+const NoneProfitDropdown = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const mainButtonHandler = () => {
+            navigate("/createbot/step5");
+        };
+
+        tgApp.MainButton.onClick(mainButtonHandler);
+
+        return () => {
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
+    }, []);
+
+    return null;
+};
 
 export const ProfitLayout: FC = () => {
     const {
@@ -83,7 +102,7 @@ export const ProfitLayout: FC = () => {
             case "BY_INDICATOR":
                 return <IndicatorLayout />;
             case null:
-                return;
+                return <NoneProfitDropdown />;
         }
     };
 

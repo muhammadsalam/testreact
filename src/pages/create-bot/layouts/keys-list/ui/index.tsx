@@ -42,15 +42,18 @@ const KeyItem: FC<{
 
 export const KeysListLayout = () => {
     const dispatch = useDispatch();
-    const tempArrForKeys = useSelector(
+    const wallets = useSelector(
         (state: RootState) => state.user.data.wallets.data
     );
+    const wallet_id = useSelector((state: RootState) => state.newBot.wallet_id);
 
-    const [localActiveKey, setLocalActiveKey] = useState<WalletType>({
-        id: 0,
-        exchange: "",
-        api_key: "",
-    });
+    const [localActiveKey, setLocalActiveKey] = useState<WalletType>(
+        wallets.find((wallet) => wallet.id === wallet_id) || {
+            id: 0,
+            exchange: "",
+            api_key: "",
+        }
+    );
 
     useEffect(() => {
         const backButtonHandler = () => {
@@ -81,11 +84,11 @@ export const KeysListLayout = () => {
             </div>
 
             <div className={styles.content}>
-                {tempArrForKeys.map((keyItem, index) => (
+                {wallets.map((wallet) => (
                     <KeyItem
-                        item={keyItem}
-                        isActive={localActiveKey.api_key === keyItem.api_key}
-                        key={index}
+                        item={wallet}
+                        isActive={localActiveKey.id === wallet.id}
+                        key={wallet.id}
                         setLocalActiveKey={setLocalActiveKey}
                     />
                 ))}

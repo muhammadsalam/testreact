@@ -193,7 +193,7 @@ export const AutomaticLayout: FC = () => {
             </Cell>
 
             <Cell>
-                <CellListItem>
+                <CellListItem isLabel={false}>
                     Total amount for sale
                     <div className={styles.tabs}>
                         {tabs.map((tab) => (

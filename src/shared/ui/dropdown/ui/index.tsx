@@ -13,6 +13,8 @@ type DropdownItem = {
 
 export const Dropdown: FC<
     {
+        disabledIsClicked?: boolean;
+        disabledIsMarked?: boolean;
         defaultValueIndex?: number;
         items: DropdownItem[];
         onSwitch?: React.Dispatch<React.SetStateAction<any>>;
@@ -21,6 +23,8 @@ export const Dropdown: FC<
         disabledElementClassName?: string;
     } & HTMLAttributes<HTMLDivElement>
 > = ({
+    disabledIsClicked = true,
+    disabledIsMarked = false,
     defaultValueIndex,
     items,
     onSwitch,
@@ -44,6 +48,7 @@ export const Dropdown: FC<
         defaultValueIndex || 0
     );
     const handleElementClick = (index: number) => {
+        if (!disabledIsClicked && items[index].disabled) return;
         setActiveELemIndex(index);
         setIsDropdownActive(false);
         onSwitch && onSwitch(items[index]);
@@ -84,12 +89,21 @@ export const Dropdown: FC<
                                         styles.dropdown_list_item,
                                         {
                                             [styles.dropdown_list_item__disabled]:
-                                                item.disabled,
+                                                item.disabled &&
+                                                !disabledIsMarked,
+                                            [styles.dropdown_list_item__disabled_color]:
+                                                item.disabled &&
+                                                disabledIsMarked,
                                         },
                                         disabledElementClassName
                                     )}
                                 >
                                     {item.title}
+                                    {disabledIsMarked && item.disabled && (
+                                        <span className={styles.mark}>
+                                            Soon
+                                        </span>
+                                    )}
                                     {items[activeELemIndex].title ===
                                         item.title && <span>􀆅</span>}
                                 </FlexWrapper>
