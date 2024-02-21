@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import styles from "./ui.module.scss";
-import { FC, useEffect } from "react";
+import { FC, HTMLAttributes, useEffect } from "react";
 import { FlexWrapper } from "shared/ui";
 
-interface RangeProps {
+interface RangeProps extends HTMLAttributes<HTMLDivElement> {
     lineClassName?: string;
     topClassName?: string;
     sliderClassName?: string;
@@ -34,13 +34,14 @@ export const Range: FC<RangeProps> = ({
     innerRef,
     setValue,
     offset,
+    ...props
 }) => {
     useEffect(() => {
         handle && handle(value.toString());
     }, [value]);
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} {...props}>
             <FlexWrapper className={topClassName}>
                 <span className={styles.rangeText}>{min}</span>
                 <span
