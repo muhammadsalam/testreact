@@ -125,11 +125,12 @@ export const botSlice = createSlice({
     reducers: {
         setField: <T extends keyof BotModel>(state: BotModel, action: PayloadAction<FieldValue<T>>) => {
             state[action.payload.field] = action.payload.value;
-        }
+        },
+        resetBot: () => initialState
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setField } = botSlice.actions
+export const { setField, resetBot } = botSlice.actions
 
 export default botSlice.reducer

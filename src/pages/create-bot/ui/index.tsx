@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
 import { Route, Routes } from "react-router-dom";
 import { RootState } from "app/AppStore";
-import { setField } from "../model/botSlice";
+import { resetBot, setField } from "../model/botSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 
 export const CreateBotPage = () => {
@@ -35,6 +35,10 @@ export const CreateBotPage = () => {
 
     useEffect(() => {
         dispatch(fetchPairs());
+
+        return () => {
+            dispatch(resetBot());
+        };
     }, []);
 
     return (
