@@ -40,6 +40,11 @@ export const ConfigureLayout: FC = () => {
             return false;
         }
 
+        if (pair === null) {
+            dispatch(addAlert({ title: "Choose pair" }));
+            return false;
+        }
+
         return true;
     };
 
@@ -128,7 +133,10 @@ export const ConfigureLayout: FC = () => {
                 </Link>
             </Cell>
 
-            <Cell title="pair" description="1 BTC = 26 280.25 ₮">
+            <Cell
+                title="pair"
+                description={pair ? "1 BTC = 26 280.25 ₮" : undefined}
+            >
                 <Link to={"pair-list"} className={styles.navButton}>
                     {pair ? (
                         <div className={styles.content}>
