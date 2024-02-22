@@ -16,10 +16,9 @@ import { Dispatch } from "@reduxjs/toolkit";
 export const ConfigureLayout: FC = () => {
     const navigate = useNavigate();
 
-    const {
-        newBot: { title, wallet_id },
-        pairs: { activePair },
-    } = useSelector((state: RootState) => state);
+    const { title, wallet_id, pair } = useSelector(
+        (state: RootState) => state.newBot
+    );
 
     const wallets = useSelector(
         (state: RootState) => state.user.data.wallets.data
@@ -131,18 +130,22 @@ export const ConfigureLayout: FC = () => {
 
             <Cell title="pair" description="1 BTC = 26 280.25 ₮">
                 <Link to={"pair-list"} className={styles.navButton}>
-                    <div className={styles.content}>
-                        <CurrencyIcon
-                            baseimg={activePair.baseimg}
-                            quoteimg={activePair.quoteimg}
-                        />
-                        <div className={styles.content_info}>
-                            <div className={styles.content_info_title}>
-                                {activePair.base}
-                                <span>{activePair.quote}</span>
+                    {pair ? (
+                        <div className={styles.content}>
+                            <CurrencyIcon
+                                baseimg={pair.baseimg}
+                                quoteimg={pair.quoteimg}
+                            />
+                            <div className={styles.content_info}>
+                                <div className={styles.content_info_title}>
+                                    {pair.base}
+                                    <span>{pair.quote}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className={styles.content_title}>Select pair</div>
+                    )}
                     <ArrowRightIcon className={styles.navButton_icon} />
                 </Link>
             </Cell>

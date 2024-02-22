@@ -4,7 +4,8 @@ import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActive } from "../model/pairSlice";
+import { setField } from "pages/create-bot";
+import { RootState } from "app/AppStore";
 
 export interface Pair {
     id: string;
@@ -61,17 +62,18 @@ const PairItem: FC<{
 export const PairListLayout = () => {
     const dispatch = useDispatch();
 
-    const { activePair, list } = useSelector((state: any) => state.pairs);
+    const pairs = useSelector((state: RootState) => state.pairs.list);
+    const activePair = useSelector((state: RootState) => state.newBot.pair);
     const [localActivePair, setLocalActivePair] = useState(activePair);
 
     const [searchValue, setSearchValue] = useState<string>("");
 
     const filteredPairList = useMemo(
         () =>
-            list.filter((item: Pair) =>
+            pairs.filter((item: Pair) =>
                 item.id.match(searchValue.toUpperCase())
             ),
-        [list, searchValue]
+        [pairs, searchValue]
     );
 
     useEffect(() => {
@@ -81,7 +83,7 @@ export const PairListLayout = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            dispatch(setActive(localActivePair));
+            dispatch(setField({ field: "pair", value: localActivePair }));
             window.history.back();
         };
         tgApp.MainButton.onClick(mainButtonHandler);
@@ -109,7 +111,7 @@ export const PairListLayout = () => {
                     <PairItem
                         key={pairItem.id}
                         pair={pairItem}
-                        isActive={pairItem.id === localActivePair.id}
+                        isActive={pairItem.id === localActivePair?.id}
                         setLocalActivePair={setLocalActivePair}
                     />
                 ))}

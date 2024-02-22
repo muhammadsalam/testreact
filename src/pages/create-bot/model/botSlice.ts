@@ -18,7 +18,7 @@ export interface BotModel {
     user_id: number | null;
     wallet_id: number | null;
     title: string;
-    pair: Pair;
+    pair: Pair | null;
     strategy: string;
     active_buy: {
         title: string,
@@ -62,15 +62,7 @@ const initialState: BotModel = {
     user_id: null,
     wallet_id: null,
     title: "",
-    pair: {
-        id: "ETHUSDT",
-        base: "ETH",
-        baseimg:
-            "https://back.anestheziabot.tra.infope9l.beget.tech/pair/btc.svg",
-        quote: "USDT",
-        quoteimg:
-            "https://back.anestheziabot.tra.infope9l.beget.tech/pair/usdt.svg",
-    },
+    pair: null,
     strategy: "LONG",
     active_buy: {
         title: "Buying a coin",
