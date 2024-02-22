@@ -5,3 +5,4 @@ export * from './profit';
 export * from './entry';
 export * from './pair-list';
 export * from './keys-list'
+export * from './bot-details'

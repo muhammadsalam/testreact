@@ -1,0 +1,52 @@
+.container {
+    max-width: 600px;
+    padding: 24px 16px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    &_title {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 34px;
+        letter-spacing: 0.38px;
+    }
+
+    &_subtitle {
+        color: #8e8e93;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: -0.23px;
+    }
+}
+
+.listItem_stretch {
+    align-self: flex-start;
+}
+
+.listItem_block {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    gap: 4px;
+}
+
+.black_color {
+    color: #000;
+}
+
+.listItem_block_span {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.154px;
+}

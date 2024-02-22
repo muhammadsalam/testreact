@@ -8,6 +8,7 @@ import {
     PairListLayout,
     ProfitLayout,
     EntryLayout,
+    BotDetailsPage,
 } from "../layouts";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
@@ -50,6 +51,7 @@ export const CreateBotPage = () => {
             <Route path="/step3" element={<DefendsLayout />} />
             <Route path="/step4" element={<ProfitLayout />} />
             <Route path="/step5" element={<DurationLayout />} />
+            <Route path="/step6" element={<BotDetailsPage />} />
         </Routes>
     );
 };

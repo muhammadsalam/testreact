@@ -67,7 +67,7 @@ export const DurationLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                navigate("/"); // тут изменить
+                navigate("/createbot/step6"); // тут изменить
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
