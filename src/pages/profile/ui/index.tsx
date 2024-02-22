@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, MouseEvent, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
@@ -6,17 +6,32 @@ import KeysIcon from "../../../assets/icons/keys.svg?react";
 import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { RootState } from "app/AppStore";
+import { addAlert } from "entities/notification";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const ProfilePage: FC = () => {
+    const userData = useSelector((state: RootState) => state.user.data);
+
     useEffect(() => {
         tgApp.MainButton.hide();
         tgApp.BackButton.hide();
     }, []);
 
-    const userData = useSelector((state: RootState) => state.user.data);
+    const dispatch: Dispatch<any> = useDispatch();
+
+    const handleCreateBot = (e: MouseEvent) => {
+        if (userData.wallets.count === 0) {
+            dispatch(
+                addAlert({
+                    title: "Before you can create a bot, you need to add API Key",
+                })
+            );
+            e.preventDefault();
+        }
+    };
 
     return (
         <div className={styles.container}>
@@ -37,8 +52,12 @@ export const ProfilePage: FC = () => {
                 )} */}
             </div>
 
-            <Link to="createbot/step1" style={{ display: "contents" }}>
-                <button className={styles.btn__primary}>Creat new bot</button>
+            <Link
+                to="createbot/step1"
+                style={{ display: "contents" }}
+                onClick={handleCreateBot}
+            >
+                <button className={styles.btn__primary}>Create new bot</button>
             </Link>
 
             <Cell>
