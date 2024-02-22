@@ -22,7 +22,7 @@
 }
 
 .placeholder_color {
-    color: rgba(185, 185, 186, 1);
+    color: rgba(142, 142, 147, 1);
     font-weight: 400;
 }
 
@@ -137,7 +137,7 @@
     }
 
     &::placeholder {
-        color: #b9b9ba;
+        color: rgba(142, 142, 147, 1);
     }
 
     &__placeholder::placeholder {

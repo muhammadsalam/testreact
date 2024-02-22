@@ -154,7 +154,7 @@
     font-size: 17px;
     line-height: 22px;
     letter-spacing: -0.43px;
-    color: #8e8e93;
+    color: rgba(142, 142, 147, 1);
 }
 
 .cell_description {
@@ -210,7 +210,7 @@
     }
 
     &::placeholder {
-        color: rgba(185, 185, 186, 1);
+        color: rgba(142, 142, 147, 1);
     }
 
     &_label {
