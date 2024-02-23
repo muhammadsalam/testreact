@@ -5,14 +5,14 @@ import { tgApp } from "shared/lib";
 import { AutomaticLayout, IndicatorLayout, ManuallyLayout } from "../layouts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
-import { setField } from "pages/create-bot";
+import { BotModel, setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
 const profitDropdown: {
     title: string;
     disabled?: boolean;
-    id: "MANUAL" | "AUTO" | "BY_INDICATOR" | null;
+    id: BotModel["take_type"];
 }[] = [
     {
         title: "Manually",
@@ -29,7 +29,7 @@ const profitDropdown: {
     },
     {
         title: "None",
-        id: null,
+        id: "NONE",
     },
 ];
 
@@ -101,7 +101,7 @@ export const ProfitLayout: FC = () => {
                 return <AutomaticLayout />;
             case "BY_INDICATOR":
                 return <IndicatorLayout />;
-            case null:
+            case "NONE":
                 return <NoneProfitDropdown />;
         }
     };

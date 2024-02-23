@@ -31,7 +31,7 @@ export interface BotModel {
     active_def: boolean;
     def_type: {
         title: string;
-        id: 'IO' | 'SL' | null;
+        id: 'IO' | 'SL' | "NONE";
     };
     io_calculate_type: string;
     io_count: string;
@@ -40,7 +40,7 @@ export interface BotModel {
     io_step_mrt: string;
     stop_loss: string;
     active_tp: boolean;
-    take_type: "MANUAL" | "AUTO" | "BY_INDICATOR" | null;
+    take_type: "MANUAL" | "AUTO" | "BY_INDICATOR" | "NONE";
     take_profit: string;
     take_amount: string;
     take_step: string;
@@ -48,7 +48,15 @@ export interface BotModel {
     existing_volume: string;
     purchase_price: string;
     takes: Take[];
-    cycles: number;
+    cycles: {
+        count: number;
+        input_type: 'FIXED' | 'CORRECTION' | 'BY_INDICATOR';
+        fixed_price: string;
+        correction: string;
+        amount_type: 'FIXED' | 'DYNAMIC';
+        fixed_amount: string;
+        dynamic_amount: string;
+    };
     otherStates: {
         def_mrt: boolean;
         def_step_mrt: boolean;
@@ -96,7 +104,16 @@ const initialState: BotModel = {
             amount: "",
         },
     ],
-    cycles: 1,
+    cycles: {
+        count: 0,
+        input_type: "FIXED",
+        fixed_price: '',
+        correction: '',
+        amount_type: "DYNAMIC",
+        fixed_amount: '',
+        dynamic_amount: '',
+
+    },
     otherStates: {
         def_mrt: false,
         def_step_mrt: false,

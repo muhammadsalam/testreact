@@ -115,7 +115,7 @@ export const BotDetailsPage: FC = () => {
                 )}
             </Cell>
 
-            {botData.def_type.id !== null && (
+            {botData.def_type.id !== "NONE" && (
                 <Cell title="Defends">
                     {botData.def_type.id === "IO" && (
                         <>
@@ -162,7 +162,7 @@ export const BotDetailsPage: FC = () => {
                 </Cell>
             )}
 
-            {botData.take_type !== null && (
+            {botData.take_type !== "NONE" && (
                 <Cell title="Take Profit">
                     {botData.take_type === "MANUAL" && (
                         <CellListItem>
@@ -234,28 +234,57 @@ export const BotDetailsPage: FC = () => {
             <Cell title="Duration">
                 <CellListItem>
                     Full сycles
-                    <span className={styles.black_color}>{botData.cycles}</span>
+                    <span className={styles.black_color}>
+                        {botData.cycles.count}
+                    </span>
                 </CellListItem>
-                {botData.cycles > 1 && (
+                {botData.cycles.count > 1 && (
                     <>
                         <CellListItem>
                             Price definition type
                             <span className={styles.black_color}>
-                                For a price
+                                {botData.cycles.input_type}
                             </span>
                         </CellListItem>
-                        <CellListItem>
-                            Price
-                            <span className={styles.black_color}>1000</span>
-                        </CellListItem>
+                        {botData.cycles.input_type === "FIXED" && (
+                            <CellListItem>
+                                Price
+                                <span className={styles.black_color}>
+                                    {botData.cycles.fixed_price}
+                                </span>
+                            </CellListItem>
+                        )}
+                        {botData.cycles.input_type === "CORRECTION" && (
+                            <CellListItem>
+                                cycles&gt;correction
+                                <span className={styles.black_color}>
+                                    {botData.cycles.correction}
+                                </span>
+                            </CellListItem>
+                        )}
+
                         <CellListItem>
                             Volume definition type
-                            <span className={styles.black_color}>Percent</span>
+                            <span className={styles.black_color}>
+                                {botData.cycles.amount_type}
+                            </span>
                         </CellListItem>
-                        <CellListItem>
-                            Entry volume, %
-                            <span className={styles.black_color}>1</span>
-                        </CellListItem>
+                        {botData.cycles.amount_type === "DYNAMIC" && (
+                            <CellListItem>
+                                Entry volume, %
+                                <span className={styles.black_color}>
+                                    {botData.cycles.dynamic_amount}
+                                </span>
+                            </CellListItem>
+                        )}
+                        {botData.cycles.amount_type === "FIXED" && (
+                            <CellListItem>
+                                cycles&gt;fixed_amount
+                                <span className={styles.black_color}>
+                                    {botData.cycles.fixed_amount}
+                                </span>
+                            </CellListItem>
+                        )}
                     </>
                 )}
             </Cell>

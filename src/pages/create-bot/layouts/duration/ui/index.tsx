@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { Cell, CellListItem, Dropdown, FlexWrapper, Switcher } from "shared/ui";
@@ -9,16 +9,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { deleteAlert } from "entities/notification";
-import { setField } from "pages/create-bot";
+import { BotModel, setField } from "pages/create-bot";
 
-const settingNextDropdown = [
+const settingNextDropdown: {
+    title: string;
+    id: BotModel["cycles"]["input_type"];
+    disabled?: boolean;
+}[] = [
     {
         title: "For a price",
-        id: "FOR_PRICE",
+        id: "FIXED",
     },
     {
         title: "On correction",
-        id: "ON_CORRECTION",
+        id: "CORRECTION",
     },
     {
         title: "By indicator",
@@ -27,10 +31,13 @@ const settingNextDropdown = [
     },
 ];
 
-const definitionTypeDropdown = [
+const definitionTypeDropdown: {
+    title: string;
+    id: BotModel["cycles"]["amount_type"];
+}[] = [
     {
         title: "Percent",
-        id: "PERCENT",
+        id: "DYNAMIC",
     },
     {
         title: "Fixed volume",
@@ -41,22 +48,108 @@ const definitionTypeDropdown = [
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const { cycles, active_buy, active_def, active_tp, otherStates } =
-        useSelector((state: RootState) => state.newBot);
+    const { cycles, otherStates } = useSelector(
+        (state: RootState) => state.newBot
+    );
 
-    const [durPrice, setDurPrice] = useState("");
-    const handleDurPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDurPrice(e.target.value);
+    const handleFixedPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: { ...cycles, fixed_price: e.target.value },
+            })
+        );
     };
 
-    const [durAmount, setDurAmount] = useState("");
-    const handleDurAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDurAmount(e.target.value);
+    const handleCorrection = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: { ...cycles, correction: e.target.value },
+            })
+        );
+    };
+
+    const handleFixedAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: { ...cycles, fixed_amount: e.target.value },
+            })
+        );
+    };
+
+    const handleDynamicAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: { ...cycles, dynamic_amount: e.target.value },
+            })
+        );
     };
 
     const validation = () => {
         return true;
     };
+
+    const rangeData = useRange(1, 10, cycles.count);
+
+    const handleCyclesSwitch = () => {
+        dispatch(
+            setField({
+                field: "otherStates",
+                value: { ...otherStates, cycles: !otherStates.cycles },
+            })
+        );
+    };
+
+    const handleInputTypeSwitch = (item: {
+        title: string;
+        id: BotModel["cycles"]["input_type"];
+    }) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: {
+                    ...cycles,
+                    input_type: item.id,
+                },
+            })
+        );
+    };
+
+    const hanldeAmountTypeSwitch = (item: {
+        title: string;
+        id: BotModel["cycles"]["amount_type"];
+    }) => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: {
+                    ...cycles,
+                    amount_type: item.id,
+                },
+            })
+        );
+    };
+
+    useEffect(() => {
+        dispatch(
+            setField({
+                field: "cycles",
+                value: {
+                    ...cycles,
+                    count: rangeData.value,
+                },
+            })
+        );
+    }, [rangeData.value]);
+
+    useEffect(() => {
+        if (!otherStates.cycles) {
+            rangeData.setValue(1);
+        }
+    }, [otherStates.cycles]);
 
     useEffect(() => {
         const backButtonHandler = () => {
@@ -72,39 +165,14 @@ export const DurationLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text =
-            "Next to step " +
-            (3 + +active_buy + +active_def + +active_tp) +
-            " / " +
-            (3 + +active_buy + +active_def + +active_tp);
+        tgApp.MainButton.text = "Next to step 6 / 6";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [active_buy, active_def, active_tp, otherStates.cycles]);
-
-    const rangeData = useRange(1, 10, cycles);
-
-    useEffect(() => {
-        dispatch(setField({ field: "cycles", value: rangeData.value }));
-    }, [rangeData.value]);
-
-    useEffect(() => {
-        if (!otherStates.cycles) {
-            rangeData.setValue(1);
-        }
-    }, [otherStates]);
-
-    const handleCyclesSwitch = () => {
-        dispatch(
-            setField({
-                field: "otherStates",
-                value: { ...otherStates, cycles: !otherStates.cycles },
-            })
-        );
-    };
+    }, [otherStates.cycles]);
 
     return (
         <div className={styles.container}>
@@ -201,64 +269,101 @@ export const DurationLayout: FC = () => {
                 </CellListItem>
             </Cell>
 
-            <Cell title="Settings nexts inputs">
-                <CellListItem>
-                    Price definition type
-                    <Dropdown
-                        disabledIsClicked={false}
-                        disabledIsMarked={true}
-                        defaultValueIndex={settingNextDropdown.findIndex(
-                            (item) => item.id === "FOR_PRICE"
+            {cycles.count > 1 && (
+                <>
+                    <Cell title="Settings nexts inputs">
+                        <CellListItem>
+                            Price definition type
+                            <Dropdown
+                                onSwitch={handleInputTypeSwitch}
+                                disabledIsClicked={false}
+                                disabledIsMarked={true}
+                                defaultValueIndex={settingNextDropdown.findIndex(
+                                    (item) => item.id === cycles.input_type
+                                )}
+                                items={settingNextDropdown}
+                            />
+                        </CellListItem>
+                        {cycles.input_type === "FIXED" && (
+                            <CellListItem>
+                                <p className={styles.listItem_title}>Price</p>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    onChange={handleFixedPrice}
+                                    value={cycles.fixed_price}
+                                />
+                            </CellListItem>
                         )}
-                        items={settingNextDropdown}
-                    />
-                </CellListItem>
-                <CellListItem>
-                    <p className={styles.listItem_title}>Price</p>
-                    <input
-                        type="number"
-                        inputMode="numeric"
-                        className={styles.listItem_input}
-                        onFocus={handleInputFocus}
-                        onClick={handleInputScroll}
-                        onChange={handleDurPrice}
-                        value={durPrice}
-                    />
-                </CellListItem>
-            </Cell>
+                        {cycles.input_type === "CORRECTION" && (
+                            <CellListItem>
+                                <p className={styles.listItem_title}>
+                                    cycles{">"}correction
+                                </p>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    onChange={handleCorrection}
+                                    value={cycles.correction}
+                                />
+                            </CellListItem>
+                        )}
+                    </Cell>
 
-            <Cell>
-                <CellListItem>
-                    Volume definition type
-                    <Dropdown
-                        onSwitch={(item) =>
-                            dispatch(
-                                setField({
-                                    field: "def_type",
-                                    value: item,
-                                })
-                            )
-                        }
-                        defaultValueIndex={definitionTypeDropdown.findIndex(
-                            (item) => item.id === "PERCENT"
+                    <Cell>
+                        <CellListItem>
+                            Volume definition type
+                            <Dropdown
+                                onSwitch={hanldeAmountTypeSwitch}
+                                defaultValueIndex={definitionTypeDropdown.findIndex(
+                                    (item) => item.id === cycles.amount_type
+                                )}
+                                items={definitionTypeDropdown}
+                            />
+                        </CellListItem>
+                        {cycles.amount_type === "DYNAMIC" && (
+                            <CellListItem>
+                                <p className={styles.listItem_title}>
+                                    Entry volume, %
+                                </p>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    onChange={handleDynamicAmount}
+                                    value={cycles.dynamic_amount}
+                                    max={99}
+                                />
+                            </CellListItem>
                         )}
-                        items={definitionTypeDropdown}
-                    />
-                </CellListItem>
-                <CellListItem>
-                    <p className={styles.listItem_title}>Entry volume, %</p>
-                    <input
-                        type="number"
-                        inputMode="numeric"
-                        className={styles.listItem_input}
-                        onFocus={handleInputFocus}
-                        onClick={handleInputScroll}
-                        onChange={handleDurAmount}
-                        value={durAmount}
-                        max={99}
-                    />
-                </CellListItem>
-            </Cell>
+                        {cycles.amount_type === "FIXED" && (
+                            <CellListItem>
+                                <p className={styles.listItem_title}>
+                                    cycles{">"}fixed_amount
+                                </p>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    className={styles.listItem_input}
+                                    onFocus={handleInputFocus}
+                                    onClick={handleInputScroll}
+                                    onChange={handleFixedAmount}
+                                    value={cycles.fixed_amount}
+                                    max={99}
+                                />
+                            </CellListItem>
+                        )}
+                    </Cell>
+                </>
+            )}
         </div>
     );
 };

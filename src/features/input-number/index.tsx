@@ -2,7 +2,7 @@ import { BotModel, setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
 
 type InputNumberType = (
-    value: string,
+    value: any,
     handler: (value: React.SetStateAction<string>) => void,
     botKey: keyof BotModel,
     dispatch: Dispatch<any>,
