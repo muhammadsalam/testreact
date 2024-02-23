@@ -13,29 +13,17 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
 import { Route, Routes } from "react-router-dom";
-import { RootState } from "app/AppStore";
 import { resetBot, setField } from "../model/botSlice";
 import { Dispatch } from "@reduxjs/toolkit";
+import { RootState } from "app/AppStore";
 
 export const CreateBotPage = () => {
-    const { def_mrt, def_step_mrt } = useSelector(
-        (state: RootState) => state.newBot.otherStates
-    );
-
+    const user_id = useSelector((state: RootState) => state.user.data.user_id);
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        if (!def_mrt) {
-            dispatch(setField({ field: "io_mrt", value: "1" }));
-        }
-
-        if (!def_step_mrt) {
-            dispatch(setField({ field: "io_step_mrt", value: "1" }));
-        }
-    }, [def_mrt, def_step_mrt]);
-
-    useEffect(() => {
         dispatch(fetchPairs());
+        dispatch(setField({ field: "user_id", value: user_id }));
 
         return () => {
             dispatch(resetBot());
