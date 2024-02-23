@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 export const BotDetailsPage: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
+    const wallets = useSelector(
+        (state: RootState) => state.user.data.wallets.data
+    );
 
     const navigate = useNavigate();
 
@@ -43,10 +46,19 @@ export const BotDetailsPage: FC = () => {
                     <div className={styles.listItem_stretch}>API Key</div>
                     <div className={styles.listItem_block}>
                         <span className={styles.black_color}>
-                            Binance Testnet
+                            {
+                                wallets.find(
+                                    (item) => item.id === botData.wallet_id
+                                )?.exchange
+                            }
                         </span>
                         <span className={styles.listItem_block_span}>
-                            API key: 0x8d5...e2dE
+                            API key:
+                            {
+                                wallets.find(
+                                    (item) => item.id === botData.wallet_id
+                                )?.api_key
+                            }
                         </span>
                     </div>
                 </CellListItem>
@@ -127,19 +139,27 @@ export const BotDetailsPage: FC = () => {
                             </CellListItem>
                             <CellListItem>
                                 Limit of insurance orders
-                                <span className={styles.black_color}>10</span>
+                                <span className={styles.black_color}>
+                                    {botData.io_count}
+                                </span>
                             </CellListItem>
                             <CellListItem>
                                 Step of insurance orders, %
-                                <span className={styles.black_color}>2</span>
+                                <span className={styles.black_color}>
+                                    {botData.io_step}
+                                </span>
                             </CellListItem>
                             <CellListItem>
                                 Martingale
-                                <span className={styles.black_color}>3.5</span>
+                                <span className={styles.black_color}>
+                                    {botData.io_mrt}
+                                </span>
                             </CellListItem>
                             <CellListItem>
                                 Dynamic price step CO
-                                <span className={styles.black_color}>2</span>
+                                <span className={styles.black_color}>
+                                    {botData.io_step_mrt}
+                                </span>
                             </CellListItem>
                         </>
                     )}
@@ -187,7 +207,7 @@ export const BotDetailsPage: FC = () => {
                             <CellListItem>
                                 Total amount for sale, %
                                 <span className={styles.black_color}>
-                                    100 (change)
+                                    {botData.take_amount_limit}
                                 </span>
                             </CellListItem>
                             <CellListItem>

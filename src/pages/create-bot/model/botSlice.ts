@@ -42,6 +42,7 @@ export interface BotModel {
     active_tp: boolean;
     take_type: "MANUAL" | "AUTO" | "BY_INDICATOR" | "NONE";
     take_profit: string;
+    take_amount_limit: string;
     take_amount: string;
     take_step: string;
     take_mrt: string;
@@ -95,6 +96,7 @@ const initialState: BotModel = {
     existing_volume: "",
     purchase_price: "",
     take_profit: "",
+    take_amount_limit: "100",
     take_amount: "",
     take_step: "1",
     take_mrt: "1",

@@ -53,6 +53,10 @@ export const AutomaticLayout: FC = () => {
         dispatch(setField({ field: "take_mrt", value: value }));
     };
 
+    const handleTAmountLimit = (value: string) => {
+        dispatch(setField({ field: "take_amount_limit", value: value }));
+    };
+
     const handleTakeStepSwitch = () => {
         dispatch(
             setField({
@@ -90,6 +94,7 @@ export const AutomaticLayout: FC = () => {
         if (tabId === activeTab) return;
         if (tabId === "full") {
             totalAmoutForSale.setValue(100);
+            handleTAmountLimit("100");
         }
         setActiveTab(tabId);
     };
@@ -216,6 +221,7 @@ export const AutomaticLayout: FC = () => {
                         <div className={styles.range_line}></div>
                     ) : (
                         <Range
+                            handle={handleTAmountLimit}
                             lineClassName={styles.rangeLine}
                             topClassName={styles.rangeTop}
                             sliderClassName={clsx(styles.rangeWrapper)}
