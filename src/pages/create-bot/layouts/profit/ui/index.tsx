@@ -54,7 +54,7 @@ const NoneProfitDropdown = () => {
 export const ProfitLayout: FC = () => {
     const {
         take_type,
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
         existing_volume,
@@ -79,7 +79,7 @@ export const ProfitLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, [
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
         take_profit,

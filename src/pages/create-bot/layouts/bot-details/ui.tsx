@@ -79,10 +79,10 @@ export const BotDetailsPage: FC = () => {
                 <CellListItem>
                     Type of first order
                     <span className={styles.black_color}>
-                        {botData.active_buy.title}
+                        {botData.entry_type.title}
                     </span>
                 </CellListItem>
-                {botData.active_buy.id === "BUYING_COIN" && (
+                {botData.entry_type.id === "BUYING_COIN" && (
                     <>
                         <CellListItem>
                             Volume of the first order
@@ -109,7 +109,7 @@ export const BotDetailsPage: FC = () => {
                         )}
                     </>
                 )}
-                {botData.active_buy.id === "COINS_FROM_WALLET" && (
+                {botData.entry_type.id === "COINS_FROM_WALLET" && (
                     <>
                         <CellListItem>
                             Existing volume

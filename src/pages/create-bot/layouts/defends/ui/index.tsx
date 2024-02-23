@@ -30,7 +30,7 @@ export const DefendsLayout: FC = () => {
 
     const {
         def_type,
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
         io_count,
@@ -113,7 +113,7 @@ export const DefendsLayout: FC = () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, [
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
         io_step,

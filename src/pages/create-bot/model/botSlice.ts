@@ -20,7 +20,7 @@ export interface BotModel {
     title: string;
     pair: Pair | null;
     strategy: string;
-    active_buy: {
+    entry_type: {
         title: string,
         id: "BUYING_COIN" | "COINS_FROM_WALLET" | "BY_INDICATOR",
         disabled?: boolean,
@@ -28,7 +28,6 @@ export interface BotModel {
     ammount_first_order: string;
     type_first_order: string;
     price_first_order: string;
-    active_def: boolean;
     def_type: {
         title: string;
         id: 'IO' | 'SL' | "NONE";
@@ -39,7 +38,6 @@ export interface BotModel {
     io_mrt: string;
     io_step_mrt: string;
     stop_loss: string;
-    active_tp: boolean;
     take_type: "MANUAL" | "AUTO" | "BY_INDICATOR" | "NONE";
     take_profit: string;
     take_amount_limit: string;
@@ -73,14 +71,13 @@ const initialState: BotModel = {
     title: "",
     pair: null,
     strategy: "LONG",
-    active_buy: {
+    entry_type: {
         title: "Buying a coin",
         id: "BUYING_COIN",
     },
     ammount_first_order: "",
     type_first_order: "LIMIT",
     price_first_order: "",
-    active_def: true,
     def_type: {
         title: "Insurance orders",
         id: "IO",
@@ -91,10 +88,9 @@ const initialState: BotModel = {
     io_mrt: "1",
     io_step_mrt: "1",
     stop_loss: "",
-    active_tp: true,
-    take_type: "MANUAL",
     existing_volume: "",
     purchase_price: "",
+    take_type: "MANUAL",
     take_profit: "",
     take_amount_limit: "100",
     take_amount: "",

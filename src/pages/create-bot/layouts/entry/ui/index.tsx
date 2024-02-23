@@ -39,7 +39,7 @@ export const EntryLayout: FC = () => {
         price_first_order,
         existing_volume,
         purchase_price,
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
     } = useSelector((state: RootState) => state.newBot);
@@ -58,7 +58,7 @@ export const EntryLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, [
-        active_buy,
+        entry_type,
         active_def,
         active_tp,
         purchase_price,
@@ -69,10 +69,10 @@ export const EntryLayout: FC = () => {
     ]);
 
     const render = () => {
-        if (active_buy.id === "BUYING_COIN") return <BuyingCoinLayout />;
-        if (active_buy.id === "COINS_FROM_WALLET")
+        if (entry_type.id === "BUYING_COIN") return <BuyingCoinLayout />;
+        if (entry_type.id === "COINS_FROM_WALLET")
             return <CoinsFromWalletLayout />;
-        if (active_buy.id === "BY_INDICATOR") return <IndicatorLayout />;
+        if (entry_type.id === "BY_INDICATOR") return <IndicatorLayout />;
     };
 
     return (
@@ -92,13 +92,13 @@ export const EntryLayout: FC = () => {
                         onSwitch={(item) =>
                             dispatch(
                                 setField({
-                                    field: "active_buy",
+                                    field: "entry_type",
                                     value: item,
                                 })
                             )
                         }
                         defaultValueIndex={entryDropdown.findIndex(
-                            (item) => item.id === active_buy.id
+                            (item) => item.id === entry_type.id
                         )}
                         items={entryDropdown}
                     />

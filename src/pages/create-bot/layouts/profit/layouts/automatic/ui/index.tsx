@@ -29,7 +29,7 @@ export const AutomaticLayout: FC = () => {
         take_amount,
         take_step,
         take_mrt,
-        active_buy,
+        entry_type,
         existing_volume,
         otherStates,
     } = useSelector((state: RootState) => state.newBot);
@@ -165,7 +165,7 @@ export const AutomaticLayout: FC = () => {
 
     return (
         <>
-            {!active_buy && (
+            {!entry_type && (
                 <Cell title="Volume">
                     <CellListItem>
                         <p className={styles.listItem_title}>Existing volume</p>

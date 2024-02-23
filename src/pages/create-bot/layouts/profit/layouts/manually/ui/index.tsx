@@ -17,7 +17,7 @@ interface step {
 }
 
 export const ManuallyLayout: FC = () => {
-    const { existing_volume, takes, active_buy } = useSelector(
+    const { existing_volume, takes, entry_type } = useSelector(
         (state: RootState) => state.newBot
     );
     const dispatch: Dispatch<any> = useDispatch();
@@ -205,7 +205,7 @@ export const ManuallyLayout: FC = () => {
 
     return (
         <>
-            {!active_buy && (
+            {!entry_type && (
                 <Cell title="Volume">
                     <CellListItem>
                         <p className={styles.listItem_title}>Existing volume</p>
