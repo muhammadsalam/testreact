@@ -1,4 +1,4 @@
-import { Cell, CellListItem, Range, Switcher } from "shared/ui";
+import { Cell, CellListItem, Dropdown, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
@@ -8,7 +8,12 @@ import { useRange } from "shared/ui/range/libs/use-range";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
-import { setField } from "pages/create-bot";
+import { BotModel, setField } from "pages/create-bot";
+
+const inputTypesDropdown = [
+    { title: "From the fisrt order", id: "LO" },
+    { title: "From average price", id: "AO" },
+];
 
 export const InsuranceOrdersLayout = () => {
     const { io_count, io_step, io_mrt, io_step_mrt, otherStates } = useSelector(
@@ -58,6 +63,12 @@ export const InsuranceOrdersLayout = () => {
     const martingaleRangeData = useRange(0.5, 5, +io_mrt);
     const dynamicPriceRangeData = useRange(0.5, 5, +io_step_mrt);
 
+    const handleInputTypeChange = (item: {
+        id: BotModel["io_calculate_type"];
+    }) => {
+        dispatch(setField({ field: "io_calculate_type", value: item.id }));
+    };
+
     useEffect(() => {
         if (!otherStates.def_mrt) {
             handleIOMrt("1");
@@ -72,6 +83,16 @@ export const InsuranceOrdersLayout = () => {
 
     return (
         <>
+            <Cell>
+                <CellListItem>
+                    Input type
+                    <Dropdown
+                        onSwitch={handleInputTypeChange}
+                        items={inputTypesDropdown}
+                    />
+                </CellListItem>
+            </Cell>
+
             <Cell>
                 <CellListItem>
                     <p className={styles.listItem_title}>

@@ -74,7 +74,7 @@ export const userSlice = createSlice({
         addWallet: (state, action: PayloadAction<WalletType>) => {
             state.data.wallets.count++;
             state.data.wallets.data = state.data.wallets.data.concat(action.payload);
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<string>) => {

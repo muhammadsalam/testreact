@@ -2,24 +2,28 @@ import { FC, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import { RootState } from "app/AppStore";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { createBot } from "pages/create-bot";
 
 export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
     const wallets = useSelector(
         (state: RootState) => state.user.data.wallets.data
     );
+    const token = useSelector((state: RootState) => state.user.token);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         window.scrollTo(0, 0);
 
         const mainButtonHandler = () => {
             console.log("Start bot", botData);
+            dispatch(createBot(token));
             navigate("/");
         };
 
@@ -85,7 +89,7 @@ export const DetailsLayout: FC = () => {
                         {botData.entry_type.title}
                     </span>
                 </CellListItem>
-                {botData.entry_type.id === "BUYING_COIN" && (
+                {botData.entry_type.id === "BUY_COIN" && (
                     <>
                         <CellListItem>
                             Volume of the first order
@@ -112,7 +116,7 @@ export const DetailsLayout: FC = () => {
                         )}
                     </>
                 )}
-                {botData.entry_type.id === "COINS_FROM_WALLET" && (
+                {botData.entry_type.id === "USE_WALLET" && (
                     <>
                         <CellListItem>
                             Existing volume
