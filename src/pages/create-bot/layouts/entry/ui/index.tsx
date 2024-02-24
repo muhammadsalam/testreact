@@ -40,8 +40,6 @@ export const EntryLayout: FC = () => {
         existing_volume,
         purchase_price,
         entry_type,
-        active_def,
-        active_tp,
     } = useSelector((state: RootState) => state.newBot);
 
     const dispatch: Dispatch<any> = useDispatch();
@@ -59,8 +57,6 @@ export const EntryLayout: FC = () => {
         };
     }, [
         entry_type,
-        active_def,
-        active_tp,
         purchase_price,
         price_first_order,
         type_first_order,

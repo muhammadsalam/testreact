@@ -55,8 +55,6 @@ export const ProfitLayout: FC = () => {
     const {
         take_type,
         entry_type,
-        active_def,
-        active_tp,
         existing_volume,
         takes,
         take_profit,
@@ -80,8 +78,6 @@ export const ProfitLayout: FC = () => {
         };
     }, [
         entry_type,
-        active_def,
-        active_tp,
         take_profit,
         take_amount,
         take_step,

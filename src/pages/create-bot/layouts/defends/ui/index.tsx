@@ -31,8 +31,6 @@ export const DefendsLayout: FC = () => {
     const {
         def_type,
         entry_type,
-        active_def,
-        active_tp,
         io_count,
         io_step,
         io_mrt,
@@ -99,8 +97,7 @@ export const DefendsLayout: FC = () => {
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
-                if (active_tp) navigate("/createbot/step4");
-                else navigate("/createbot/step5");
+                navigate("/createbot/step4");
             }
         };
         tgApp.MainButton.onClick(mainButtonHandler);
@@ -114,8 +111,6 @@ export const DefendsLayout: FC = () => {
         };
     }, [
         entry_type,
-        active_def,
-        active_tp,
         io_step,
         io_mrt,
         io_step_mrt,

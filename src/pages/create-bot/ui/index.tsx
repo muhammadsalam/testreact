@@ -39,7 +39,7 @@ export const CreateBotPage = () => {
             <Route path="/step3" element={<DefendsLayout />} />
             <Route path="/step4" element={<ProfitLayout />} />
             <Route path="/step5" element={<DurationLayout />} />
-            <Route path="/step6" element={<BotDetailsPage />} />
+            <Route path="/step6/*" element={<BotDetailsPage />} />
         </Routes>
     );
 };
