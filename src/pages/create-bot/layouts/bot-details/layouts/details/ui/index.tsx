@@ -151,7 +151,7 @@ export const DetailsLayout: FC = () => {
                                     {
                                         inputTypesDropdown.find(
                                             (x) =>
-                                                x.title ===
+                                                x.id ===
                                                 botData.io_calculate_type
                                         )?.title
                                     }

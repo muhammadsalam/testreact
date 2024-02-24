@@ -130,11 +130,12 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                                     Input type
                                     <span className={styles.black_color}>
                                         {
-                                            inputTypesDropdown.find(
-                                                (x) =>
-                                                    x.title ===
+                                            inputTypesDropdown.find((x) => {
+                                                return (
+                                                    x.id ===
                                                     botData.io_calculate_type
-                                            )?.title
+                                                );
+                                            })?.title
                                         }
                                     </span>
                                 </CellListItem>

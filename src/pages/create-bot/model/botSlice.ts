@@ -146,7 +146,7 @@ export const botSlice = createSlice({
                 strategy: state.strategy,
                 entry_type: state.entry_type.id,
                 ammount_first_order: +state.ammount_first_order,
-                type_first_order: +state.type_first_order,
+                type_first_order: state.type_first_order,
                 price_first_order: +state.price_first_order,
                 def_type: state.def_type.id,
                 io_calculate_type: state.io_calculate_type,
