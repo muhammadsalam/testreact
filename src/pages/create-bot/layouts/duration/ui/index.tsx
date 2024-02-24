@@ -169,6 +169,7 @@ export const DurationLayout: FC = () => {
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, [otherStates.cycles]);

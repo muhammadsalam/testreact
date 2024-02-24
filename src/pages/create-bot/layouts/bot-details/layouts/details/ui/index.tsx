@@ -5,8 +5,9 @@ import { RootState } from "app/AppStore";
 import { useSelector } from "react-redux";
 import { tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export const BotDetailsLayout: FC = () => {
+export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
     const wallets = useSelector(
         (state: RootState) => state.user.data.wallets.data
@@ -15,6 +16,8 @@ export const BotDetailsLayout: FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         const mainButtonHandler = () => {
             console.log("Start bot", botData);
             navigate("/");
@@ -307,6 +310,20 @@ export const BotDetailsLayout: FC = () => {
                         )}
                     </>
                 )}
+            </Cell>
+
+            <Cell listClass={false}>
+                <div className={styles.buttonsCell}>
+                    <Link
+                        to="insurance-grid"
+                        className={styles.buttonsCell_item}
+                    >
+                        Insurance Order Grid
+                    </Link>
+                    <Link to="profit-grid" className={styles.buttonsCell_item}>
+                        Take Profit Grid
+                    </Link>
+                </div>
             </Cell>
         </div>
     );
