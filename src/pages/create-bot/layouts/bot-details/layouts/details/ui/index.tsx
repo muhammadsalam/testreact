@@ -7,6 +7,7 @@ import { tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createBot } from "pages/create-bot";
+import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
 
 export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
@@ -142,6 +143,18 @@ export const DetailsLayout: FC = () => {
                                 Type
                                 <span className={styles.black_color}>
                                     Insurance orders
+                                </span>
+                            </CellListItem>
+                            <CellListItem>
+                                Input type
+                                <span className={styles.black_color}>
+                                    {
+                                        inputTypesDropdown.find(
+                                            (x) =>
+                                                x.title ===
+                                                botData.io_calculate_type
+                                        )?.title
+                                    }
                                 </span>
                             </CellListItem>
                             <CellListItem>

@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
+import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
 
 export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
     botData,
@@ -70,7 +71,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                             {botData.entry_type}
                         </span>
                     </CellListItem>
-                    {botData.entry_type === "BUYING_COIN" && (
+                    {botData.entry_type === "BUY_COIN" && (
                         <>
                             <CellListItem>
                                 Volume of the first order
@@ -97,7 +98,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                             )}
                         </>
                     )}
-                    {botData.entry_type === "COINS_FROM_WALLET" && (
+                    {botData.entry_type === "USE_WALLET" && (
                         <>
                             <CellListItem>
                                 Existing volume
@@ -123,6 +124,18 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                                     Type
                                     <span className={styles.black_color}>
                                         Insurance orders
+                                    </span>
+                                </CellListItem>
+                                <CellListItem>
+                                    Input type
+                                    <span className={styles.black_color}>
+                                        {
+                                            inputTypesDropdown.find(
+                                                (x) =>
+                                                    x.title ===
+                                                    botData.io_calculate_type
+                                            )?.title
+                                        }
                                     </span>
                                 </CellListItem>
                                 <CellListItem>

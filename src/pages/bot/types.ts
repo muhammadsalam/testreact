@@ -29,8 +29,8 @@ export interface BotData {
     def_type: "IO" | "SL" | "NONE";
     take_type: "AUTO" | "MANUAL" | "NONE";
     // id: 152;
-    entry_type: "BUYING_COIN" | "COINS_FROM_WALLET";
-    io_calculate_type: "LO";
+    entry_type: "BUY_COIN" | "USE_WALLET";
+    io_calculate_type: "LO" | "AO";
     take_profit: number | null;
     existing_volume: number | null;
     io_count: number | null;
