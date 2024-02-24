@@ -21,7 +21,7 @@ export interface BotData {
     cycle_dynamic_amount: number | null;
     pair: string;
     // status: string;
-    manual_takes: {
+    takes: {
         step: number;
         amount: number;
     }[];

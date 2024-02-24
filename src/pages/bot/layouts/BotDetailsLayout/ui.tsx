@@ -238,9 +238,11 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                 )}
 
                 {botData.take_type === "MANUAL" &&
-                    botData.manual_takes &&
-                    botData.manual_takes.map((takeItem, index) => (
-                        <Cell title="Take Profit • Step 1" key={index}>
+                    botData.takes.map((takeItem, index) => (
+                        <Cell
+                            title={"Take Profit • Step " + (index + 1)}
+                            key={index}
+                        >
                             <CellListItem>
                                 Intermediate Take Profit, %
                                 <span className={styles.black_color}>
