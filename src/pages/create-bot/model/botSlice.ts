@@ -132,7 +132,7 @@ type FieldValue<T extends keyof BotModel> = {
     value: BotModel[T];
 };
 
-export const createBot = createAsyncThunk('user/fetchUser', async (token: string, ThunkAPI) => {
+export const createBot = createAsyncThunk('user/createBot', async (token: string, ThunkAPI) => {
     const state = (ThunkAPI.getState() as RootState).newBot;
     const bot = {
         user_id: state.user_id,
