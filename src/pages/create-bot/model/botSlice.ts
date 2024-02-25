@@ -57,6 +57,7 @@ export interface BotModel {
         fixed_amount: string;
         dynamic_amount: string;
     };
+    cycles_amount_type_title: string;
     otherStates: {
         def_mrt: boolean;
         def_step_mrt: boolean;
@@ -104,7 +105,7 @@ const initialState: BotModel = {
         },
     ],
     cycles: {
-        count: 0,
+        count: 5,
         input_type: "FIXED",
         fixed_price: '',
         correction: '',
@@ -113,12 +114,13 @@ const initialState: BotModel = {
         dynamic_amount: '',
 
     },
+    cycles_amount_type_title: "Volume increase",
     otherStates: {
         def_mrt: false,
         def_step_mrt: false,
         take_step: false,
         take_mrt: false,
-        cycles: false,
+        cycles: true,
     }
 }
 

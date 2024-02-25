@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
-import { deleteAlert } from "entities/notification";
+import { addAlert, deleteAlert } from "entities/notification";
 import { BotModel, setField } from "pages/create-bot";
 
 const settingNextDropdown: {
@@ -36,7 +36,11 @@ const definitionTypeDropdown: {
     id: BotModel["cycles"]["amount_type"];
 }[] = [
     {
-        title: "Percent",
+        title: "Volume increase",
+        id: "DYNAMIC",
+    },
+    {
+        title: "Volume reduction",
         id: "DYNAMIC",
     },
     {
@@ -48,7 +52,7 @@ const definitionTypeDropdown: {
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const { cycles, otherStates } = useSelector(
+    const { cycles_amount_type_title, cycles, otherStates } = useSelector(
         (state: RootState) => state.newBot
     );
 
@@ -89,6 +93,71 @@ export const DurationLayout: FC = () => {
     };
 
     const validation = () => {
+        if (
+            cycles.input_type === "FIXED" &&
+            (cycles.fixed_price === "" || +cycles.fixed_price <= 0)
+        ) {
+            dispatch(addAlert({ title: "The price must be greater than 0" }));
+            return false;
+        }
+
+        if (
+            cycles.input_type === "CORRECTION" &&
+            (cycles.correction === "" ||
+                +cycles.correction <= 0 ||
+                +cycles.correction > 100)
+        ) {
+            console.log(cycles.correction, cycles.input_type);
+            dispatch(
+                addAlert({
+                    title: "The correction must be greater than 0 and less than or equal to 100%",
+                })
+            );
+            return false;
+        }
+
+        if (cycles.amount_type === "DYNAMIC") {
+            if (
+                cycles_amount_type_title === "Volume increase" &&
+                (cycles.dynamic_amount === "" ||
+                    +cycles.dynamic_amount <= 0 ||
+                    +cycles.dynamic_amount > 100)
+            ) {
+                dispatch(
+                    addAlert({
+                        title: "The entry volume must be greater than 0 and less than or equal to 100%",
+                    })
+                );
+                return false;
+            }
+
+            if (
+                cycles_amount_type_title === "Volume reduction" &&
+                (cycles.dynamic_amount === "" ||
+                    +cycles.dynamic_amount >= 0 ||
+                    +cycles.dynamic_amount < -100)
+            ) {
+                dispatch(
+                    addAlert({
+                        title: "The entry volume must be less than 0 and greater than or equal to -100%",
+                    })
+                );
+                return false;
+            }
+        }
+
+        if (
+            cycles.amount_type === "FIXED" &&
+            (cycles.fixed_amount === "" || +cycles.fixed_amount <= 0)
+        ) {
+            dispatch(
+                addAlert({
+                    title: "The entry volume must be greater than 0",
+                })
+            );
+            return false;
+        }
+
         return true;
     };
 
@@ -122,14 +191,20 @@ export const DurationLayout: FC = () => {
         title: string;
         id: BotModel["cycles"]["amount_type"];
     }) => {
+        if (cycles.amount_type !== item.id) {
+            dispatch(
+                setField({
+                    field: "cycles",
+                    value: {
+                        ...cycles,
+                        amount_type: item.id,
+                    },
+                })
+            );
+        }
+
         dispatch(
-            setField({
-                field: "cycles",
-                value: {
-                    ...cycles,
-                    amount_type: item.id,
-                },
-            })
+            setField({ field: "cycles_amount_type_title", value: item.title })
         );
     };
 
@@ -301,7 +376,7 @@ export const DurationLayout: FC = () => {
                         {cycles.input_type === "CORRECTION" && (
                             <CellListItem>
                                 <p className={styles.listItem_title}>
-                                    cycles{">"}correction
+                                    Correction, %
                                 </p>
                                 <input
                                     type="number"
@@ -322,7 +397,8 @@ export const DurationLayout: FC = () => {
                             <Dropdown
                                 onSwitch={hanldeAmountTypeSwitch}
                                 defaultValueIndex={definitionTypeDropdown.findIndex(
-                                    (item) => item.id === cycles.amount_type
+                                    (item) =>
+                                        item.title === cycles_amount_type_title
                                 )}
                                 items={definitionTypeDropdown}
                             />
@@ -340,14 +416,13 @@ export const DurationLayout: FC = () => {
                                     onClick={handleInputScroll}
                                     onChange={handleDynamicAmount}
                                     value={cycles.dynamic_amount}
-                                    max={99}
                                 />
                             </CellListItem>
                         )}
                         {cycles.amount_type === "FIXED" && (
                             <CellListItem>
                                 <p className={styles.listItem_title}>
-                                    cycles{">"}fixed_amount
+                                    Entry volume
                                 </p>
                                 <input
                                     type="number"
