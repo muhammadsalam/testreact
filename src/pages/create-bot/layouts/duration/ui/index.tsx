@@ -84,6 +84,12 @@ export const DurationLayout: FC = () => {
     };
 
     const handleDynamicAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (
+            cycles_amount_type_title === "Volume reduction" &&
+            !e.target.value.startsWith("-")
+        ) {
+            e.target.value = "-" + e.target.value;
+        }
         dispatch(
             setField({
                 field: "cycles",
@@ -201,6 +207,13 @@ export const DurationLayout: FC = () => {
                 })
             );
         }
+
+        dispatch(
+            setField({
+                field: "cycles",
+                value: { ...cycles, dynamic_amount: "" },
+            })
+        );
 
         dispatch(
             setField({ field: "cycles_amount_type_title", value: item.title })
