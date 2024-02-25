@@ -99,68 +99,72 @@ export const DurationLayout: FC = () => {
     };
 
     const validation = () => {
-        if (
-            cycles.input_type === "FIXED" &&
-            (cycles.fixed_price === "" || +cycles.fixed_price <= 0)
-        ) {
-            dispatch(addAlert({ title: "The price must be greater than 0" }));
-            return false;
-        }
-
-        if (
-            cycles.input_type === "CORRECTION" &&
-            (cycles.correction === "" ||
-                +cycles.correction <= 0 ||
-                +cycles.correction > 100)
-        ) {
-            dispatch(
-                addAlert({
-                    title: "The correction must be greater than 0 and less than or equal to 100%",
-                })
-            );
-            return false;
-        }
-
-        if (cycles.amount_type === "DYNAMIC") {
+        if (otherStates.cycles) {
             if (
-                cycles_amount_type_title === "Volume increase" &&
-                (cycles.dynamic_amount === "" ||
-                    +cycles.dynamic_amount <= 0 ||
-                    +cycles.dynamic_amount > 100)
+                cycles.input_type === "FIXED" &&
+                (cycles.fixed_price === "" || +cycles.fixed_price <= 0)
             ) {
                 dispatch(
-                    addAlert({
-                        title: "The entry volume must be greater than 0 and less than or equal to 100%",
-                    })
+                    addAlert({ title: "The price must be greater than 0" })
                 );
                 return false;
             }
 
             if (
-                cycles_amount_type_title === "Volume reduction" &&
-                (cycles.dynamic_amount === "" ||
-                    +cycles.dynamic_amount >= 0 ||
-                    +cycles.dynamic_amount < -100)
+                cycles.input_type === "CORRECTION" &&
+                (cycles.correction === "" ||
+                    +cycles.correction <= 0 ||
+                    +cycles.correction > 100)
             ) {
                 dispatch(
                     addAlert({
-                        title: "The entry volume must be less than 0 and greater than or equal to -100%",
+                        title: "The correction must be greater than 0 and less than or equal to 100%",
                     })
                 );
                 return false;
             }
-        }
 
-        if (
-            cycles.amount_type === "FIXED" &&
-            (cycles.fixed_amount === "" || +cycles.fixed_amount <= 0)
-        ) {
-            dispatch(
-                addAlert({
-                    title: "The entry volume must be greater than 0",
-                })
-            );
-            return false;
+            if (cycles.amount_type === "DYNAMIC") {
+                if (
+                    cycles_amount_type_title === "Volume increase" &&
+                    (cycles.dynamic_amount === "" ||
+                        +cycles.dynamic_amount <= 0 ||
+                        +cycles.dynamic_amount > 100)
+                ) {
+                    dispatch(
+                        addAlert({
+                            title: "The entry volume must be greater than 0 and less than or equal to 100%",
+                        })
+                    );
+                    return false;
+                }
+
+                if (
+                    cycles_amount_type_title === "Volume reduction" &&
+                    (cycles.dynamic_amount === "" ||
+                        +cycles.dynamic_amount >= 0 ||
+                        +cycles.dynamic_amount < -100)
+                ) {
+                    dispatch(
+                        addAlert({
+                            title: "The entry volume must be less than 0 and greater than or equal to -100%",
+                        })
+                    );
+                    return false;
+                }
+            }
+
+            if (
+                cycles.amount_type === "FIXED" &&
+                (cycles.fixed_amount === "" || +cycles.fixed_amount <= 0)
+            ) {
+                dispatch(
+                    addAlert({
+                        title: "The entry volume must be greater than 0",
+                    })
+                );
+                return false;
+            }
         }
 
         return true;
