@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createBot } from "pages/create-bot";
 import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
+import { Dispatch } from "@reduxjs/toolkit";
+import { deleteAlert } from "entities/notification";
 
 export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
@@ -17,13 +19,13 @@ export const DetailsLayout: FC = () => {
     const token = useSelector((state: RootState) => state.user.token);
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
         window.scrollTo(0, 0);
 
         const mainButtonHandler = () => {
-            console.log("Start bot", botData);
+            dispatch(deleteAlert());
             dispatch(createBot(token));
             navigate("/");
         };

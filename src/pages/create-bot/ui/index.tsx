@@ -24,7 +24,6 @@ export const CreateBotPage = () => {
     useEffect(() => {
         dispatch(fetchPairs());
         dispatch(setField({ field: "user_id", value: user_id }));
-
         return () => {
             dispatch(resetBot());
         };

@@ -1,6 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from 'app/AppStore';
 import axios from 'axios';
+import { addAlert } from 'entities/notification';
+import { addBot } from 'shared/API/userSlice';
 
 interface Pair {
     id: string;
@@ -129,6 +132,66 @@ type FieldValue<T extends keyof BotModel> = {
     value: BotModel[T];
 };
 
+export const createBot = createAsyncThunk('user/fetchUser', async (token: string, ThunkAPI) => {
+    const state = (ThunkAPI.getState() as RootState).newBot;
+    const bot = {
+        user_id: state.user_id,
+        wallet_id: state.wallet_id,
+        existing_volume: +state.existing_volume,
+        purchase_price: +state.purchase_price,
+        title: state.title,
+        pair: state.pair?.id,
+        strategy: state.strategy,
+        entry_type: state.entry_type.id,
+        ammount_first_order: +state.ammount_first_order,
+        type_first_order: state.type_first_order,
+        price_first_order: +state.price_first_order,
+        def_type: state.def_type.id,
+        io_calculate_type: state.io_calculate_type,
+        io_count: +state.io_count,
+        io_step: +state.io_step,
+        io_mrt: +state.io_mrt,
+        io_step_mrt: +state.io_step_mrt,
+        stop_loss: +state.stop_loss,
+        take_type: state.take_type,
+        take_profit: +state.take_profit,
+        take_amount_limit: +state.take_amount_limit,
+        take_amount: +state.take_amount,
+        take_step: +state.take_step,
+        take_mrt: +state.take_mrt,
+        takes: state.takes.map((take) => {
+            return {
+                step: +take.step,
+                amount: +take.amount,
+            }
+        }),
+        cycles: {
+            count: state.cycles.count,
+            input_type: state.cycles.input_type,
+            fixed_price: +state.cycles.fixed_price,
+            correction: +state.cycles.correction,
+            amount_type: state.cycles.amount_type,
+            fixed_amount: +state.cycles.fixed_amount,
+            dynamic_amount: +state.cycles.dynamic_amount,
+        },
+
+    }
+
+    const config = {
+        headers: { Authorization: "Bearer " + token }
+    };
+
+    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot', bot, config).then((res) => res.data)
+        .then(data => {
+            if (data.status === 'success') {
+                ThunkAPI.dispatch(addBot(data.bot));
+            }
+        })
+        .catch((error) => {
+            ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
+        });
+});
+
 export const botSlice = createSlice({
     name: 'newBot',
     initialState,
@@ -137,64 +200,64 @@ export const botSlice = createSlice({
             state[action.payload.field] = action.payload.value;
         },
         resetBot: () => initialState,
-        createBot: (state, action: PayloadAction<string>) => {
-            const bot = {
-                user_id: state.user_id,
-                wallet_id: state.wallet_id,
-                existing_volume: +state.existing_volume,
-                purchase_price: +state.purchase_price,
-                title: state.title,
-                pair: state.pair?.id,
-                strategy: state.strategy,
-                entry_type: state.entry_type.id,
-                ammount_first_order: +state.ammount_first_order,
-                type_first_order: state.type_first_order,
-                price_first_order: +state.price_first_order,
-                def_type: state.def_type.id,
-                io_calculate_type: state.io_calculate_type,
-                io_count: +state.io_count,
-                io_step: +state.io_step,
-                io_mrt: +state.io_mrt,
-                io_step_mrt: +state.io_step_mrt,
-                stop_loss: +state.stop_loss,
-                take_type: state.take_type,
-                take_profit: +state.take_profit,
-                take_amount_limit: +state.take_amount_limit,
-                take_amount: +state.take_amount,
-                take_step: +state.take_step,
-                take_mrt: +state.take_mrt,
-                takes: state.takes.map((take) => {
-                    return {
-                        step: +take.step,
-                        amount: +take.amount,
-                    }
-                }),
-                cycles: {
-                    count: state.cycles.count,
-                    input_type: state.cycles.input_type,
-                    fixed_price: +state.cycles.fixed_price,
-                    correction: +state.cycles.correction,
-                    amount_type: state.cycles.amount_type,
-                    fixed_amount: +state.cycles.fixed_amount,
-                    dynamic_amount: +state.cycles.dynamic_amount,
-                },
+        // createBot: (state, action: PayloadAction<string>) => {
+        //     const bot = {
+        //         user_id: state.user_id,
+        //         wallet_id: state.wallet_id,
+        //         existing_volume: +state.existing_volume,
+        //         purchase_price: +state.purchase_price,
+        //         title: state.title,
+        //         pair: state.pair?.id,
+        //         strategy: state.strategy,
+        //         entry_type: state.entry_type.id,
+        //         ammount_first_order: +state.ammount_first_order,
+        //         type_first_order: state.type_first_order,
+        //         price_first_order: +state.price_first_order,
+        //         def_type: state.def_type.id,
+        //         io_calculate_type: state.io_calculate_type,
+        //         io_count: +state.io_count,
+        //         io_step: +state.io_step,
+        //         io_mrt: +state.io_mrt,
+        //         io_step_mrt: +state.io_step_mrt,
+        //         stop_loss: +state.stop_loss,
+        //         take_type: state.take_type,
+        //         take_profit: +state.take_profit,
+        //         take_amount_limit: +state.take_amount_limit,
+        //         take_amount: +state.take_amount,
+        //         take_step: +state.take_step,
+        //         take_mrt: +state.take_mrt,
+        //         takes: state.takes.map((take) => {
+        //             return {
+        //                 step: +take.step,
+        //                 amount: +take.amount,
+        //             }
+        //         }),
+        //         cycles: {
+        //             count: state.cycles.count,
+        //             input_type: state.cycles.input_type,
+        //             fixed_price: +state.cycles.fixed_price,
+        //             correction: +state.cycles.correction,
+        //             amount_type: state.cycles.amount_type,
+        //             fixed_amount: +state.cycles.fixed_amount,
+        //             dynamic_amount: +state.cycles.dynamic_amount,
+        //         },
 
-            }
+        //     }
 
-            const config = {
-                headers: { Authorization: "Bearer " + action.payload }
-            };
+        //     const config = {
+        //         headers: { Authorization: "Bearer " + action.payload }
+        //     };
 
-            axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot', bot, config).then((res) => {
-                console.log(res.data);
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
+        //     axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot', bot, config).then((res) => {
+        //         console.log(res.data);
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
+        // }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setField, resetBot, createBot } = botSlice.actions
+export const { setField, resetBot } = botSlice.actions
 
 export default botSlice.reducer

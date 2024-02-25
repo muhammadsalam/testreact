@@ -75,10 +75,14 @@ export const userSlice = createSlice({
             state.data.wallets.count++;
             state.data.wallets.data = state.data.wallets.data.concat(action.payload);
         },
+        addBot: (state, action: PayloadAction<any>) => {
+            state.data.bots = state.data.bots.concat(action.payload);
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<string>) => {
             state.token = action.payload;
+
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
             state.data = action.payload;
@@ -87,6 +91,6 @@ export const userSlice = createSlice({
 
 })
 
-export const { addWallet } = userSlice.actions;
+export const { addWallet, addBot } = userSlice.actions;
 
 export default userSlice.reducer
