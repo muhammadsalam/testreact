@@ -196,22 +196,14 @@ export const DurationLayout: FC = () => {
         title: string;
         id: BotModel["cycles"]["amount_type"];
     }) => {
-        if (cycles.amount_type !== item.id) {
-            dispatch(
-                setField({
-                    field: "cycles",
-                    value: {
-                        ...cycles,
-                        amount_type: item.id,
-                    },
-                })
-            );
-        }
-
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, dynamic_amount: "" },
+                value: {
+                    ...cycles,
+                    amount_type: item.id,
+                    dynamic_amount: "",
+                },
             })
         );
 
