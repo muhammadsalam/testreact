@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
+import CloseIcon from "assets/icons/close.svg?react";
 import { useDispatch, useSelector } from "react-redux";
 import { setField } from "pages/create-bot";
 import { RootState } from "app/AppStore";
@@ -97,15 +98,23 @@ export const PairListLayout = () => {
 
     return (
         <div className={styles.container}>
-            <input
-                type="text"
-                placeholder="Pair search"
-                className={styles.input}
-                value={searchValue}
-                onClick={handleInputScroll}
-                onFocus={handleInputFocus}
-                onChange={(e) => setSearchValue(e.target.value)}
-            />
+            <div className={styles.input_wrapper}>
+                <input
+                    type="text"
+                    placeholder="Pair search"
+                    className={styles.input}
+                    value={searchValue}
+                    onClick={handleInputScroll}
+                    onFocus={handleInputFocus}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                />
+                <CloseIcon
+                    className={styles.input_close}
+                    onClick={() => {
+                        setSearchValue("");
+                    }}
+                />
+            </div>
             <Cell title="list of pairs">
                 {filteredPairList.map((pairItem: Pair) => (
                     <PairItem

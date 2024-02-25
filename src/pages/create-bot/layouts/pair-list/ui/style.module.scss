@@ -11,16 +11,38 @@
         rgba(116, 116, 128, 0.12);
     border: 0;
     border-radius: 10px;
-    padding: 7px 12px 7px 42px;
+    padding: 7px 42px;
     line-height: 22px;
     color: #8e8e93;
     font-weight: 400;
     font-size: 17px;
     line-height: 22px;
     letter-spacing: -0.43px;
+    width: 100%;
+
+    &:placeholder-shown + &_close {
+        display: none;
+    }
 
     &::placeholder {
         color: #8e8e93;
+    }
+
+    &[value=""]:focus::placeholder {
+        color: transparent;
+    }
+
+    &_wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    &_close {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 }
 
