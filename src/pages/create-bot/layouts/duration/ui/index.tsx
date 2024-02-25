@@ -209,6 +209,20 @@ export const DurationLayout: FC = () => {
     };
 
     useEffect(() => {
+        const backButtonHandler = () => {
+            window.history.back();
+        };
+        tgApp.BackButton.onClick(backButtonHandler);
+
+        tgApp.MainButton.text = "Next to step 6 / 6";
+        tgApp.MainButton.color = "#007AFF";
+
+        return () => {
+            tgApp.BackButton.offClick(backButtonHandler);
+        };
+    }, []);
+
+    useEffect(() => {
         dispatch(
             setField({
                 field: "cycles",
@@ -227,11 +241,6 @@ export const DurationLayout: FC = () => {
     }, [otherStates.cycles]);
 
     useEffect(() => {
-        const backButtonHandler = () => {
-            window.history.back();
-        };
-        tgApp.BackButton.onClick(backButtonHandler);
-
         const mainButtonHandler = () => {
             if (validation()) {
                 dispatch(deleteAlert());
@@ -240,14 +249,10 @@ export const DurationLayout: FC = () => {
         };
         tgApp.MainButton.onClick(mainButtonHandler);
 
-        tgApp.MainButton.text = "Next to step 6 / 6";
-        tgApp.MainButton.color = "#007AFF";
-
         return () => {
-            tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [otherStates.cycles]);
+    }, [cycles, cycles_amount_type_title]);
 
     return (
         <div className={styles.container}>
