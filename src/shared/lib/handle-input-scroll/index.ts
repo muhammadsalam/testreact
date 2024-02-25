@@ -1,5 +1,8 @@
 export const handleInputScroll = ({ target }: any) => {
+    console.log(target);
+    document.body.style.overflow = "hidden";
+
     setTimeout(() => {
-        (target as HTMLElement).scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 400);
+        document.body.style.overflow = "unset";
+    }, 450);
 }
