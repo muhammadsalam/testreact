@@ -283,7 +283,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                             )}
                             {botData.cycle_input_type === "CORRECTION" && (
                                 <CellListItem>
-                                    cycles&gt;correction
+                                    Correction, %
                                     <span className={styles.black_color}>
                                         {botData.cycle_correction}
                                     </span>
@@ -306,7 +306,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                             )}
                             {botData.cycle_amount_type === "FIXED" && (
                                 <CellListItem>
-                                    cycles&gt;fixed_amount
+                                    Entry volume
                                     <span className={styles.black_color}>
                                         {botData.cycle_fixed_amount}
                                     </span>

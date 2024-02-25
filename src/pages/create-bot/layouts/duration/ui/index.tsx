@@ -107,7 +107,6 @@ export const DurationLayout: FC = () => {
                 +cycles.correction <= 0 ||
                 +cycles.correction > 100)
         ) {
-            console.log(cycles.correction, cycles.input_type);
             dispatch(
                 addAlert({
                     title: "The correction must be greater than 0 and less than or equal to 100%",

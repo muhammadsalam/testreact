@@ -105,7 +105,7 @@ const initialState: BotModel = {
         },
     ],
     cycles: {
-        count: 5,
+        count: 1,
         input_type: "FIXED",
         fixed_price: '',
         correction: '',
@@ -120,7 +120,7 @@ const initialState: BotModel = {
         def_step_mrt: false,
         take_step: false,
         take_mrt: false,
-        cycles: true,
+        cycles: false,
     }
 }
 
