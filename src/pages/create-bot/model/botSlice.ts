@@ -181,7 +181,7 @@ export const createBot = createAsyncThunk('user/createBot', async (token: string
         headers: { Authorization: "Bearer " + token }
     };
 
-    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot', bot, config).then((res) => res.data)
+    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=false', bot, config).then((res) => res.data)
         .then(data => {
             if (data.status === 'success') {
                 ThunkAPI.dispatch(addBot(data.bot));
