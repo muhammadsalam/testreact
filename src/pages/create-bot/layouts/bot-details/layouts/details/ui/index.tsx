@@ -26,7 +26,7 @@ export const DetailsLayout: FC = () => {
 
         const mainButtonHandler = () => {
             dispatch(deleteAlert());
-            dispatch(createBot(token));
+            dispatch(createBot({ token }));
             navigate("/");
         };
 

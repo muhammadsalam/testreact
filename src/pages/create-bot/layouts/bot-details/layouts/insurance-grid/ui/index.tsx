@@ -2,12 +2,12 @@ import { Cell } from "shared/ui";
 import styles from "./styles.module.scss";
 import clsx from "clsx";
 import { FC, useEffect } from "react";
-import { OrdersType } from "pages/create-bot/layouts";
 import { tgApp } from "shared/lib";
+import { useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
 
-export const InsuranceGridLayout: FC<{ botOrders: OrdersType }> = ({
-    botOrders,
-}) => {
+export const InsuranceGridLayout: FC = () => {
+    const orders = useSelector((state: RootState) => state.newBot.orders);
     useEffect(() => {
         window.scrollTo(0, 0);
         tgApp.MainButton.hide();
@@ -23,7 +23,7 @@ export const InsuranceGridLayout: FC<{ botOrders: OrdersType }> = ({
                 <p className={styles.top_title}>Insurance Order Grid</p>
             </div>
 
-            {botOrders
+            {(orders || [])
                 .filter((x) => {
                     return x.type !== "TAKE_PROFIT";
                 })

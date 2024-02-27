@@ -1,13 +1,14 @@
 import { Cell } from "shared/ui";
 import styles from "./styles.module.scss";
 import { FC, useEffect } from "react";
-import { OrdersType } from "pages/create-bot/layouts";
 import clsx from "clsx";
 import { tgApp } from "shared/lib";
+import { useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
 
-export const ProfitGridLayout: FC<{ botOrders: OrdersType }> = ({
-    botOrders,
-}) => {
+export const ProfitGridLayout: FC = () => {
+    const orders = useSelector((state: RootState) => state.newBot.orders);
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -24,7 +25,7 @@ export const ProfitGridLayout: FC<{ botOrders: OrdersType }> = ({
                 <p className={styles.top_title}>Take Profit Grid</p>
             </div>
 
-            {botOrders
+            {(orders || [])
                 .filter((x) => {
                     return x.type === "TAKE_PROFIT";
                 })

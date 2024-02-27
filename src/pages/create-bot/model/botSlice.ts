@@ -67,7 +67,28 @@ export interface BotModel {
         take_step: boolean;
         take_mrt: boolean;
         cycles: boolean;
+        orders_error?: string;
     };
+    orders?: {
+        pair: string;
+        amount_input: number;
+        status:
+        | "READY_TO_PLACED"
+        | "CREATED"
+        | "CANCELED"
+        | "POSTED"
+        | "READY_TO_CANCEL"
+        | "READY_TO_REPLACE"
+        | "WAIT"
+        | "EXECUTED";
+        order_type: string;
+        id: number;
+        price: number;
+        bot_id: number;
+        amount_output: number;
+        type: string;
+        cycle: number;
+    }[];
 }
 
 const initialState: BotModel = {
@@ -132,7 +153,7 @@ type FieldValue<T extends keyof BotModel> = {
     value: BotModel[T];
 };
 
-export const createBot = createAsyncThunk('user/createBot', async (token: string, ThunkAPI) => {
+export const createBot = createAsyncThunk('user/createBot', async ({ preCosting = true, token }: { preCosting?: boolean; token: string }, ThunkAPI) => {
     const state = (ThunkAPI.getState() as RootState).newBot;
     const bot = {
         user_id: state.user_id,
@@ -181,14 +202,14 @@ export const createBot = createAsyncThunk('user/createBot', async (token: string
         headers: { Authorization: "Bearer " + token }
     };
 
-    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=false', bot, config).then((res) => res.data)
+    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=' + preCosting, bot, config).then((res) => res.data)
         .then(data => {
-            if (data.status === 'success') {
-                ThunkAPI.dispatch(addBot(data.bot));
-            }
+            if (preCosting) state.orders = data.orders;
+            if (data.status === 'success') ThunkAPI.dispatch(addBot(data.bot));
         })
         .catch((error) => {
-            ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
+            if (preCosting) state.otherStates.orders_error = error.response.data.detail[0].msg;
+            else ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
         });
 });
 
