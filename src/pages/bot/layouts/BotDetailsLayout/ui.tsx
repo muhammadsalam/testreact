@@ -71,7 +71,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                         <CellListItem>
                             Volume of the first order
                             <span className={styles.black_color}>
-                                {botData.ammount_first_order}
+                                {botData.amount_first_order}
                             </span>
                         </CellListItem>
                         <CellListItem>
@@ -210,7 +210,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                             <CellListItem>
                                 First Take Profit quantity, %
                                 <span className={styles.black_color}>
-                                    {botData.take_ammount}
+                                    {botData.take_amount}
                                 </span>
                             </CellListItem>
                             <CellListItem>

@@ -9,7 +9,7 @@ export interface BotData {
     io_step_mrt: number | null;
     take_mrt: number | null;
     take_amount_limit: number | null;
-    ammount_first_order: number;
+    amount_first_order: number;
     price_first_order: number;
     stop_loss: number;
     cycle_count: number;
@@ -34,7 +34,7 @@ export interface BotData {
     take_profit: number | null;
     existing_volume: number | null;
     io_count: number | null;
-    take_ammount: number | null;
+    take_amount: number | null;
     price_socket_time: number | null;
     user_socket_time: number | null;
     title: string;

@@ -29,7 +29,7 @@ export interface BotModel {
         id: "BUY_COIN" | "USE_WALLET" | "BY_INDICATOR",
         disabled?: boolean,
     };
-    ammount_first_order: string;
+    amount_first_order: string;
     type_first_order: string;
     price_first_order: string;
     def_type: {
@@ -80,7 +80,7 @@ const initialState: BotModel = {
         title: "Buying a coin",
         id: "BUY_COIN",
     },
-    ammount_first_order: "",
+    amount_first_order: "",
     type_first_order: "LIMIT",
     price_first_order: "",
     def_type: {
@@ -143,7 +143,7 @@ export const createBot = createAsyncThunk('user/createBot', async (token: string
         pair: state.pair?.id,
         strategy: state.strategy,
         entry_type: state.entry_type.id,
-        ammount_first_order: +state.ammount_first_order,
+        amount_first_order: +state.amount_first_order,
         type_first_order: state.type_first_order,
         price_first_order: +state.price_first_order,
         def_type: state.def_type.id,

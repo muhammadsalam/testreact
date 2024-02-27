@@ -21,17 +21,17 @@ const firstOrderItems = [
 ];
 
 export const BuyingCoinLayout = () => {
-    const { ammount_first_order, price_first_order, type_first_order } =
+    const { amount_first_order, price_first_order, type_first_order } =
         useSelector((state: RootState) => state.newBot);
 
     const dispatch: AppDispatch = useDispatch();
 
     const [amountInputType, setAmountInputType] =
-        useState<string>(ammount_first_order);
+        useState<string>(amount_first_order);
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         setAmountInputType(value);
-        dispatch(setField({ field: "ammount_first_order", value }));
+        dispatch(setField({ field: "amount_first_order", value }));
     };
 
     const onFirstOrderTypeSwitch = (item: {
@@ -50,7 +50,7 @@ export const BuyingCoinLayout = () => {
     };
 
     const validation = () => {
-        if (+ammount_first_order <= 20) {
+        if (+amount_first_order <= 20) {
             dispatch(
                 addAlert({
                     title: "Invalid volume of the first order (should be не меньше 20) [потом изменится через бэк]",
@@ -78,7 +78,7 @@ export const BuyingCoinLayout = () => {
         return () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [ammount_first_order, price_first_order, type_first_order]);
+    }, [amount_first_order, price_first_order, type_first_order]);
 
     return (
         <>

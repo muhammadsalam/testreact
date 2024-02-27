@@ -52,7 +52,7 @@ export const BotPage = () => {
         tgApp.MainButton.onClick(mainButtonHandler);
 
         tgApp.MainButton.show();
-        tgApp.MainButton.text = "go to main";
+        tgApp.MainButton.text = "Go to main";
         tgApp.MainButton.color = "#007AFF";
 
         return () => {

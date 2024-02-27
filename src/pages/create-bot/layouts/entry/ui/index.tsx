@@ -34,7 +34,7 @@ export const EntryLayout: FC = () => {
     const navigate = useNavigate();
 
     const {
-        ammount_first_order,
+        amount_first_order,
         type_first_order,
         price_first_order,
         existing_volume,
@@ -60,7 +60,7 @@ export const EntryLayout: FC = () => {
         purchase_price,
         price_first_order,
         type_first_order,
-        ammount_first_order,
+        amount_first_order,
         existing_volume,
     ]);
 

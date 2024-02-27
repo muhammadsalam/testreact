@@ -97,7 +97,7 @@ export const DetailsLayout: FC = () => {
                         <CellListItem>
                             Volume of the first order
                             <span className={styles.black_color}>
-                                {botData.ammount_first_order}
+                                {botData.amount_first_order}
                             </span>
                         </CellListItem>
                         <CellListItem>
