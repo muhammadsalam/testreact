@@ -39,7 +39,6 @@ export const BotPage = () => {
         tgApp.BackButton.show();
 
         const backButtonHandler = () => {
-            tgApp.BackButton.hide();
             window.history.back();
         };
         tgApp.BackButton.onClick(backButtonHandler);
@@ -56,6 +55,7 @@ export const BotPage = () => {
         tgApp.MainButton.color = "#007AFF";
 
         return () => {
+            tgApp.BackButton.hide();
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
