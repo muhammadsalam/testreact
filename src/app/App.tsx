@@ -30,23 +30,18 @@ export const App: FC = () => {
     }, []);
 
     const [isFontsLoading, setIsFontsLoading] = useState({
-        SFPro: false,
-        SFRounded: false,
         SFProDisplay: false,
+        SFProText: false,
     });
 
     useEffect(() => {
-        let SFPro = new FontFaceObserver("SF Pro");
-        SFPro.load(null, 140000).then(() => {
-            setIsFontsLoading((prev) => ({ ...prev, SFPro: true }));
-        });
-        let SFRounded = new FontFaceObserver("SFRounded");
-        SFRounded.load(null, 140000).then(() => {
-            setIsFontsLoading((prev) => ({ ...prev, SFRounded: true }));
-        });
-        let SFProDisplay = new FontFaceObserver("SFProDisplay");
+        let SFProDisplay = new FontFaceObserver("SF Pro Display");
         SFProDisplay.load(null, 140000).then(() => {
             setIsFontsLoading((prev) => ({ ...prev, SFProDisplay: true }));
+        });
+        let SFProText = new FontFaceObserver("SF Pro Text");
+        SFProText.load(null, 140000).then(() => {
+            setIsFontsLoading((prev) => ({ ...prev, SFProText: true }));
         });
     }, []);
 

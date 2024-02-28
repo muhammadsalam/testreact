@@ -1,40 +1,23 @@
 @font-face {
-    font-family: "SF Pro";
-    src: url("SF-Pro.ttf") format("truetype");
+    font-family: "Sf Pro Display";
+    src: url("SF-Pro-Display-Bold.otf") format("opentype");
+    font-weight: 700;
 }
 
 @font-face {
-    font-family: "SFRounded";
-    src: url("SFRounded-Bold.eot");
-    src: local("SFRounded Bold"), local("SFRounded-Bold"),
-        url("SFRounded-Bold.eot?#iefix") format("embedded-opentype"),
-        url("SFRounded-Bold.woff2") format("woff2"),
-        url("SFRounded-Bold.woff") format("woff"),
-        url("SFRounded-Bold.ttf") format("truetype");
-    font-weight: bold;
-    font-style: normal;
+    font-family: "SF Pro Text";
+    src: url("SF-Pro-Text-Regular.otf") format("opentype");
+    font-weight: 400;
 }
 
 @font-face {
-    font-family: "SFRounded";
-    src: url("SFRounded-Semibold.eot");
-    src: local("SFRounded Semibold"), local("SFRounded-Semibold"),
-        url("SFRounded-Semibold.eot?#iefix") format("embedded-opentype"),
-        url("SFRounded-Semibold.woff2") format("woff2"),
-        url("SFRounded-Semibold.woff") format("woff"),
-        url("SFRounded-Semibold.ttf") format("truetype");
+    font-family: "SF Pro Text";
+    src: url("SF-Pro-Text-Medium.otf") format("opentype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "SF Pro Text";
+    src: url("SF-Pro-Text-Semibold.otf") format("opentype");
     font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "SFProDisplay";
-    src: url("SFProDisplay-Regular.eot");
-    src: local("SFProDisplay Regular"), local("SFProDisplay-Regular"),
-        url("SFProDisplay-Regular.eot?#iefix") format("embedded-opentype"),
-        url("SFProDisplay-Regular.woff2") format("woff2"),
-        url("SFProDisplay-Regular.woff") format("woff"),
-        url("SFProDisplay-Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
 }
