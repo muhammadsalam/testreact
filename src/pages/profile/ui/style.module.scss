@@ -21,7 +21,7 @@
     }
 
     &_strong {
-        font-family: "Sf Pro Display", sans-serif;
+        font-family: "Sf Pro Rounded", sans-serif;
         margin-top: 12px;
         color: #000;
         font-size: 40px;
@@ -30,6 +30,7 @@
         letter-spacing: 0.38px;
 
         span {
+            font-family: inherit;
             color: #8e8e93;
         }
     }

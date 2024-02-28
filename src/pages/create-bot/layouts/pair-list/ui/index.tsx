@@ -115,16 +115,18 @@ export const PairListLayout = () => {
                     }}
                 />
             </div>
-            <Cell title="list of pairs">
-                {filteredPairList.map((pairItem: Pair) => (
-                    <PairItem
-                        key={pairItem.id}
-                        pair={pairItem}
-                        isActive={pairItem.id === localActivePair?.id}
-                        setLocalActivePair={setLocalActivePair}
-                    />
-                ))}
-            </Cell>
+            {filteredPairList.length > 0 && (
+                <Cell title="list of pairs">
+                    {filteredPairList.map((pairItem: Pair) => (
+                        <PairItem
+                            key={pairItem.id}
+                            pair={pairItem}
+                            isActive={pairItem.id === localActivePair?.id}
+                            setLocalActivePair={setLocalActivePair}
+                        />
+                    ))}
+                </Cell>
+            )}
         </div>
     );
 };
