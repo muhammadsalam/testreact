@@ -43,21 +43,9 @@ export const BotPage = () => {
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
-        const mainButtonHandler = () => {
-            tgApp.BackButton.hide();
-            window.history.back();
-        };
-
-        tgApp.MainButton.onClick(mainButtonHandler);
-
-        tgApp.MainButton.show();
-        tgApp.MainButton.text = "Go to main";
-        tgApp.MainButton.color = "#007AFF";
-
         return () => {
             tgApp.BackButton.hide();
             tgApp.BackButton.offClick(backButtonHandler);
-            tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, []);
 

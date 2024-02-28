@@ -9,7 +9,7 @@ import { tgApp } from "shared/lib";
 import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { useDispatch } from "react-redux";
-import { createBot } from "pages/create-bot";
+import { createBot, setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
 
 export type OrdersType = {
@@ -45,6 +45,7 @@ export const BotDetailsPage = () => {
 
         dispatch(createBot({ token, preCosting: true }));
         return () => {
+            dispatch(setField({ field: "orders", value: null }));
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, []);

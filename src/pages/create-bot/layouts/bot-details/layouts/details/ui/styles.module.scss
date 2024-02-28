@@ -70,3 +70,13 @@
         text-decoration: none;
     }
 }
+
+.errorBlock {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #000;
+    padding: 10px 16px;
+    border-radius: 10px;
+}

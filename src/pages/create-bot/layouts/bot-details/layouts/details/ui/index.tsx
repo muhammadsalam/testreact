@@ -10,6 +10,7 @@ import { createBot } from "pages/create-bot";
 import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
 import { Dispatch } from "@reduxjs/toolkit";
 import { deleteAlert } from "entities/notification";
+import ErrorIcon from "assets/icons/error.svg?react";
 
 export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
@@ -17,6 +18,8 @@ export const DetailsLayout: FC = () => {
         (state: RootState) => state.user.data.wallets.data
     );
     const token = useSelector((state: RootState) => state.user.token);
+    const orders_error = botData.otherStates.orders_error;
+    const orders = botData.orders;
 
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -331,19 +334,33 @@ export const DetailsLayout: FC = () => {
                 )}
             </Cell>
 
-            <Cell listClass={false}>
-                <div className={styles.buttonsCell}>
-                    <Link
-                        to="insurance-grid"
-                        className={styles.buttonsCell_item}
-                    >
-                        Insurance Order Grid
-                    </Link>
-                    <Link to="profit-grid" className={styles.buttonsCell_item}>
-                        Take Profit Grid
-                    </Link>
+            {orders_error === undefined ? (
+                <Cell listClass={false}>
+                    <div className={styles.buttonsCell}>
+                        {orders?.find((a) => a.type !== "TAKE_PROFIT") && (
+                            <Link
+                                to="insurance-grid"
+                                className={styles.buttonsCell_item}
+                            >
+                                Insurance Order Grid
+                            </Link>
+                        )}
+                        {orders?.find((a) => a.type === "TAKE_PROFIT") && (
+                            <Link
+                                to="profit-grid"
+                                className={styles.buttonsCell_item}
+                            >
+                                Take Profit Grid
+                            </Link>
+                        )}
+                    </div>
+                </Cell>
+            ) : (
+                <div className={styles.errorBlock}>
+                    <ErrorIcon />
+                    <p className={styles.errorBlock_text}>{orders_error}</p>
                 </div>
-            </Cell>
+            )}
         </div>
     );
 };

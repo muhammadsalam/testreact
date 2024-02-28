@@ -69,7 +69,7 @@ export interface BotModel {
         cycles: boolean;
         orders_error?: string;
     };
-    orders?: {
+    orders: {
         pair: string;
         amount_input: number;
         status:
@@ -81,17 +81,18 @@ export interface BotModel {
         | "READY_TO_REPLACE"
         | "WAIT"
         | "EXECUTED";
-        order_type: string;
+        order_type: 'LIMIT' | 'MARKET' | 'TAKE_PROFIT' | 'STOP_LOSS';
         id: number;
         price: number;
         bot_id: number;
         amount_output: number;
-        type: string;
+        type: 'FIRST_ORDER' | 'IO_ORDER' | 'TAKE_PROFIT' | 'STOP_LOSS';
         cycle: number;
-    }[];
+    }[] | null;
 }
 
 const initialState: BotModel = {
+    orders: null,
     user_id: null,
     wallet_id: null,
     title: "",
@@ -153,7 +154,7 @@ type FieldValue<T extends keyof BotModel> = {
     value: BotModel[T];
 };
 
-export const createBot = createAsyncThunk('user/createBot', async ({ preCosting = true, token }: { preCosting?: boolean; token: string }, ThunkAPI) => {
+export const createBot = createAsyncThunk('user/createBot', async ({ preCosting = false, token }: { preCosting?: boolean; token: string }, ThunkAPI) => {
     const state = (ThunkAPI.getState() as RootState).newBot;
     const bot = {
         user_id: state.user_id,
@@ -204,11 +205,13 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
 
     axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=' + preCosting, bot, config).then((res) => res.data)
         .then(data => {
-            if (preCosting) state.orders = data.orders;
-            if (data.status === 'success') ThunkAPI.dispatch(addBot(data.bot));
+            console.log('data', data);
+            if (preCosting) ThunkAPI.dispatch(setField({ field: 'orders', value: data.orders }));
+            if (!preCosting && data.status === 'success') ThunkAPI.dispatch(addBot(data.bot));
         })
         .catch((error) => {
-            if (preCosting) state.otherStates.orders_error = error.response.data.detail[0].msg;
+            console.log('error', error);
+            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail } }));
             else ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
         });
 });
