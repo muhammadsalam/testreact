@@ -89,6 +89,7 @@
     }
 
     &_title {
+        font-family: "SF Pro Display";
         font-weight: 700;
         font-size: 20px;
         line-height: 24px;
@@ -123,6 +124,7 @@
 
     &__keys {
         padding: 9px 16px;
+        font-weight: 400;
 
         .content {
             padding: 13px 16px 13px 0 !important;

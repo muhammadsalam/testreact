@@ -32,6 +32,7 @@ export const App: FC = () => {
     const [isFontsLoading, setIsFontsLoading] = useState({
         SFProDisplay: false,
         SFProText: false,
+        SFProRounded: false,
     });
 
     useEffect(() => {
@@ -42,6 +43,10 @@ export const App: FC = () => {
         let SFProText = new FontFaceObserver("SF Pro Text");
         SFProText.load(null, 140000).then(() => {
             setIsFontsLoading((prev) => ({ ...prev, SFProText: true }));
+        });
+        let SFProRounded = new FontFaceObserver("SF Pro Rounded");
+        SFProRounded.load(null, 140000).then(() => {
+            setIsFontsLoading((prev) => ({ ...prev, SFProRounded: true }));
         });
     }, []);
 
