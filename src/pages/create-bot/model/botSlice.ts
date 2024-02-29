@@ -91,7 +91,10 @@ export interface BotModel {
     }[] | null;
 }
 
-const initialState: BotModel = {
+const savedState = localStorage.getItem('newBot');
+const preloadedState = savedState ? JSON.parse(savedState) : undefined;
+
+const stateIfNoSaved: BotModel = {
     orders: null,
     user_id: null,
     wallet_id: null,
@@ -148,6 +151,8 @@ const initialState: BotModel = {
         cycles: false,
     }
 }
+
+const initialState: BotModel = preloadedState ?? stateIfNoSaved;
 
 type FieldValue<T extends keyof BotModel> = {
     field: T;
@@ -222,8 +227,12 @@ export const botSlice = createSlice({
     reducers: {
         setField: <T extends keyof BotModel>(state: BotModel, action: PayloadAction<FieldValue<T>>) => {
             state[action.payload.field] = action.payload.value;
+            localStorage.setItem('newBot', JSON.stringify(state));
         },
-        resetBot: () => initialState,
+        resetBot: () => {
+            localStorage.removeItem('newBot');
+            return stateIfNoSaved;
+        },
     },
 })
 

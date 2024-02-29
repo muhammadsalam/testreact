@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { RootState } from "app/AppStore";
 import { addAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
+import { resetBot } from "pages/create-bot";
 
 export const ProfilePage: FC = () => {
     const userData = useSelector((state: RootState) => state.user.data);
@@ -31,6 +32,7 @@ export const ProfilePage: FC = () => {
             );
             e.preventDefault();
         }
+        dispatch(resetBot());
     };
 
     return (
