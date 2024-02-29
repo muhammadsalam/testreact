@@ -15,19 +15,11 @@ import FontFaceObserver from "fontfaceobserver";
 import { KeysPage } from "pages/keys";
 
 export const App: FC = () => {
-    useEffect(() => {
-        tgApp.setHeaderColor("#F2F2F7");
-        tgApp.setBackgroundColor("#f2f2f7");
-        tgApp.expand();
-    }, []);
-
-    const dispatch: Dispatch<any> = useDispatch();
     const alert = useSelector((state: RootState) => state.alert);
-
-    useEffect(() => {
-        tgApp.ready();
-        dispatch(fetchUser());
-    }, []);
+    const { isLoading, isDataGot, isTokenGot } = useSelector(
+        (state: RootState) => state.loading
+    );
+    const dispatch: Dispatch<any> = useDispatch();
 
     const [isFontsLoading, setIsFontsLoading] = useState({
         SFProDisplay: false,
@@ -36,6 +28,13 @@ export const App: FC = () => {
     });
 
     useEffect(() => {
+        tgApp.ready();
+        tgApp.setHeaderColor("#F2F2F7");
+        tgApp.setBackgroundColor("#f2f2f7");
+        tgApp.expand();
+
+        dispatch(fetchUser());
+
         let SFProDisplay = new FontFaceObserver("SF Pro Display");
         SFProDisplay.load(null, 140000).then(() => {
             setIsFontsLoading((prev) => ({ ...prev, SFProDisplay: true }));
@@ -52,7 +51,12 @@ export const App: FC = () => {
 
     // return <Loader />;
     // // если все шрифты не прогрузились
-    if (Object.values(isFontsLoading).some((v) => !v)) {
+    if (
+        Object.values(isFontsLoading).some((v) => !v) ||
+        isLoading ||
+        !isDataGot ||
+        !isTokenGot
+    ) {
         return <Loader />;
     }
 
