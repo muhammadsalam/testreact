@@ -35,6 +35,9 @@ export type OrdersType = {
 
 export const BotDetailsPage = () => {
     const token = useSelector((state: RootState) => state.user.token);
+    const otherStates = useSelector(
+        (state: RootState) => state.newBot.otherStates
+    );
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
@@ -46,6 +49,12 @@ export const BotDetailsPage = () => {
         dispatch(createBot({ token, preCosting: true }));
         return () => {
             dispatch(setField({ field: "orders", value: null }));
+            dispatch(
+                setField({
+                    field: "otherStates",
+                    value: { ...otherStates, orders_error: undefined },
+                })
+            );
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, []);

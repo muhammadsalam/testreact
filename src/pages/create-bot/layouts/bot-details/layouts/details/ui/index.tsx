@@ -28,10 +28,17 @@ export const DetailsLayout: FC = () => {
         window.scrollTo(0, 0);
 
         const mainButtonHandler = () => {
-            dispatch(deleteAlert());
-            dispatch(createBot({ token }));
-            navigate("/");
+            if (orders !== null && orders_error === undefined) {
+                dispatch(deleteAlert());
+                dispatch(createBot({ token }));
+                navigate("/");
+            }
         };
+
+        if (orders_error !== undefined) {
+            tgApp.MainButton.textColor = "#fff";
+            tgApp.MainButton.color = "#E8E8E9";
+        }
 
         tgApp.MainButton.text = "Start";
 
@@ -40,7 +47,7 @@ export const DetailsLayout: FC = () => {
         return () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, []);
+    }, [orders_error, orders]);
 
     return (
         <div className={styles.container}>
