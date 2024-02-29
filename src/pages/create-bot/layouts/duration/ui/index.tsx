@@ -99,7 +99,7 @@ export const DurationLayout: FC = () => {
     };
 
     const validation = () => {
-        if (otherStates.cycles) {
+        if (cycles.count > 1) {
             if (
                 cycles.input_type === "FIXED" &&
                 (cycles.fixed_price === "" || +cycles.fixed_price <= 0)
