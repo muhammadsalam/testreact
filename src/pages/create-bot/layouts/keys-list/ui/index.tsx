@@ -68,6 +68,7 @@ export const KeysListLayout = () => {
             // пока нельзя выбрать, потому что API не готово
             window.history.back();
         };
+        tgApp.MainButton.show();
         tgApp.MainButton.onClick(mainButtonHandler);
         tgApp.MainButton.text = "Done";
 

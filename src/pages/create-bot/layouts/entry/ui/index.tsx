@@ -50,6 +50,8 @@ export const EntryLayout: FC = () => {
             navigate("/createbot/step1");
         };
         tgApp.BackButton.onClick(backButtonHandler);
+
+        tgApp.MainButton.show();
         tgApp.MainButton.text = "Next to step 3 / 6";
 
         return () => {

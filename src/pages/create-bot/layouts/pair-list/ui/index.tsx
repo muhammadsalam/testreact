@@ -87,6 +87,7 @@ export const PairListLayout = () => {
             dispatch(setField({ field: "pair", value: localActivePair }));
             window.history.back();
         };
+        tgApp.MainButton.show();
         tgApp.MainButton.onClick(mainButtonHandler);
         tgApp.MainButton.text = "Done";
 

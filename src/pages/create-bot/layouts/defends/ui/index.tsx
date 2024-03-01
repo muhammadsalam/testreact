@@ -100,6 +100,8 @@ export const DefendsLayout: FC = () => {
                 navigate("/createbot/step4");
             }
         };
+
+        tgApp.MainButton.show();
         tgApp.MainButton.onClick(mainButtonHandler);
 
         tgApp.MainButton.text = "Next to step 4 / 6";

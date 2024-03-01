@@ -71,6 +71,7 @@ export const ProfitLayout: FC = () => {
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
+        tgApp.MainButton.show();
         tgApp.MainButton.text = "Next to step 5 / 6";
 
         return () => {

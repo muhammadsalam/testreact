@@ -222,6 +222,7 @@ export const DurationLayout: FC = () => {
         };
         tgApp.BackButton.onClick(backButtonHandler);
 
+        tgApp.MainButton.show();
         tgApp.MainButton.text = "Next to step 6 / 6";
         tgApp.MainButton.color = "#007AFF";
 

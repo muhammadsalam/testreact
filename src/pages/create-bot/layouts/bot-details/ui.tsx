@@ -41,6 +41,8 @@ export const BotDetailsPage = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
+        tgApp.MainButton.show();
+
         const backButtonHandler = () => {
             window.history.back();
         };
