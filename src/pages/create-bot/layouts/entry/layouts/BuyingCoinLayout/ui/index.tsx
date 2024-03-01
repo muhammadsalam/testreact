@@ -21,7 +21,7 @@ const firstOrderItems = [
 ];
 
 export const BuyingCoinLayout = () => {
-    const { amount_first_order, price_first_order, type_first_order } =
+    const { amount_first_order, price_first_order, type_first_order, pair } =
         useSelector((state: RootState) => state.newBot);
 
     const dispatch: AppDispatch = useDispatch();
@@ -50,10 +50,19 @@ export const BuyingCoinLayout = () => {
     };
 
     const validation = () => {
-        if (+amount_first_order <= 20) {
+        if (
+            pair !== null &&
+            (+amount_first_order < pair?.limits.cost.min ||
+                +amount_first_order > pair?.limits.cost.max)
+        ) {
             dispatch(
                 addAlert({
-                    title: "Invalid volume of the first order (should be не меньше 20) [потом изменится через бэк]",
+                    title:
+                        "Invalid volume of the first order (should be не меньше " +
+                        pair.limits.cost.min +
+                        " и не больше " +
+                        pair.limits.cost.max +
+                        ")",
                 })
             );
             return false;
@@ -82,7 +91,7 @@ export const BuyingCoinLayout = () => {
 
     return (
         <>
-            <Cell description="Min 5.03 USDT / 0.00021 BTC">
+            <Cell description={`Min ${pair?.limits.cost.min} USDT`}>
                 <CellListItem>
                     <p className={styles.list_item_title}>
                         Volume of the entry order

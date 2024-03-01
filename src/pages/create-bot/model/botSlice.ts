@@ -11,6 +11,16 @@ interface Pair {
     quote: string;
     baseimg: string;
     quoteimg: string;
+    limits: {
+        amount: {
+            min: number;
+            max: number;
+        },
+        cost: {
+            min: number;
+            max: number;
+        }
+    }
 }
 
 interface Take {
