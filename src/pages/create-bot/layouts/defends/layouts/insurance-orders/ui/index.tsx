@@ -105,7 +105,7 @@ export const InsuranceOrdersLayout = () => {
                     <input
                         type="number"
                         className={styles.listItem_input}
-                        inputMode="numeric"
+                        inputMode="decimal"
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
                         onChange={handleIOCount}
@@ -119,7 +119,7 @@ export const InsuranceOrdersLayout = () => {
                     </p>
                     <input
                         type="number"
-                        inputMode="numeric"
+                        inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}

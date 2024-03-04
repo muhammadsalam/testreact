@@ -45,7 +45,7 @@ export const DefendsLayout: FC = () => {
             if (+io_count < 1 || +io_count > 10) {
                 dispatch(
                     addAlert({
-                        title: "limit of insurance orders should be between 1 and 10",
+                        title: "The limit of insurance orders volume must be from 1 to 10",
                     })
                 );
                 return false;
@@ -53,7 +53,7 @@ export const DefendsLayout: FC = () => {
             if (+io_step < 1 || +io_step > 99) {
                 dispatch(
                     addAlert({
-                        title: "step of insurance orders should be between 1 and 99",
+                        title: "The step of insurance orders volume must be from 1 to 99",
                     })
                 );
                 return false;
@@ -79,7 +79,9 @@ export const DefendsLayout: FC = () => {
         if (def_type.id === "SL") {
             if (+stop_loss < 1 || +stop_loss > 99) {
                 dispatch(
-                    addAlert({ title: "stop loss should be between 1 and 99" })
+                    addAlert({
+                        title: "The step loss volume must be from 1 to 99",
+                    })
                 );
                 return false;
             }

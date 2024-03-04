@@ -112,32 +112,18 @@ export const AutomaticLayout: FC = () => {
 
     const validation = () => {
         if (+take_profit <= 1) {
-            dispatch(addAlert({ title: "Invalid take profit (should be >1)" }));
+            dispatch(
+                addAlert({
+                    title: 'The "Take profit" field value must be greater than 1',
+                })
+            );
             return false;
         }
 
         if (+take_amount < 1 || +take_amount > 100) {
             dispatch(
                 addAlert({
-                    title: "Invalid first take profit quantity (should be 0< and >100)",
-                })
-            );
-            return false;
-        }
-
-        if (otherStates.take_step && (+take_step < 0.5 || +take_step > 5)) {
-            dispatch(
-                addAlert({
-                    title: "Invalid step take profit (should be 1< and >5)",
-                })
-            );
-            return false;
-        }
-
-        if (otherStates.take_mrt && (+take_mrt < 0.5 || +take_mrt > 5)) {
-            dispatch(
-                addAlert({
-                    title: "Invalid martingale take profit (should be 1< and >5)",
+                    title: "The value of the “Take amount” field must be greater than or equal to 1, but not greater than 100",
                 })
             );
             return false;
@@ -171,7 +157,7 @@ export const AutomaticLayout: FC = () => {
                         <p className={styles.listItem_title}>Existing volume</p>
                         <input
                             type="number"
-                            inputMode="numeric"
+                            inputMode="decimal"
                             className={styles.listItem_input}
                             onFocus={handleInputFocus}
                             onClick={handleInputScroll}
@@ -187,7 +173,7 @@ export const AutomaticLayout: FC = () => {
                     <p className={styles.listItem_title}>Take Profit, %</p>
                     <input
                         type="number"
-                        inputMode="numeric"
+                        inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}
@@ -243,7 +229,7 @@ export const AutomaticLayout: FC = () => {
                     <p className={styles.listItem_title}>Take Amount, %</p>
                     <input
                         type="number"
-                        inputMode="numeric"
+                        inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
                         onClick={handleInputScroll}

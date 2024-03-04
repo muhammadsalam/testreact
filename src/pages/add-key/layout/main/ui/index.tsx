@@ -32,9 +32,17 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
         const navigate = useNavigate();
 
         const validation = () => {
+            if (activeExchange === "") {
+                dispatch(
+                    addAlert({ title: "Select required exchange option" })
+                );
+                return false;
+            }
             if (apikey === "" || secretKey === "") {
                 dispatch(
-                    addAlert({ title: "To add a key, fill in all fields" })
+                    addAlert({
+                        title: "Fill in the required fields API Key and Secret Key",
+                    })
                 );
                 return false;
             }

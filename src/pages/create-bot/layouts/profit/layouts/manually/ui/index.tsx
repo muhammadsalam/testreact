@@ -37,7 +37,7 @@ export const ManuallyLayout: FC = () => {
 
         if (totalAmount >= 100) {
             dispatch(
-                addAlert({ title: "Общий % amount уже 100%, куда уж больше" })
+                addAlert({ title: "Total % amount cannot be greater than 100" })
             );
             return;
         }
@@ -92,7 +92,6 @@ export const ManuallyLayout: FC = () => {
         index: number
     ) => {
         let value = e.target.value;
-        if (Number(value) < 0) return;
 
         if (value.startsWith("0") && value.length > 1) {
             value = value.slice(1);
@@ -109,9 +108,22 @@ export const ManuallyLayout: FC = () => {
             0
         );
 
-        if (totalAmount > 100) {
+        const freeAmount = 100 - (totalAmount - +value);
+
+        if (takes.length > 1) {
+            if (+value > freeAmount) {
+                dispatch(
+                    addAlert({
+                        title: `The value of the “Amount” field in Step ${
+                            index + 1
+                        } must be greater than 0, but not greater than ${freeAmount}`,
+                    })
+                );
+                return;
+            }
+        } else if (totalAmount > 100) {
             dispatch(
-                addAlert({ title: "Общий % amount не может быть больше 100%" })
+                addAlert({ title: "Total % amount cannot be greater than 100" })
             );
             return;
         }
@@ -153,28 +165,39 @@ export const ManuallyLayout: FC = () => {
         }
 
         for (let i = 0; i < takes.length; i++) {
-            if (+takes[i].step < 1) {
+            if (+takes[i].step < 1 || +takes[i].step > 99) {
                 dispatch(
                     addAlert({
-                        title:
-                            "Invalid intermediate take profit in step" +
-                            (i + 1) +
-                            " (should be >0)",
+                        title: "The value of the “Intermediate take profit” field must be greater than or equal to 1, but not more than 99",
                     })
                 );
                 return false;
             }
 
-            if (+takes[i].amount < 1 || +takes[i].amount > 100) {
-                dispatch(
-                    addAlert({
-                        title:
-                            "Invalid amount in step" +
-                            (i + 1) +
-                            " (should be 0< and >100)",
-                    })
-                );
-                return false;
+            if (takes.length < 2) {
+                if (+takes[i].amount < 1 || +takes[i].amount > 100) {
+                    dispatch(
+                        addAlert({
+                            title: "The value of the “Amount” field must be greater than 1, but not greater than 100",
+                        })
+                    );
+                    return false;
+                }
+            } else {
+                const freeAmount =
+                    100 -
+                    takes.reduce((total, item) => total + +item.amount, 0);
+
+                if (+takes[i].amount < 1 || +takes[i].amount > freeAmount) {
+                    dispatch(
+                        addAlert({
+                            title: `The value of the “Amount” field in Step ${
+                                i + 1
+                            } must be greater than 1, but not greater than ${freeAmount}`,
+                        })
+                    );
+                    return false;
+                }
             }
         }
 
@@ -211,7 +234,7 @@ export const ManuallyLayout: FC = () => {
                         <p className={styles.listItem_title}>Existing volume</p>
                         <input
                             type="number"
-                            inputMode="numeric"
+                            inputMode="decimal"
                             className={styles.listItem_input}
                             onFocus={handleInputFocus}
                             onClick={handleInputScroll}
@@ -267,7 +290,7 @@ export const ManuallyLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
@@ -281,7 +304,7 @@ export const ManuallyLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}

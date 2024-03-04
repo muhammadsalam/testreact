@@ -31,7 +31,11 @@ export const ConfigureLayout: FC = () => {
             .replace(/^\s+|\s+$/g, "")
             .replace(/\s+/g, " ");
         if (titleWithoutSpaces.length < 3 || titleWithoutSpaces.length > 20) {
-            dispatch(addAlert({ title: "Title must be between 3 and 20" }));
+            dispatch(
+                addAlert({
+                    title: "The bot name characters must be between 3 and 20",
+                })
+            );
             dispatch(setField({ field: "title", value: titleWithoutSpaces }));
             return false;
         }

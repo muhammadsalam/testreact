@@ -57,18 +57,17 @@ export const BuyingCoinLayout = () => {
         ) {
             dispatch(
                 addAlert({
-                    title:
-                        "Invalid volume of the first order (should be не меньше " +
-                        pair.limits.cost.min +
-                        " и не больше " +
-                        pair.limits.cost.max +
-                        ")",
+                    title: `The entry order volume must be from ${pair.limits.cost.min} to ${pair.limits.cost.max}`,
                 })
             );
             return false;
         }
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
-            dispatch(addAlert({ title: "Invalid Price" }));
+            dispatch(
+                addAlert({
+                    title: 'The "Prcie for a limit order" field value must be greater than 0',
+                })
+            );
             return false;
         }
         return true;
@@ -100,7 +99,7 @@ export const BuyingCoinLayout = () => {
                     </p>
                     <input
                         type="number"
-                        inputMode="numeric"
+                        inputMode="decimal"
                         className={styles.list_item_input}
                         value={amountInputType}
                         onChange={handleITChange}
@@ -138,7 +137,7 @@ export const BuyingCoinLayout = () => {
                     </p>
                     <input
                         type="number"
-                        inputMode="numeric"
+                        inputMode="decimal"
                         className={styles.list_item_input}
                         value={amountFO}
                         onChange={handleFOChange}

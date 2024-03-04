@@ -105,7 +105,9 @@ export const DurationLayout: FC = () => {
                 (cycles.fixed_price === "" || +cycles.fixed_price <= 0)
             ) {
                 dispatch(
-                    addAlert({ title: "The price must be greater than 0" })
+                    addAlert({
+                        title: 'The "Price" field value must be greater than 0',
+                    })
                 );
                 return false;
             }
@@ -118,7 +120,7 @@ export const DurationLayout: FC = () => {
             ) {
                 dispatch(
                     addAlert({
-                        title: "The correction must be greater than 0 and less than or equal to 100%",
+                        title: "The value of the “Corretion” field must be greater than 0, but not greater than 100",
                     })
                 );
                 return false;
@@ -133,7 +135,7 @@ export const DurationLayout: FC = () => {
                 ) {
                     dispatch(
                         addAlert({
-                            title: "The entry volume must be greater than 0 and less than or equal to 100%",
+                            title: "The value of the “Entry volume” field must be greater than 0, but not greater than 100",
                         })
                     );
                     return false;
@@ -147,7 +149,7 @@ export const DurationLayout: FC = () => {
                 ) {
                     dispatch(
                         addAlert({
-                            title: "The entry volume must be less than 0 and greater than or equal to -100%",
+                            title: "The value of the “Entry volume” field must be greater than 0, but not greater than 100",
                         })
                     );
                     return false;
@@ -160,7 +162,7 @@ export const DurationLayout: FC = () => {
             ) {
                 dispatch(
                     addAlert({
-                        title: "The entry volume must be greater than 0",
+                        title: 'The "Entry volume" field value must be greater than 0',
                     })
                 );
                 return false;
@@ -378,7 +380,7 @@ export const DurationLayout: FC = () => {
                                 <p className={styles.listItem_title}>Price</p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
@@ -394,7 +396,7 @@ export const DurationLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
@@ -424,7 +426,7 @@ export const DurationLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
@@ -440,7 +442,7 @@ export const DurationLayout: FC = () => {
                                 </p>
                                 <input
                                     type="number"
-                                    inputMode="numeric"
+                                    inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}

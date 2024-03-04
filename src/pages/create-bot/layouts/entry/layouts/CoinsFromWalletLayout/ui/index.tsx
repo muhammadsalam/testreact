@@ -40,12 +40,12 @@ export const CoinsFromWalletLayout = () => {
     const validation = () => {
         if (
             !+existing_volume ||
-            +existing_volume < 0 ||
+            +existing_volume <= 0 ||
             existing_volume.length === 0
         ) {
             dispatch(
                 addAlert({
-                    title: "Invalid Existing Volume (should be >0)",
+                    title: 'The "Existing volume" field value must be greater than 0',
                 })
             );
             return false;
@@ -58,7 +58,7 @@ export const CoinsFromWalletLayout = () => {
         ) {
             dispatch(
                 addAlert({
-                    title: "Invalid Purchase Price (should be >0)",
+                    title: 'The "Purchase price" field value must be greater than 0',
                 })
             );
             return false;
@@ -85,7 +85,7 @@ export const CoinsFromWalletLayout = () => {
                 <p>Existing volume</p>
                 <input
                     type="number"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     className={styles.input}
                     onFocus={handleInputFocus}
                     onClick={handleInputScroll}
@@ -97,7 +97,7 @@ export const CoinsFromWalletLayout = () => {
                 <p>Purchase price</p>
                 <input
                     type="number"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     className={styles.input}
                     onFocus={handleInputFocus}
                     onClick={handleInputScroll}
