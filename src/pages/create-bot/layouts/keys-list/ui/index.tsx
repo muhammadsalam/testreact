@@ -27,9 +27,7 @@ const KeyItem: FC<{
             <BinanceIcon />
             <FlexWrapper className={styles.item_info_wrapper}>
                 <div className={styles.item_info}>
-                    <div className={styles.item_info_title}>
-                        {item.exchange}
-                    </div>
+                    <div className={styles.item_info_title}>{item.title}</div>
                     <div className={styles.item_info_ph}>
                         API key: {item.api_key}
                     </div>
@@ -52,6 +50,7 @@ export const KeysListLayout = () => {
             id: 0,
             exchange: "",
             api_key: "",
+            title: "",
         }
     );
 

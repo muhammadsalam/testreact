@@ -61,7 +61,7 @@ export const KeysPage = () => {
                         <BinanceIcon />
                         <div className={styles.button_info}>
                             <b className={styles.button_title}>
-                                {wallet.exchange}
+                                {wallet.title}
                             </b>
                             <p className={styles.button_ph}>
                                 API key: {wallet.api_key}

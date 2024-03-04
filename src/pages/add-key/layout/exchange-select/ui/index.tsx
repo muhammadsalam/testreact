@@ -10,19 +10,19 @@ interface ExchangeSelectLayoutProps {
     activeExchange: string;
 }
 
+const exchangeList = [
+    {
+        title: "Binance",
+        id: "BINANCE",
+    },
+    {
+        title: "Binance Testnet",
+        id: "BINANCE_TESTNET",
+    },
+];
+
 export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
     ({ setActiveExchange, activeExchange }) => {
-        const exchangeList = [
-            {
-                title: "Binance",
-                id: "BINANCE",
-            },
-            {
-                title: "Binance Testnet",
-                id: "BINANCE_TESTNET",
-            },
-        ];
-
         const [localActiveExchange, setLocalActiveExchange] =
             useState(activeExchange);
 
@@ -60,7 +60,7 @@ export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
             <Cell title="exchanges">
                 {exchangeList.map((exchange) => (
                     <button
-                        key={exchange.title}
+                        key={exchange.id}
                         className={styles.navButton}
                         onClick={() => setLocalActiveExchange(exchange.id)}
                     >

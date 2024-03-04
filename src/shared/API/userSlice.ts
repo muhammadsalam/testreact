@@ -7,6 +7,7 @@ import { setIsDataGot, setIsTokenGot } from './loading';
 export type WalletType = {
     id: number | null,
     exchange: string,
+    title: string,
     api_key: string
 };
 
