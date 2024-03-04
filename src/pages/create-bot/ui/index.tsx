@@ -16,9 +16,11 @@ import { resetBot, setField } from "../model/botSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "app/AppStore";
 import { tgApp } from "shared/lib";
+import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
 
 export const CreateBotPage = () => {
     const user_id = useSelector((state: RootState) => state.user.data.user_id);
+    const wallet_id = useSelector((state: RootState) => state.newBot.wallet_id);
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
@@ -29,6 +31,10 @@ export const CreateBotPage = () => {
             dispatch(resetBot());
         };
     }, []);
+
+    useEffect(() => {
+        if (wallet_id !== null) dispatch(fetchPairs());
+    }, [wallet_id]);
 
     return (
         <Routes>

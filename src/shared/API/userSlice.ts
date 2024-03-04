@@ -5,7 +5,7 @@ import { tgApp } from 'shared/lib';
 import { setIsDataGot, setIsTokenGot } from './loading';
 
 export type WalletType = {
-    id: number,
+    id: number | null,
     exchange: string,
     api_key: string
 };
