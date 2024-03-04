@@ -226,7 +226,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         })
         .catch((error) => {
             console.log('error', error);
-            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail } }));
+            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail.error_text } }));
             else ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
         });
 });
