@@ -26,7 +26,6 @@ const entryDropdown = [
     {
         title: "By indicator",
         id: "BY_INDICATOR",
-        disabled: true,
     },
 ];
 

@@ -25,7 +25,6 @@ const profitDropdown: {
     {
         title: "By indicator",
         id: "BY_INDICATOR",
-        disabled: true,
     },
     {
         title: "None",
