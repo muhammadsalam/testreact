@@ -11,7 +11,6 @@ import {
     BotDetailsPage,
 } from "../layouts";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
 import { Route, Routes } from "react-router-dom";
 import { resetBot, setField } from "../model/botSlice";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -23,7 +22,6 @@ export const CreateBotPage = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchPairs());
         dispatch(setField({ field: "user_id", value: user_id }));
 
         tgApp.MainButton.color = "#007AFF";

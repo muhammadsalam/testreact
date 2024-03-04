@@ -6,7 +6,8 @@ import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import CloseIcon from "assets/icons/close.svg?react";
 import { useDispatch, useSelector } from "react-redux";
 import { setField } from "pages/create-bot";
-import { RootState } from "app/AppStore";
+import { AppDispatch, RootState } from "app/AppStore";
+import { fetchPairs } from "../model/pairSlice";
 
 export interface Pair {
     id: string;
@@ -61,7 +62,7 @@ const PairItem: FC<{
 });
 
 export const PairListLayout = () => {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const pairs = useSelector((state: RootState) => state.pairs.list);
     const activePair = useSelector((state: RootState) => state.newBot.pair);
@@ -96,6 +97,10 @@ export const PairListLayout = () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, [localActivePair]);
+
+    useEffect(() => {
+        dispatch(fetchPairs());
+    }, []);
 
     return (
         <div className={styles.container}>

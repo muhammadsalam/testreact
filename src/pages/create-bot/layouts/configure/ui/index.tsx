@@ -77,7 +77,7 @@ export const ConfigureLayout: FC = () => {
             tgApp.BackButton.offClick(backButtonHandler);
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [title, wallet_id]);
+    }, [title, wallet_id, pair]);
 
     const handleTitleChange = ({
         target: { value },
