@@ -141,7 +141,18 @@ export const ConfigureLayout: FC = () => {
                 title="pair"
                 description={pair ? "1 BTC = 26 280.25 ₮" : undefined}
             >
-                <Link to={"pair-list"} className={styles.navButton}>
+                <Link
+                    to={"pair-list"}
+                    className={styles.navButton}
+                    onClick={(e) => {
+                        if (wallet_id === null) {
+                            dispatch(
+                                addAlert({ title: "First Choose API Key" })
+                            );
+                            return e.preventDefault();
+                        }
+                    }}
+                >
                     {pair ? (
                         <div className={styles.content}>
                             <CurrencyIcon
