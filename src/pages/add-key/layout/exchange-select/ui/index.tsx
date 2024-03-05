@@ -4,25 +4,18 @@ import styles from "./styles.module.scss";
 import { FC, memo, useEffect, useState } from "react";
 import CheckmarkIcon from "assets/icons/checkmark.svg?react";
 import { tgApp } from "shared/lib";
+import { useSelector } from "react-redux";
+import { RootState } from "app/AppStore";
+import { ExchangeType } from "entities/exchanges";
 
 interface ExchangeSelectLayoutProps {
-    setActiveExchange: React.Dispatch<React.SetStateAction<string>>;
-    activeExchange: string;
+    setActiveExchange: React.Dispatch<React.SetStateAction<ExchangeType>>;
+    activeExchange: ExchangeType;
 }
-
-const exchangeList = [
-    {
-        title: "Binance",
-        id: "BINANCE",
-    },
-    {
-        title: "Binance Testnet",
-        id: "BINANCE_TESTNET",
-    },
-];
 
 export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
     ({ setActiveExchange, activeExchange }) => {
+        const exchanges = useSelector((state: RootState) => state.exchanges);
         const [localActiveExchange, setLocalActiveExchange] =
             useState(activeExchange);
 
@@ -58,20 +51,20 @@ export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
 
         return (
             <Cell title="exchanges">
-                {exchangeList.map((exchange) => (
+                {exchanges.map((exchange) => (
                     <button
-                        key={exchange.id}
+                        key={exchange?.id}
                         className={styles.navButton}
-                        onClick={() => setLocalActiveExchange(exchange.id)}
+                        onClick={() => setLocalActiveExchange(exchange)}
                     >
                         <BinanceIcon />
                         <div className={styles.content}>
                             <div className={styles.content_info}>
                                 <div className={styles.content_info_title}>
-                                    {exchange.title}
+                                    {exchange?.title}
                                 </div>
                             </div>
-                            {localActiveExchange === exchange.id && (
+                            {localActiveExchange?.id === exchange?.id && (
                                 <CheckmarkIcon />
                             )}
                         </div>

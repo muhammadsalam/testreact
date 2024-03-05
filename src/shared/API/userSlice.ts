@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { tgApp } from 'shared/lib';
 import { setIsDataGot, setIsTokenGot } from './loading';
+import { fetchExchanges } from 'entities/exchanges';
 
 export type WalletType = {
     id: number | null,
@@ -52,6 +53,7 @@ export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (
     })
 
     ThunkAPI.dispatch(setIsDataGot(true));
+    ThunkAPI.dispatch(fetchExchanges());
 
     return response.data;
 });

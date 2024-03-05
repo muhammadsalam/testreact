@@ -18,7 +18,7 @@ export const fetchPairs = createAsyncThunk('pairs/FetchPairs', async (_, ThunkAP
 });
 
 export const pairSlice = createSlice({
-    name: 'pairs',
+    name: 'exchanges',
     initialState,
     reducers: {
     },

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import pairReducer from 'pages/create-bot/layouts/pair-list/model/pairSlice'
+import exchangeReducer from 'entities/exchanges'
 import userReducer from 'shared/API/userSlice'
 import newBotReducer from 'pages/create-bot/model/botSlice';
 import alertReducer from 'entities/notification/model/alertSlice';
@@ -9,6 +10,7 @@ export const store = configureStore({
     reducer: {
         user: userReducer,
         pairs: pairReducer,
+        exchanges: exchangeReducer,
         newBot: newBotReducer,
         alert: alertReducer,
         loading: loadingReducer,

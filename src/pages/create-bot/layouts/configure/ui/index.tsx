@@ -127,7 +127,7 @@ export const ConfigureLayout: FC = () => {
                                     {
                                         wallets.find(
                                             (wallet) => wallet.id === wallet_id
-                                        )?.exchange
+                                        )?.title
                                     }
                                 </div>
                             </div>

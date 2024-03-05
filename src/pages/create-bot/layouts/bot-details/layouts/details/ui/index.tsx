@@ -69,7 +69,7 @@ export const DetailsLayout: FC = () => {
                             {
                                 wallets.find(
                                     (item) => item.id === botData.wallet_id
-                                )?.exchange
+                                )?.title
                             }
                         </span>
                         <span className={styles.listItem_block_span}>

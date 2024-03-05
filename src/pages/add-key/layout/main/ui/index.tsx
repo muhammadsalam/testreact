@@ -11,8 +11,9 @@ import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "app/AppStore";
 import { WalletType, addWallet } from "shared/API/userSlice";
+import { ExchangeType } from "entities/exchanges";
 
-export const MainLayout: FC<{ activeExchange: string }> = memo(
+export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
     ({ activeExchange }) => {
         const user = useSelector((state: RootState) => state.user);
         const dispatch: Dispatch<any> = useDispatch();
@@ -32,7 +33,7 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
         const navigate = useNavigate();
 
         const validation = () => {
-            if (activeExchange === "") {
+            if (activeExchange === null) {
                 dispatch(
                     addAlert({ title: "Select required exchange option" })
                 );
@@ -74,7 +75,7 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                     const data = {
                         api_key: apikey,
                         api_secret: secretKey,
-                        exchange: activeExchange.toUpperCase(),
+                        exchange: activeExchange?.exchange,
                     };
 
                     const config = {
@@ -130,12 +131,12 @@ export const MainLayout: FC<{ activeExchange: string }> = memo(
                         to="/keyadd/select-exchange"
                         className={styles.navButton}
                     >
-                        {activeExchange !== "" ? (
+                        {activeExchange !== null ? (
                             <div className={styles.content}>
                                 <BinanceIcon />
                                 <div className={styles.content_info}>
                                     <div className={styles.content_info_title}>
-                                        {activeExchange}
+                                        {activeExchange.title}
                                     </div>
                                 </div>
                             </div>
