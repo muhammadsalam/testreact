@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useRef, useState } from "react";
+import { FC, HTMLAttributes, useEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { useOutsideClick } from "shared/lib";
 import ArrowBottomIcon from "assets/icons/arrow-bottom.svg?react";
@@ -34,7 +34,9 @@ export const Dropdown: FC<
     ...props
 }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownPopupRef = useRef<HTMLDivElement>(null);
 
+    const [isDropdownUp, setIsDropdownUp] = useState(false);
     const [isDropdownActive, setIsDropdownActive] = useState(false);
     const handleDropdownActive = () => {
         setIsDropdownActive((state) => !state);
@@ -54,6 +56,41 @@ export const Dropdown: FC<
         onSwitch && onSwitch(items[index]);
     };
 
+    useEffect(() => {
+        const checkDropdownPosition = () => {
+            if (dropdownRef.current) {
+                const dropdownRect =
+                    dropdownRef.current.getBoundingClientRect();
+
+                const tgViewportHeight = getComputedStyle(
+                    document.documentElement
+                ).getPropertyValue("--tg-viewport-height");
+                const viewportHeight =
+                    tgViewportHeight && tgViewportHeight !== "100vh"
+                        ? parseInt(tgViewportHeight, 10)
+                        : window.innerHeight;
+
+                const spaceBelow = viewportHeight - dropdownRect.bottom;
+
+                // Проверяем, есть ли снизу 180 пикселей
+                const isEnoughSpaceBelow = spaceBelow >= 180;
+
+                setIsDropdownUp(!isEnoughSpaceBelow);
+            }
+        };
+
+        // Проверяем положение при активации дропдауна
+        if (isDropdownActive) {
+            checkDropdownPosition();
+        }
+
+        window.addEventListener("resize", checkDropdownPosition);
+
+        return () => {
+            window.removeEventListener("resize", checkDropdownPosition);
+        };
+    }, [isDropdownActive]);
+
     return (
         <div
             className={clsx(styles.dropdown, [className])}
@@ -71,8 +108,10 @@ export const Dropdown: FC<
             </div>
 
             <div
+                ref={dropdownPopupRef}
                 className={clsx(styles.dropdown_list, {
                     [styles.dropdown_list__active]: isDropdownActive,
+                    [styles.dropdown_list__up]: isDropdownUp,
                 })}
             >
                 <div className={styles.dropdown_list_wrapper}>
