@@ -117,9 +117,11 @@
 .wrapper {
     display: grid;
     grid-template-rows: 0fr;
+    pointer-events: none;
     transition: grid-template-rows 0.123s ease-in-out;
     &__active {
         grid-template-rows: 1fr;
+        pointer-events: all;
     }
 }
 
