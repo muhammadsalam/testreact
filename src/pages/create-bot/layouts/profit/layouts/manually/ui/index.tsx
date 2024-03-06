@@ -108,15 +108,19 @@ export const ManuallyLayout: FC = () => {
             0
         );
 
-        const freeAmount = 100 - (totalAmount - +value);
-
         if (takes.length > 1) {
-            if (+value > freeAmount) {
+            if (totalAmount > 100) {
                 dispatch(
                     addAlert({
-                        title: `The value of the “Amount” field in Step ${
-                            index + 1
-                        } must be greater than 0, but not greater than ${freeAmount}`,
+                        title: `Total % amount cannot be greater than ${
+                            100 -
+                            takes.reduce(
+                                (total, item, elemIndex) =>
+                                    total +
+                                    (elemIndex === index ? 0 : +item.amount),
+                                0
+                            )
+                        }`,
                     })
                 );
                 return;

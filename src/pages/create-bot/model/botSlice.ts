@@ -66,9 +66,8 @@ export interface BotModel {
         input_type: 'FIXED' | 'CORRECTION' | 'BY_INDICATOR';
         fixed_price: string;
         correction: string;
-        amount_type: 'FIXED' | 'DYNAMIC';
+        amount_type: 'FIXED' | 'ALL_PROFIT' | 'LAST_PROFIT';
         fixed_amount: string;
-        dynamic_amount: string;
     };
     cycles_amount_type_title: string;
     otherStates: {
@@ -148,9 +147,8 @@ const stateIfNoSaved: BotModel = {
         input_type: "FIXED",
         fixed_price: '',
         correction: '',
-        amount_type: "DYNAMIC",
+        amount_type: "FIXED",
         fixed_amount: '',
-        dynamic_amount: '',
 
     },
     cycles_amount_type_title: "Volume increase",
@@ -210,7 +208,6 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
             correction: +state.cycles.correction,
             amount_type: state.cycles.amount_type,
             fixed_amount: +state.cycles.fixed_amount,
-            dynamic_amount: +state.cycles.dynamic_amount,
         },
 
     }
