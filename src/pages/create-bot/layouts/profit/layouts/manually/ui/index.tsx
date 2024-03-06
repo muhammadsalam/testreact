@@ -178,30 +178,13 @@ export const ManuallyLayout: FC = () => {
                 return false;
             }
 
-            if (takes.length < 2) {
-                if (+takes[i].amount < 1 || +takes[i].amount > 100) {
-                    dispatch(
-                        addAlert({
-                            title: "The value of the “Amount” field must be greater than 1, but not greater than 100",
-                        })
-                    );
-                    return false;
-                }
-            } else {
-                const freeAmount =
-                    100 -
-                    takes.reduce((total, item) => total + +item.amount, 0);
-
-                if (+takes[i].amount < 1 || +takes[i].amount > freeAmount) {
-                    dispatch(
-                        addAlert({
-                            title: `The value of the “Amount” field in Step ${
-                                i + 1
-                            } must be greater than 1, but not greater than ${freeAmount}`,
-                        })
-                    );
-                    return false;
-                }
+            if (+takes[i].amount < 1 || +takes[i].amount > 100) {
+                dispatch(
+                    addAlert({
+                        title: "The value of the “Amount” field must be greater than 1, but not greater than 100",
+                    })
+                );
+                return false;
             }
         }
 
