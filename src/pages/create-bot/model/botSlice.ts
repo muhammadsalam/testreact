@@ -77,7 +77,10 @@ export interface BotModel {
         take_step: boolean;
         take_mrt: boolean;
         cycles: boolean;
-        orders_error?: string;
+        orders_error?: {
+            message: string;
+            mainButtonText: string;
+        } | string;
     };
     orders: {
         pair: string;
@@ -102,8 +105,6 @@ export interface BotModel {
 }
 
 const savedState = localStorage.getItem('newBot');
-const preloadedState = savedState ? JSON.parse(savedState) : undefined;
-
 const stateIfNoSaved: BotModel = {
     orders: null,
     user_id: null,
@@ -161,8 +162,8 @@ const stateIfNoSaved: BotModel = {
         cycles: false,
     }
 }
-
-const initialState: BotModel = preloadedState ?? stateIfNoSaved;
+const preloadedState: BotModel = savedState ? JSON.parse(savedState) : stateIfNoSaved;
+const initialState: BotModel = preloadedState;
 
 type FieldValue<T extends keyof BotModel> = {
     field: T;
@@ -226,8 +227,19 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         })
         .catch((error) => {
             console.log('error', error);
-            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail.error_text } }));
-            else ThunkAPI.dispatch(addAlert({ title: error.response.data.detail[0].msg }))
+            if (error.message) {
+                ThunkAPI.dispatch(setField({
+                    field: 'otherStates', value: {
+                        ...state.otherStates, orders_error: {
+                            message: error.message,
+                            mainButtonText: 'Try again'
+                        }
+                    }
+                }))
+                return;
+            }
+            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail?.error_text } }));
+            else ThunkAPI.dispatch(addAlert({ title: error.response?.data?.detail[0]?.msg }))
         });
 });
 

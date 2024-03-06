@@ -24,13 +24,15 @@ export const CreateBotPage = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        dispatch(setField({ field: "user_id", value: user_id }));
-
         tgApp.MainButton.color = "#007AFF";
         return () => {
             dispatch(resetBot());
         };
     }, []);
+
+    useEffect(() => {
+        dispatch(setField({ field: "user_id", value: user_id }));
+    }, [user_id]);
 
     useEffect(() => {
         if (wallet_id !== null) dispatch(fetchPairs());

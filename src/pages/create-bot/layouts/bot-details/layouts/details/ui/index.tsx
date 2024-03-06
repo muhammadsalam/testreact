@@ -28,6 +28,14 @@ export const DetailsLayout: FC = () => {
         window.scrollTo(0, 0);
 
         const mainButtonHandler = () => {
+            if (
+                orders_error !== undefined &&
+                typeof orders_error !== "string" &&
+                orders_error.message
+            ) {
+                dispatch(createBot({ token, preCosting: true }));
+                return;
+            }
             if (orders !== null && orders_error === undefined) {
                 dispatch(deleteAlert());
                 dispatch(createBot({ token }));
@@ -35,12 +43,15 @@ export const DetailsLayout: FC = () => {
             }
         };
 
-        if (orders_error !== undefined) {
+        tgApp.MainButton.text =
+            orders_error !== undefined && typeof orders_error !== "string"
+                ? orders_error.mainButtonText
+                : "Start";
+
+        if (orders_error !== undefined && typeof orders_error === "string") {
             tgApp.MainButton.textColor = "#fff";
             tgApp.MainButton.color = "#E8E8E9";
         }
-
-        tgApp.MainButton.text = "Start";
 
         tgApp.MainButton.onClick(mainButtonHandler);
 
@@ -365,7 +376,11 @@ export const DetailsLayout: FC = () => {
             ) : (
                 <div className={styles.errorBlock}>
                     <ErrorIcon />
-                    <p className={styles.errorBlock_text}>{orders_error}</p>
+                    <p className={styles.errorBlock_text}>
+                        {typeof orders_error === "string"
+                            ? orders_error
+                            : orders_error.message}
+                    </p>
                 </div>
             )}
         </div>
