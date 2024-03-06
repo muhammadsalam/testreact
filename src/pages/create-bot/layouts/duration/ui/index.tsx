@@ -36,23 +36,23 @@ const definitionTypeDropdown: {
     id: BotModel["cycles"]["amount_type"];
 }[] = [
     {
-        title: "Volume increase",
-        id: "DYNAMIC",
-    },
-    {
-        title: "Volume reduction",
-        id: "DYNAMIC",
-    },
-    {
         title: "Fixed volume",
         id: "FIXED",
+    },
+    {
+        title: "All profit",
+        id: "ALL_PROFIT",
+    },
+    {
+        title: "By last profit",
+        id: "LAST_PROFIT",
     },
 ];
 
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const { cycles_amount_type_title, cycles, otherStates } = useSelector(
+    const { cycles, otherStates } = useSelector(
         (state: RootState) => state.newBot
     );
 
@@ -83,21 +83,6 @@ export const DurationLayout: FC = () => {
         );
     };
 
-    const handleDynamicAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (
-            cycles_amount_type_title === "Volume reduction" &&
-            !e.target.value.startsWith("-")
-        ) {
-            e.target.value = "-" + e.target.value;
-        }
-        dispatch(
-            setField({
-                field: "cycles",
-                value: { ...cycles, dynamic_amount: e.target.value },
-            })
-        );
-    };
-
     const validation = () => {
         if (cycles.count > 1) {
             if (
@@ -124,36 +109,6 @@ export const DurationLayout: FC = () => {
                     })
                 );
                 return false;
-            }
-
-            if (cycles.amount_type === "DYNAMIC") {
-                if (
-                    cycles_amount_type_title === "Volume increase" &&
-                    (cycles.dynamic_amount === "" ||
-                        +cycles.dynamic_amount <= 0 ||
-                        +cycles.dynamic_amount > 100)
-                ) {
-                    dispatch(
-                        addAlert({
-                            title: "The value of the “Entry volume” field must be greater than 0, but not greater than 100",
-                        })
-                    );
-                    return false;
-                }
-
-                if (
-                    cycles_amount_type_title === "Volume reduction" &&
-                    (cycles.dynamic_amount === "" ||
-                        +cycles.dynamic_amount >= 0 ||
-                        +cycles.dynamic_amount < -100)
-                ) {
-                    dispatch(
-                        addAlert({
-                            title: "The value of the “Entry volume” field must be greater than 0, but not greater than 100",
-                        })
-                    );
-                    return false;
-                }
             }
 
             if (
@@ -208,13 +163,8 @@ export const DurationLayout: FC = () => {
                 value: {
                     ...cycles,
                     amount_type: item.id,
-                    dynamic_amount: "",
                 },
             })
-        );
-
-        dispatch(
-            setField({ field: "cycles_amount_type_title", value: item.title })
         );
     };
 
@@ -263,7 +213,7 @@ export const DurationLayout: FC = () => {
         return () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
-    }, [cycles, cycles_amount_type_title]);
+    }, [cycles]);
 
     return (
         <div className={styles.container}>
@@ -413,28 +363,11 @@ export const DurationLayout: FC = () => {
                             <Dropdown
                                 onSwitch={hanldeAmountTypeSwitch}
                                 defaultValueIndex={definitionTypeDropdown.findIndex(
-                                    (item) =>
-                                        item.title === cycles_amount_type_title
+                                    (item) => item.id === cycles.amount_type
                                 )}
                                 items={definitionTypeDropdown}
                             />
                         </CellListItem>
-                        {cycles.amount_type === "DYNAMIC" && (
-                            <CellListItem>
-                                <p className={styles.listItem_title}>
-                                    Entry volume, %
-                                </p>
-                                <input
-                                    type="number"
-                                    inputMode="decimal"
-                                    className={styles.listItem_input}
-                                    onFocus={handleInputFocus}
-                                    onClick={handleInputScroll}
-                                    onChange={handleDynamicAmount}
-                                    value={cycles.dynamic_amount}
-                                />
-                            </CellListItem>
-                        )}
                         {cycles.amount_type === "FIXED" && (
                             <CellListItem>
                                 <p className={styles.listItem_title}>

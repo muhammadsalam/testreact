@@ -332,14 +332,6 @@ export const DetailsLayout: FC = () => {
                                 {botData.cycles.amount_type}
                             </span>
                         </CellListItem>
-                        {botData.cycles.amount_type === "DYNAMIC" && (
-                            <CellListItem>
-                                Entry volume, %
-                                <span className={styles.black_color}>
-                                    {botData.cycles.dynamic_amount}
-                                </span>
-                            </CellListItem>
-                        )}
                         {botData.cycles.amount_type === "FIXED" && (
                             <CellListItem>
                                 Entry volume

@@ -69,7 +69,6 @@ export interface BotModel {
         amount_type: 'FIXED' | 'ALL_PROFIT' | 'LAST_PROFIT';
         fixed_amount: string;
     };
-    cycles_amount_type_title: string;
     otherStates: {
         def_mrt: boolean;
         def_step_mrt: boolean;
@@ -151,7 +150,6 @@ const stateIfNoSaved: BotModel = {
         fixed_amount: '',
 
     },
-    cycles_amount_type_title: "Volume increase",
     otherStates: {
         def_mrt: false,
         def_step_mrt: false,
