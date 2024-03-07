@@ -222,7 +222,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         })
         .catch((error) => {
             console.log('error', error);
-            if (error.message) {
+            if (!error.response?.data && error.message) {
                 ThunkAPI.dispatch(setField({
                     field: 'otherStates', value: {
                         ...state.otherStates, orders_error: {
@@ -233,7 +233,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
                 }))
                 return;
             }
-            if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail?.error_text } }));
+            if (preCosting && !error.response?.data?.detail[0]?.msg) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail?.error_text } }));
             else ThunkAPI.dispatch(addAlert({ title: error.response?.data?.detail[0]?.msg }))
         });
 });
