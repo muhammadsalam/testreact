@@ -91,7 +91,7 @@ export const BuyingCoinLayout = () => {
     return (
         <>
             <Cell
-                description={`Min ${pair?.limits.cost.min} USDT / Max ${pair?.limits.cost.min} USDT`}
+                description={`Min ${pair?.limits.cost.min} USDT / Max ${pair?.limits.cost.max} USDT`}
             >
                 <CellListItem>
                     <p className={styles.list_item_title}>
