@@ -1,9 +1,13 @@
 import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
-import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    limitFloat,
+    tgApp,
+} from "shared/lib";
 import clsx from "clsx";
-import { inputNumber } from "features/input-number";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -24,25 +28,22 @@ const tabs: { title: string; id: "part" | "full" }[] = [
 ];
 
 export const AutomaticLayout: FC = () => {
-    const {
-        take_profit,
-        take_amount,
-        take_step,
-        take_mrt,
-        entry_type,
-        existing_volume,
-        otherStates,
-    } = useSelector((state: RootState) => state.newBot);
+    const { take_profit, take_amount, take_step, take_mrt, otherStates } =
+        useSelector((state: RootState) => state.newBot);
     const dispatch: Dispatch<any> = useDispatch();
 
     const [TProfit, setTProfit] = useState("" + take_profit);
     const handleTProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTProfit, "take_profit", dispatch);
+        const value = limitFloat(e.target.value, 2);
+        setTProfit(value);
+        dispatch(setField({ field: "take_profit", value: value }));
     };
 
     const [TAmount, setTAmount] = useState("" + take_amount);
     const handleTAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setTAmount, "take_amount", dispatch);
+        const value = limitFloat(e.target.value, 2);
+        setTAmount(value);
+        dispatch(setField({ field: "take_amount", value: value }));
     };
 
     const handleTStepChange = (value: string) => {
@@ -78,16 +79,6 @@ export const AutomaticLayout: FC = () => {
     const takeStepData = useRange(0.5, 5, +take_step);
     const takeMrtData = useRange(0.5, 5, +take_mrt);
     const totalAmoutForSale = useRange(1, 100, 100);
-
-    const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
-    const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setExistingVolume,
-            "existing_volume",
-            dispatch
-        );
-    };
 
     const [activeTab, setActiveTab] = useState<"full" | "part">(tabs[0].id);
     const handleTabChange = (tabId: "full" | "part") => {
@@ -151,23 +142,6 @@ export const AutomaticLayout: FC = () => {
 
     return (
         <>
-            {!entry_type && (
-                <Cell title="Volume">
-                    <CellListItem>
-                        <p className={styles.listItem_title}>Existing volume</p>
-                        <input
-                            type="number"
-                            inputMode="decimal"
-                            className={styles.listItem_input}
-                            onFocus={handleInputFocus}
-                            onClick={handleInputScroll}
-                            value={ExistingVolume}
-                            onChange={handleExistingVolume}
-                        />
-                    </CellListItem>
-                </Cell>
-            )}
-
             <Cell title="Take Profit">
                 <CellListItem>
                     <p className={styles.listItem_title}>Take Profit, %</p>

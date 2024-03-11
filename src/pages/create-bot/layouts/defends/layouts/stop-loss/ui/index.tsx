@@ -1,10 +1,10 @@
 import { Cell, CellListItem } from "shared/ui";
 import styles from "./style.module.scss";
-import { handleInputFocus, handleInputScroll } from "shared/lib";
-import { inputNumber } from "features/input-number";
+import { handleInputFocus, handleInputScroll, limitFloat } from "shared/lib";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
+import { setField } from "pages/create-bot";
 
 export const StopLossLayout = () => {
     const dispatch = useDispatch();
@@ -12,7 +12,9 @@ export const StopLossLayout = () => {
 
     const [StopLoss, setStopLoss] = useState("" + stop_loss);
     const handleStopLoss = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, setStopLoss, "stop_loss", dispatch);
+        const value = limitFloat(e.target.value, 2);
+        setStopLoss(value);
+        dispatch(setField({ field: "stop_loss", value: value }));
     };
 
     return (

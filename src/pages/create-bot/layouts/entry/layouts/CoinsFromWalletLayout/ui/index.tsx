@@ -1,13 +1,18 @@
 import { Cell, CellListItem } from "shared/ui";
 import styles from "./styles.module.scss";
-import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    limitFloat,
+    tgApp,
+} from "shared/lib";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
-import { inputNumber } from "features/input-number";
 import { useNavigate } from "react-router-dom";
 import { addAlert, deleteAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
+import { setField } from "pages/create-bot";
 
 export const CoinsFromWalletLayout = () => {
     const { existing_volume, purchase_price } = useSelector(
@@ -17,22 +22,16 @@ export const CoinsFromWalletLayout = () => {
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setExistingVolume,
-            "existing_volume",
-            dispatch
-        );
+        const value = limitFloat(e.target.value, 2);
+        setExistingVolume(value);
+        dispatch(setField({ field: "existing_volume", value: value }));
     };
 
     const [PurchasePrice, setPurchasePrice] = useState("" + purchase_price);
     const handlePurchasePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setPurchasePrice,
-            "purchase_price",
-            dispatch
-        );
+        const value = limitFloat(e.target.value, 2);
+        setPurchasePrice(value);
+        dispatch(setField({ field: "purchase_price", value: value }));
     };
 
     const navigate = useNavigate();

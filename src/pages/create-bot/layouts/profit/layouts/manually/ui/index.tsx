@@ -2,8 +2,12 @@ import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
-import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { inputNumber } from "features/input-number";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    limitFloat,
+    tgApp,
+} from "shared/lib";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -17,9 +21,7 @@ interface step {
 }
 
 export const ManuallyLayout: FC = () => {
-    const { existing_volume, takes, entry_type } = useSelector(
-        (state: RootState) => state.newBot
-    );
+    const { takes } = useSelector((state: RootState) => state.newBot);
     const dispatch: Dispatch<any> = useDispatch();
 
     const [steps, setSteps] = useState<step[]>(takes);
@@ -62,7 +64,7 @@ export const ManuallyLayout: FC = () => {
         e: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
-        let value = e.target.value;
+        let value = limitFloat(e.target.value, 2);
         if (Number(value) < 0) return;
 
         if (value.startsWith("0") && value.length > 1) {
@@ -91,7 +93,7 @@ export const ManuallyLayout: FC = () => {
         e: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
-        let value = e.target.value;
+        let value = limitFloat(e.target.value, 2);
 
         if (value.startsWith("0") && value.length > 1) {
             value = value.slice(1);
@@ -149,16 +151,6 @@ export const ManuallyLayout: FC = () => {
                         : { ...item }
                 ),
             })
-        );
-    };
-
-    const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
-    const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(
-            e.target.value,
-            setExistingVolume,
-            "existing_volume",
-            dispatch
         );
     };
 
@@ -236,23 +228,6 @@ export const ManuallyLayout: FC = () => {
 
     return (
         <>
-            {!entry_type && (
-                <Cell title="Volume">
-                    <CellListItem>
-                        <p className={styles.listItem_title}>Existing volume</p>
-                        <input
-                            type="number"
-                            inputMode="decimal"
-                            className={styles.listItem_input}
-                            onFocus={handleInputFocus}
-                            onClick={handleInputScroll}
-                            value={ExistingVolume}
-                            onChange={handleExistingVolume}
-                        />
-                    </CellListItem>
-                </Cell>
-            )}
-
             <Cell title="Remaining by volume">
                 <CellListItem>
                     <div className={styles.progressbar}>

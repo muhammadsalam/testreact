@@ -1,6 +1,11 @@
 import { FC, useEffect } from "react";
 import styles from "./style.module.scss";
-import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    limitFloat,
+    tgApp,
+} from "shared/lib";
 import { Cell, CellListItem, Dropdown, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
@@ -57,28 +62,33 @@ export const DurationLayout: FC = () => {
     );
 
     const handleFixedPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = limitFloat(e.target.value, 2);
+
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, fixed_price: e.target.value },
+                value: { ...cycles, fixed_price: value },
             })
         );
     };
 
     const handleCorrection = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = limitFloat(e.target.value, 2);
+
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, correction: e.target.value },
+                value: { ...cycles, correction: value },
             })
         );
     };
 
     const handleFixedAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = limitFloat(e.target.value, 2);
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, fixed_amount: e.target.value },
+                value: { ...cycles, fixed_amount: value },
             })
         );
     };

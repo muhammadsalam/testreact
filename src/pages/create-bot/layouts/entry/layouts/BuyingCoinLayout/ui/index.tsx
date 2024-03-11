@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
-import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import {
+    handleInputFocus,
+    handleInputScroll,
+    limitFloat,
+    tgApp,
+} from "shared/lib";
 import clsx from "clsx";
 import { addAlert, deleteAlert } from "entities/notification";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +34,8 @@ export const BuyingCoinLayout = () => {
     const [amountInputType, setAmountInputType] =
         useState<string>(amount_first_order);
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
+        let value = limitFloat(e.target.value, 2);
+
         setAmountInputType(value);
         dispatch(setField({ field: "amount_first_order", value }));
     };
@@ -44,7 +50,8 @@ export const BuyingCoinLayout = () => {
 
     const [amountFO, setAmountFO] = useState<string>(price_first_order);
     const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
+        let value = limitFloat(e.target.value, 2);
+
         setAmountFO(value);
         dispatch(setField({ field: "price_first_order", value }));
     };

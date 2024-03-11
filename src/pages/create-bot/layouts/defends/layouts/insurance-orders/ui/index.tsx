@@ -1,9 +1,8 @@
 import { Cell, CellListItem, Dropdown, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
-import { handleInputFocus, handleInputScroll } from "shared/lib";
+import { handleInputFocus, handleInputScroll, limitFloat } from "shared/lib";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
-import { inputNumber } from "features/input-number";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -26,12 +25,18 @@ export const InsuranceOrdersLayout = () => {
 
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOCount, "io_count", dispatch, 10);
+        const value = limitFloat(e.target.value, 2);
+
+        SetIOCount(value);
+        dispatch(setField({ field: "io_count", value: value }));
     };
 
     const [IOStep, SetIOStep] = useState("" + io_step);
     const handleIOStep = (e: React.ChangeEvent<HTMLInputElement>) => {
-        inputNumber(e.target.value, SetIOStep, "io_step", dispatch);
+        const value = limitFloat(e.target.value, 2);
+
+        SetIOStep(value);
+        dispatch(setField({ field: "io_step", value: value }));
     };
 
     const handleMartingaleSwitch = () => {
