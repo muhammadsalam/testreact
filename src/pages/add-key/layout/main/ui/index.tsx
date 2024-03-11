@@ -75,7 +75,7 @@ export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
                     const data = {
                         api_key: apikey,
                         api_secret: secretKey,
-                        exchange: activeExchange?.exchange,
+                        exchange: activeExchange?.id,
                     };
 
                     const config = {
