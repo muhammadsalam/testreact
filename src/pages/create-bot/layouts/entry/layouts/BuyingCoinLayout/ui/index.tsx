@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    limitFloat,
-    tgApp,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import clsx from "clsx";
 import { addAlert, deleteAlert } from "entities/notification";
 import { useNavigate } from "react-router-dom";
@@ -34,10 +29,29 @@ export const BuyingCoinLayout = () => {
     const [amountInputType, setAmountInputType] =
         useState<string>(amount_first_order);
     const handleITChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
 
         setAmountInputType(value);
-        dispatch(setField({ field: "amount_first_order", value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+        dispatch(
+            setField({
+                field: "amount_first_order",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const onFirstOrderTypeSwitch = (item: {
@@ -50,10 +64,29 @@ export const BuyingCoinLayout = () => {
 
     const [amountFO, setAmountFO] = useState<string>(price_first_order);
     const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
 
         setAmountFO(value);
-        dispatch(setField({ field: "price_first_order", value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+        dispatch(
+            setField({
+                field: "price_first_order",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const validation = () => {
@@ -72,7 +105,7 @@ export const BuyingCoinLayout = () => {
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
             dispatch(
                 addAlert({
-                    title: 'The "Prcie for a limit order" field value must be greater than 0',
+                    title: 'The "Price for a limit order" field value must be greater than 0',
                 })
             );
             return false;
@@ -105,7 +138,7 @@ export const BuyingCoinLayout = () => {
                         Volume of the entry order
                     </p>
                     <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         className={styles.list_item_input}
                         value={amountInputType}
@@ -143,7 +176,7 @@ export const BuyingCoinLayout = () => {
                         Price for a limit order
                     </p>
                     <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         className={styles.list_item_input}
                         value={amountFO}

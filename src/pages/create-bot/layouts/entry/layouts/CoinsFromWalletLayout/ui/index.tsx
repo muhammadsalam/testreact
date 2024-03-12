@@ -1,11 +1,6 @@
 import { Cell, CellListItem } from "shared/ui";
 import styles from "./styles.module.scss";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    limitFloat,
-    tgApp,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -22,16 +17,58 @@ export const CoinsFromWalletLayout = () => {
 
     const [ExistingVolume, setExistingVolume] = useState("" + existing_volume);
     const handleExistingVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
         setExistingVolume(value);
-        dispatch(setField({ field: "existing_volume", value: value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
+        dispatch(
+            setField({
+                field: "existing_volume",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const [PurchasePrice, setPurchasePrice] = useState("" + purchase_price);
     const handlePurchasePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
         setPurchasePrice(value);
-        dispatch(setField({ field: "purchase_price", value: value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
+        dispatch(
+            setField({
+                field: "purchase_price",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const navigate = useNavigate();
@@ -83,7 +120,7 @@ export const CoinsFromWalletLayout = () => {
             <CellListItem>
                 <p>Existing volume</p>
                 <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     className={styles.input}
                     onFocus={handleInputFocus}
@@ -95,7 +132,7 @@ export const CoinsFromWalletLayout = () => {
             <CellListItem>
                 <p>Purchase price</p>
                 <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     className={styles.input}
                     onFocus={handleInputFocus}

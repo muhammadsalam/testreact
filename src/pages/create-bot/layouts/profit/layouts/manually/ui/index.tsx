@@ -64,10 +64,15 @@ export const ManuallyLayout: FC = () => {
         e: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
-        let value = limitFloat(e.target.value, 2);
+        let value = limitFloat(e.target.value.replace(",", "."), 2);
+        console.log(value);
         if (Number(value) < 0) return;
 
-        if (value.startsWith("0") && value.length > 1) {
+        if (
+            !(value.includes("0.") || value.includes("0,")) &&
+            value.startsWith("0") &&
+            value.length > 1
+        ) {
             value = value.slice(1);
             e.target.value = value;
         }
@@ -83,7 +88,9 @@ export const ManuallyLayout: FC = () => {
             setField({
                 field: "takes",
                 value: [...takes].map((item, arrIndex) =>
-                    arrIndex === index ? { ...item, step: value } : { ...item }
+                    arrIndex === index
+                        ? { ...item, step: "" + +value }
+                        : { ...item }
                 ),
             })
         );
@@ -95,7 +102,11 @@ export const ManuallyLayout: FC = () => {
     ) => {
         let value = limitFloat(e.target.value, 2);
 
-        if (value.startsWith("0") && value.length > 1) {
+        if (
+            !(value.includes("0.") || value.includes("0,")) &&
+            value.startsWith("0") &&
+            value.length > 1
+        ) {
             value = value.slice(1);
             e.target.value = value;
         }
@@ -272,7 +283,7 @@ export const ManuallyLayout: FC = () => {
                                     Intermediate Take Profit, %
                                 </p>
                                 <input
-                                    type="number"
+                                    type="text"
                                     inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
