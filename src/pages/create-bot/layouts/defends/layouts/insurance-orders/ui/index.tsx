@@ -1,6 +1,6 @@
 import { Cell, CellListItem, Dropdown, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
-import { handleInputFocus, handleInputScroll, limitFloat } from "shared/lib";
+import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { useRange } from "shared/ui/range/libs/use-range";
@@ -25,18 +25,56 @@ export const InsuranceOrdersLayout = () => {
 
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
 
         SetIOCount(value);
-        dispatch(setField({ field: "io_count", value: value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+        dispatch(
+            setField({
+                field: "io_count",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const [IOStep, SetIOStep] = useState("" + io_step);
     const handleIOStep = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
 
         SetIOStep(value);
-        dispatch(setField({ field: "io_step", value: value }));
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+        dispatch(
+            setField({
+                field: "io_step",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const handleMartingaleSwitch = () => {
@@ -108,7 +146,7 @@ export const InsuranceOrdersLayout = () => {
                     </p>
 
                     <input
-                        type="number"
+                        type="text"
                         className={styles.listItem_input}
                         inputMode="decimal"
                         onFocus={handleInputFocus}
@@ -123,7 +161,7 @@ export const InsuranceOrdersLayout = () => {
                         Step of insurance orders, %
                     </p>
                     <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
