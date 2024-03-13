@@ -1,11 +1,6 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    limitFloat,
-    tgApp,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { Cell, CellListItem, Dropdown, FlexWrapper, Switcher } from "shared/ui";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useNavigate } from "react-router-dom";
@@ -61,34 +56,103 @@ export const DurationLayout: FC = () => {
         (state: RootState) => state.newBot
     );
 
+    const [fixedPrice, setFixedPrice] = useState(cycles.fixed_price);
+
     const handleFixedPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
+        setFixedPrice(value);
+
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
 
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, fixed_price: value },
+                value: {
+                    ...cycles,
+                    fixed_price: !isFloated ? "" + +value : value,
+                },
             })
         );
     };
+
+    // correction in useState
+    const [correction, setCorrection] = useState(cycles.correction);
 
     const handleCorrection = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
+        setCorrection(value);
+
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
 
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, correction: value },
+                value: {
+                    ...cycles,
+                    correction: !isFloated ? "" + +value : value,
+                },
             })
         );
     };
 
+    // fixed amount in useState
+    const [fixedAmount, setFixedAmount] = useState(cycles.fixed_amount);
+
     const handleFixedAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
+        setFixedAmount(value);
+
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
         dispatch(
             setField({
                 field: "cycles",
-                value: { ...cycles, fixed_amount: value },
+                value: {
+                    ...cycles,
+                    fixed_amount: !isFloated ? "" + +value : value,
+                },
             })
         );
     };
@@ -339,13 +403,13 @@ export const DurationLayout: FC = () => {
                             <CellListItem>
                                 <p className={styles.listItem_title}>Price</p>
                                 <input
-                                    type="number"
+                                    type="text"
                                     inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
                                     onChange={handleFixedPrice}
-                                    value={cycles.fixed_price}
+                                    value={fixedPrice}
                                 />
                             </CellListItem>
                         )}
@@ -355,13 +419,13 @@ export const DurationLayout: FC = () => {
                                     Correction, %
                                 </p>
                                 <input
-                                    type="number"
+                                    type="text"
                                     inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
                                     onChange={handleCorrection}
-                                    value={cycles.correction}
+                                    value={correction}
                                 />
                             </CellListItem>
                         )}
@@ -384,13 +448,13 @@ export const DurationLayout: FC = () => {
                                     Entry volume
                                 </p>
                                 <input
-                                    type="number"
+                                    type="text"
                                     inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}
                                     onClick={handleInputScroll}
                                     onChange={handleFixedAmount}
-                                    value={cycles.fixed_amount}
+                                    value={fixedAmount}
                                     max={99}
                                 />
                             </CellListItem>
