@@ -25,8 +25,6 @@ export const DetailsLayout: FC = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-
         const mainButtonHandler = () => {
             if (
                 orders_error !== undefined &&
@@ -59,6 +57,10 @@ export const DetailsLayout: FC = () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, [orders_error, orders]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -278,7 +280,10 @@ export const DetailsLayout: FC = () => {
 
             {botData.take_type === "MANUAL" &&
                 botData.takes.map((takeItem, index) => (
-                    <Cell title="Take Profit • Step 1" key={index}>
+                    <Cell
+                        title={"Take Profit • Step " + (index + 1)}
+                        key={index}
+                    >
                         <CellListItem>
                             Intermediate Take Profit, %
                             <span className={styles.black_color}>

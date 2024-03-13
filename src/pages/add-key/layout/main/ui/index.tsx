@@ -103,7 +103,7 @@ export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
                         .catch((error) => {
                             dispatch(
                                 addAlert({
-                                    title: error.response.data.detail[0].msg,
+                                    title: error.response.data.detail,
                                 })
                             );
                         });

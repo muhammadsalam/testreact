@@ -1,9 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/AppStore';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { addAlert } from 'entities/notification';
 import { addBot } from 'shared/API/userSlice';
+
+type ErrorType = {
+    status: string
+    key?: string;
+    detail: string;
+};
 
 interface Pair {
     id: string;
@@ -220,9 +226,15 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
             if (preCosting) ThunkAPI.dispatch(setField({ field: 'orders', value: data.orders }));
             if (!preCosting && data.status === 'success') ThunkAPI.dispatch(addBot(data.bot));
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
             console.log('error', error);
-            if (!error.response?.data && error.message) {
+
+            if (error.response) {
+                const responseData = (error.response?.data as ErrorType);
+                if (preCosting) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: responseData?.detail } }));
+                else ThunkAPI.dispatch(addAlert({ title: responseData?.detail }))
+
+            } else {
                 ThunkAPI.dispatch(setField({
                     field: 'otherStates', value: {
                         ...state.otherStates, orders_error: {
@@ -231,10 +243,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
                         }
                     }
                 }))
-                return;
             }
-            if (preCosting && !error.response?.data?.detail[0]?.msg) ThunkAPI.dispatch(setField({ field: 'otherStates', value: { ...state.otherStates, orders_error: error.response.data?.detail?.error_text } }));
-            else ThunkAPI.dispatch(addAlert({ title: error.response?.data?.detail[0]?.msg }))
         });
 });
 
