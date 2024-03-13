@@ -2,12 +2,8 @@ import { FC, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import PlusIcon from "../../../../../../../assets/icons/plus.svg?react";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    limitFloat,
-    tgApp,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
+import Decimal from "decimal.js";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -64,14 +60,14 @@ export const ManuallyLayout: FC = () => {
         e: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
-        let value = limitFloat(e.target.value.replace(",", "."), 2);
-        console.log(value);
-        if (Number(value) < 0) return;
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
 
         if (
-            !(value.includes("0.") || value.includes("0,")) &&
-            value.startsWith("0") &&
-            value.length > 1
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
         ) {
             value = value.slice(1);
             e.target.value = value;
@@ -84,12 +80,16 @@ export const ManuallyLayout: FC = () => {
             return updatedSteps;
         });
 
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
         dispatch(
             setField({
                 field: "takes",
                 value: [...takes].map((item, arrIndex) =>
                     arrIndex === index
-                        ? { ...item, step: "" + +value }
+                        ? { ...item, step: !isFloated ? "" + +value : value }
                         : { ...item }
                 ),
             })
@@ -100,12 +100,14 @@ export const ManuallyLayout: FC = () => {
         e: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
-        let value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
 
         if (
-            !(value.includes("0.") || value.includes("0,")) &&
-            value.startsWith("0") &&
-            value.length > 1
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
         ) {
             value = value.slice(1);
             e.target.value = value;
@@ -125,15 +127,16 @@ export const ManuallyLayout: FC = () => {
             if (totalAmount > 100) {
                 dispatch(
                     addAlert({
-                        title: `Total % amount cannot be greater than ${
-                            100 -
+                        title: `Total % amount cannot be greater than ${new Decimal(
+                            100
+                        ).minus(
                             takes.reduce(
                                 (total, item, elemIndex) =>
                                     total +
                                     (elemIndex === index ? 0 : +item.amount),
                                 0
                             )
-                        }`,
+                        )}`,
                     })
                 );
                 return;
@@ -153,12 +156,15 @@ export const ManuallyLayout: FC = () => {
             return updatedSteps;
         });
 
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
         dispatch(
             setField({
                 field: "takes",
                 value: [...takes].map((item, arrIndex) =>
                     arrIndex === index
-                        ? { ...item, amount: value }
+                        ? { ...item, amount: !isFloated ? "" + +value : value }
                         : { ...item }
                 ),
             })
@@ -255,7 +261,9 @@ export const ManuallyLayout: FC = () => {
                         ></span>
                     </div>
                     <span className={styles.listItem_span}>
-                        {takes.reduce((total, item) => total + +item.amount, 0)}
+                        {Decimal.sum(
+                            ...takes.map((item) => new Decimal(+item.amount))
+                        ).toString()}
                         %
                     </span>
                 </CellListItem>
@@ -297,7 +305,7 @@ export const ManuallyLayout: FC = () => {
                                     Amount, %
                                 </p>
                                 <input
-                                    type="number"
+                                    type="text"
                                     inputMode="decimal"
                                     className={styles.listItem_input}
                                     onFocus={handleInputFocus}

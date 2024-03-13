@@ -1,12 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Range, Switcher } from "shared/ui";
-import {
-    handleInputFocus,
-    handleInputScroll,
-    limitFloat,
-    tgApp,
-} from "shared/lib";
+import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import clsx from "clsx";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,16 +29,60 @@ export const AutomaticLayout: FC = () => {
 
     const [TProfit, setTProfit] = useState("" + take_profit);
     const handleTProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
         setTProfit(value);
-        dispatch(setField({ field: "take_profit", value: value }));
+
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
+        dispatch(
+            setField({
+                field: "take_profit",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const [TAmount, setTAmount] = useState("" + take_amount);
     const handleTAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = limitFloat(e.target.value, 2);
+        let value = e.target.value.replace(",", ".");
+        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+
+        if (
+            (!(value.includes("0.") || value.includes("0,")) &&
+                value.startsWith("0") &&
+                value.length > 1) ||
+            /^\D/.test(value)
+        ) {
+            value = value.slice(1);
+            e.target.value = value;
+        }
+
         setTAmount(value);
-        dispatch(setField({ field: "take_amount", value: value }));
+
+        const isFloated = value.split(".")[1] !== "";
+        // если есть дробная часть и оно не NaN отменяем диспатч
+        if (!isFloated && isNaN(+value)) return;
+
+        dispatch(
+            setField({
+                field: "take_amount",
+                value: !isFloated ? "" + +value : value,
+            })
+        );
     };
 
     const handleTStepChange = (value: string) => {
@@ -146,7 +185,7 @@ export const AutomaticLayout: FC = () => {
                 <CellListItem>
                     <p className={styles.listItem_title}>Take Profit, %</p>
                     <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
@@ -202,7 +241,7 @@ export const AutomaticLayout: FC = () => {
                 <CellListItem>
                     <p className={styles.listItem_title}>Take Amount, %</p>
                     <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
                         className={styles.listItem_input}
                         onFocus={handleInputFocus}
