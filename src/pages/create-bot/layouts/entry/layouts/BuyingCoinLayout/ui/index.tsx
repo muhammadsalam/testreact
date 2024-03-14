@@ -90,19 +90,30 @@ export const BuyingCoinLayout = () => {
     };
 
     const validation = () => {
-        if (
-            pair !== null &&
-            (+amount_first_order < pair?.limits.cost.min ||
-                (pair?.limits.cost.max &&
-                    +amount_first_order > pair?.limits.cost.max))
-        ) {
-            dispatch(
-                addAlert({
-                    title: `The entry order volume must be from ${pair.limits.cost.min} to ${pair.limits.cost.max}`,
-                })
-            );
-            return false;
+        if (pair?.limits.cost.max) {
+            if (
+                pair !== null &&
+                (+amount_first_order < pair?.limits.cost.min ||
+                    +amount_first_order > pair?.limits.cost.max)
+            ) {
+                dispatch(
+                    addAlert({
+                        title: `The entry order volume must be from ${pair.limits.cost.min} to ${pair.limits.cost.max}`,
+                    })
+                );
+                return false;
+            }
+        } else {
+            if (pair !== null && +amount_first_order < pair?.limits.cost.min) {
+                dispatch(
+                    addAlert({
+                        title: `The entry order volume must be greater than ${pair.limits.cost.min}`,
+                    })
+                );
+                return false;
+            }
         }
+
         if (+price_first_order <= 0 && type_first_order === "LIMIT") {
             dispatch(
                 addAlert({
