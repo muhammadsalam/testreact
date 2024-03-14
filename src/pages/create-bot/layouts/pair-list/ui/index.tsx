@@ -1,12 +1,22 @@
 import { Cell, CurrencyIcon } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
-import { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
+import {
+    ChangeEvent,
+    FC,
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg?react";
 import CloseIcon from "assets/icons/close.svg?react";
 import { useDispatch, useSelector } from "react-redux";
 import { setField } from "pages/create-bot";
 import { AppDispatch, RootState } from "app/AppStore";
+// import debounce from "lodash.debounce";
+// import { fetchPairs } from "../model/pairSlice";
 
 export interface Pair {
     id: string;
@@ -30,7 +40,7 @@ export interface Pair {
 const PairItem: FC<{
     pair: Pair;
     isActive: any;
-    setLocalActivePair: (value: any) => void;
+    setLocalActivePair: (value: Pair) => void;
 }> = memo(({ pair, isActive, setLocalActivePair }) => {
     const handlePairClick = useCallback(
         (pair: Pair) => {
@@ -42,7 +52,6 @@ const PairItem: FC<{
 
     return (
         <button
-            key={pair.id}
             className={styles.navButton}
             onClick={() => handlePairClick(pair)}
         >
@@ -63,16 +72,30 @@ const PairItem: FC<{
 export const PairListLayout = () => {
     const dispatch: AppDispatch = useDispatch();
 
-    const pairs = useSelector((state: RootState) => state.pairs.list);
+    const pairs = useSelector((state: RootState) => state.pairs);
     const activePair = useSelector((state: RootState) => state.newBot.pair);
     const [localActivePair, setLocalActivePair] = useState(activePair);
 
+    // const updateSearch = useCallback(
+    //     debounce((value: string) => {
+    //         dispatch(fetchPairs(value));
+    //     }, 800),
+    //     []
+    // );
+
     const [searchValue, setSearchValue] = useState<string>("");
+
+    const handleSearchValue = ({
+        target: { value },
+    }: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(value);
+        // updateSearch(value);
+    };
 
     const filteredPairList = useMemo(
         () =>
             pairs.filter((item: Pair) =>
-                item.id.match(searchValue.toUpperCase())
+                item.id.toUpperCase().includes(searchValue.toUpperCase())
             ),
         [pairs, searchValue]
     );
@@ -107,7 +130,7 @@ export const PairListLayout = () => {
                     value={searchValue}
                     onClick={handleInputScroll}
                     onFocus={handleInputFocus}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={handleSearchValue}
                 />
                 <CloseIcon
                     className={styles.input_close}
@@ -120,9 +143,11 @@ export const PairListLayout = () => {
                 <Cell title="list of pairs">
                     {filteredPairList.map((pairItem: Pair) => (
                         <PairItem
-                            key={pairItem.id}
+                            key={pairItem.symbol}
                             pair={pairItem}
-                            isActive={pairItem.id === localActivePair?.id}
+                            isActive={
+                                pairItem.symbol === localActivePair?.symbol
+                            }
                             setLocalActivePair={setLocalActivePair}
                         />
                     ))}

@@ -13,6 +13,7 @@ type ErrorType = {
 
 interface Pair {
     id: string;
+    symbol: string;
     base: string;
     quote: string;
     baseimg: string;
