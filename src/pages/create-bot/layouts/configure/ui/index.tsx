@@ -137,10 +137,7 @@ export const ConfigureLayout: FC = () => {
                 </Link>
             </Cell>
 
-            <Cell
-                title="pair"
-                description={pair ? "1 BTC = 26 280.25 ₮" : undefined}
-            >
+            <Cell title="pair">
                 <Link
                     to={"pair-list"}
                     className={styles.navButton}
