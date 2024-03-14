@@ -4,31 +4,13 @@ import { RootState } from 'app/AppStore';
 import axios, { AxiosError } from 'axios';
 import { addAlert } from 'entities/notification';
 import { addBot } from 'shared/API/userSlice';
+import { Pair } from '../layouts';
 
 type ErrorType = {
     status: string
     key?: string;
     detail: string;
 };
-
-interface Pair {
-    id: string;
-    symbol: string;
-    base: string;
-    quote: string;
-    baseimg: string;
-    quoteimg: string;
-    limits: {
-        amount: {
-            min: number;
-            max: number;
-        },
-        cost: {
-            min: number;
-            max: number;
-        }
-    }
-}
 
 interface Take {
     step: string;

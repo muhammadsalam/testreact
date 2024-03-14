@@ -93,7 +93,8 @@ export const BuyingCoinLayout = () => {
         if (
             pair !== null &&
             (+amount_first_order < pair?.limits.cost.min ||
-                +amount_first_order > pair?.limits.cost.max)
+                (pair?.limits.cost.max &&
+                    +amount_first_order > pair?.limits.cost.max))
         ) {
             dispatch(
                 addAlert({
@@ -131,7 +132,11 @@ export const BuyingCoinLayout = () => {
     return (
         <>
             <Cell
-                description={`Min ${pair?.limits.cost.min} USDT / Max ${pair?.limits.cost.max} USDT`}
+                description={`Min ${pair?.limits.cost.min} USDT ${
+                    pair?.limits.cost.max
+                        ? `/ Max ${pair?.limits.cost.max} USDT`
+                        : ""
+                }`}
             >
                 <CellListItem>
                     <p className={styles.list_item_title}>

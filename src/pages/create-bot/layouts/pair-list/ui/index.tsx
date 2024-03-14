@@ -32,7 +32,7 @@ export interface Pair {
         };
         cost: {
             min: number;
-            max: number;
+            max: number | null;
         };
     };
 }
