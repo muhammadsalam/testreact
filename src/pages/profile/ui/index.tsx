@@ -40,7 +40,14 @@ export const ProfilePage: FC = () => {
             <div className={styles.top}>
                 <p className={styles.top_title}>Deposit</p>
                 <strong className={styles.top_strong}>
-                    {userData.used_balance || "0.00"} <span>$</span>
+                    {(userData.used_balance.toString().match(/\d{4,}\./) // если 4 и больше цифр до точки, то 2 знака после
+                        ? userData.used_balance
+                              .toString()
+                              .match(/\d+\.?\d{0,2}/)
+                        : userData.used_balance // иначе 5 знаков после
+                              .toString()
+                              .match(/\d+\.?\d{0,5}/)) || "0.00"}
+                    <span>$</span>
                 </strong>
                 {/* {+userData.profit !== 0 && (
                     <span
