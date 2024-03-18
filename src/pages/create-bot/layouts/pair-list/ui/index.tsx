@@ -25,6 +25,12 @@ export interface Pair {
     quote: string;
     baseimg: string;
     quoteimg: string;
+    precision: {
+        amount: number;
+        price: number;
+        base: number;
+        quote: number;
+    };
     limits: {
         amount: {
             min: number;
@@ -74,6 +80,7 @@ export const PairListLayout = () => {
 
     const pairs = useSelector((state: RootState) => state.pairs);
     const activePair = useSelector((state: RootState) => state.newBot.pair);
+    const cycles = useSelector((state: RootState) => state.newBot.cycles);
     const [localActivePair, setLocalActivePair] = useState(activePair);
 
     // const updateSearch = useCallback(
@@ -107,6 +114,13 @@ export const PairListLayout = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
+            dispatch(setField({ field: "price_first_order", value: "" }));
+            dispatch(
+                setField({
+                    field: "cycles",
+                    value: { ...cycles, fixed_price: "" },
+                })
+            );
             dispatch(setField({ field: "pair", value: localActivePair }));
             window.history.back();
         };

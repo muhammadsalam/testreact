@@ -52,7 +52,7 @@ const definitionTypeDropdown: {
 export const DurationLayout: FC = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const { cycles, otherStates } = useSelector(
+    const { cycles, otherStates, pair } = useSelector(
         (state: RootState) => state.newBot
     );
 
@@ -60,7 +60,10 @@ export const DurationLayout: FC = () => {
 
     const handleFixedPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(",", ".");
-        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+        const regexp = new RegExp(
+            `^\\d*(\\.\\d{0,${pair?.precision.quote}})?$`
+        );
+        if (!regexp.test(value)) return;
 
         if (
             (!(value.includes("0.") || value.includes("0,")) &&
