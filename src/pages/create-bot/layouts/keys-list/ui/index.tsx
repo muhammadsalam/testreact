@@ -8,6 +8,8 @@ import { WalletType } from "shared/API/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
+import { pairFieldsReset } from "../../pair-list/model/pairSlice";
+import { Dispatch } from "@reduxjs/toolkit";
 
 const KeyItem: FC<{
     item: WalletType;
@@ -39,7 +41,7 @@ const KeyItem: FC<{
 });
 
 export const KeysListLayout = () => {
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
     const wallets = useSelector(
         (state: RootState) => state.user.data.wallets.data
     );
@@ -64,6 +66,9 @@ export const KeysListLayout = () => {
             dispatch(
                 setField({ field: "wallet_id", value: localActiveKey.id })
             );
+            dispatch(setField({ field: "pair", value: null }));
+            dispatch(pairFieldsReset());
+
             // пока нельзя выбрать, потому что API не готово
             window.history.back();
         };

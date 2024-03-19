@@ -35,7 +35,9 @@ export const CreateBotPage = () => {
     }, [user_id]);
 
     useEffect(() => {
-        if (wallet_id !== null) dispatch(fetchPairs());
+        if (wallet_id !== null) {
+            dispatch(fetchPairs());
+        }
     }, [wallet_id]);
 
     return (

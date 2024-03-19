@@ -15,6 +15,7 @@ import CloseIcon from "assets/icons/close.svg?react";
 import { useDispatch, useSelector } from "react-redux";
 import { setField } from "pages/create-bot";
 import { AppDispatch, RootState } from "app/AppStore";
+import { pairFieldsReset } from "../model/pairSlice";
 // import debounce from "lodash.debounce";
 // import { fetchPairs } from "../model/pairSlice";
 
@@ -80,7 +81,6 @@ export const PairListLayout = () => {
 
     const pairs = useSelector((state: RootState) => state.pairs);
     const activePair = useSelector((state: RootState) => state.newBot.pair);
-    const cycles = useSelector((state: RootState) => state.newBot.cycles);
     const [localActivePair, setLocalActivePair] = useState(activePair);
 
     // const updateSearch = useCallback(
@@ -114,15 +114,8 @@ export const PairListLayout = () => {
         tgApp.BackButton.onClick(backButtonHandler);
 
         const mainButtonHandler = () => {
-            dispatch(setField({ field: "price_first_order", value: "" }));
-            dispatch(setField({ field: "purchase_price", value: "" }));
-            dispatch(
-                setField({
-                    field: "cycles",
-                    value: { ...cycles, fixed_price: "" },
-                })
-            );
             dispatch(setField({ field: "pair", value: localActivePair }));
+            dispatch(pairFieldsReset());
             window.history.back();
         };
         tgApp.MainButton.show();
