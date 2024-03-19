@@ -26,14 +26,9 @@ export const InsuranceOrdersLayout = () => {
     const [IOCount, SetIOCount] = useState("" + io_count);
     const handleIOCount = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(",", ".");
-        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+        if (isNaN(+value) || value.includes(".")) return;
 
-        if (
-            (!(value.includes("0.") || value.includes("0,")) &&
-                value.startsWith("0") &&
-                value.length > 1) ||
-            /^\D/.test(value)
-        ) {
+        if (value.startsWith("0") && value.length > 1) {
             value = value.slice(1);
             e.target.value = value;
         }
