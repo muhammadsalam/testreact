@@ -115,6 +115,7 @@ export const PairListLayout = () => {
 
         const mainButtonHandler = () => {
             dispatch(setField({ field: "price_first_order", value: "" }));
+            dispatch(setField({ field: "purchase_price", value: "" }));
             dispatch(
                 setField({
                     field: "cycles",

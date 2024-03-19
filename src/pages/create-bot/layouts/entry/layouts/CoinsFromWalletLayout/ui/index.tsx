@@ -10,7 +10,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { setField } from "pages/create-bot";
 
 export const CoinsFromWalletLayout = () => {
-    const { existing_volume, purchase_price } = useSelector(
+    const { existing_volume, purchase_price, pair } = useSelector(
         (state: RootState) => state.newBot
     );
     const dispatch: Dispatch<any> = useDispatch();
@@ -46,7 +46,10 @@ export const CoinsFromWalletLayout = () => {
     const [PurchasePrice, setPurchasePrice] = useState("" + purchase_price);
     const handlePurchasePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(",", ".");
-        if (!/^\d*(\.\d{0,2})?$/.test(value)) return;
+        const regexp = new RegExp(
+            `^\\d*(\\.\\d{0,${pair?.precision.quote}})?$`
+        );
+        if (!regexp.test(value)) return;
 
         if (
             (!(value.includes("0.") || value.includes("0,")) &&
