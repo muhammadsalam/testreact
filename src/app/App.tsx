@@ -13,6 +13,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Loader } from "widgets/loader";
 import FontFaceObserver from "fontfaceobserver";
 import { KeysPage } from "pages/keys";
+import { GreetingPage } from "pages/greeting";
+import { TariffPage } from "pages/tariff";
 
 export const App: FC = () => {
     const alert = useSelector((state: RootState) => state.alert);
@@ -49,6 +51,27 @@ export const App: FC = () => {
         });
     }, []);
 
+    return (
+        <>
+            <NotificationWrapper>
+                {alert.isActive && (
+                    <Notification title={alert.title} icon={alert.icon} />
+                )}
+            </NotificationWrapper>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<GreetingPage />} />
+                    <Route path="/tariff" element={<TariffPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/keys/*" element={<KeysPage />} />
+                    <Route path="/keyadd/*" element={<AddKeyPage />} />
+                    <Route path="/bot/:id/*" element={<BotPage />} />
+                    <Route path="/createbot/*" element={<CreateBotPage />} />
+                </Routes>
+            </Router>
+        </>
+    );
+
     // return <Loader />;
     // // если все шрифты не прогрузились
     if (
@@ -59,23 +82,4 @@ export const App: FC = () => {
     ) {
         return <Loader />;
     }
-
-    return (
-        <>
-            <NotificationWrapper>
-                {alert.isActive && (
-                    <Notification title={alert.title} icon={alert.icon} />
-                )}
-            </NotificationWrapper>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<ProfilePage />} />
-                    <Route path="/keys/*" element={<KeysPage />} />
-                    <Route path="/keyadd/*" element={<AddKeyPage />} />
-                    <Route path="/bot/:id/*" element={<BotPage />} />
-                    <Route path="/createbot/*" element={<CreateBotPage />} />
-                </Routes>
-            </Router>
-        </>
-    );
 };

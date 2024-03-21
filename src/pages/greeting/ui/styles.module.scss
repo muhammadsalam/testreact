@@ -1,0 +1,102 @@
+html {
+    background-color: #fff;
+}
+
+.container {
+    max-width: 600px;
+    padding: 24px 32px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-family: "Sf Pro Display", sans-serif;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 262px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 0.38px;
+}
+
+.list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    svg {
+        max-width: 40px;
+        width: 100%;
+    }
+
+    &_content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        strong {
+            font-family: "Sf Pro Text", sans-serif;
+            font-size: 17px;
+            font-weight: 590;
+            line-height: 22px;
+            letter-spacing: -0.43px;
+        }
+
+        p {
+            font-family: "Sf Pro Text", sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 18px;
+            letter-spacing: -0.23px;
+        }
+
+        a {
+            color: #007aff;
+            text-decoration: none;
+        }
+    }
+}
+
+.button {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 55px;
+    border-radius: 12px;
+    background: rgb(0, 122, 255);
+    padding: 14px 24px;
+    outline: none;
+    border: 0;
+    color: #fff;
+    font-family: "Sf Pro Text", sans-serif;
+    font-size: 17px;
+    font-weight: 590;
+    line-height: 22px;
+    letter-spacing: -0.43px;
+}
+
+.clickwrap {
+    text-align: center;
+    margin-top: 12px;
+    margin: 12px 11px 0;
+    font-family: "SF Pro Display", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0.38px;
+    color: #8e8e93;
+
+    a {
+        color: inherit;
+    }
+}
