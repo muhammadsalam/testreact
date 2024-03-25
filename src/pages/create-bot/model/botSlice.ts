@@ -203,7 +203,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         headers: { Authorization: "Bearer " + token }
     };
 
-    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=' + preCosting, bot, config).then((res) => res.data)
+    axios.post('http://back-test.anestheziabot.com/v1/create_bot?preCosting=' + preCosting, bot, config).then((res) => res.data)
         .then(data => {
             console.log('data', data);
             if (preCosting) ThunkAPI.dispatch(setField({ field: 'orders', value: data.orders }));

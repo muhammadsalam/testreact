@@ -86,7 +86,7 @@ export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
 
                     axios
                         .post(
-                            "https://back.anestheziabot.tra.infope9l.beget.tech/v1/save_keys",
+                            "http://back-test.anestheziabot.com/v1/save_keys",
                             data,
                             config
                         )

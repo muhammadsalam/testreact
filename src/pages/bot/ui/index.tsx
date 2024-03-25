@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { tgApp } from "shared/lib";
 import { BotDetailsLayout, BotMainLayout } from "../layouts";
 import { BotData } from "..";
+import { API_URL } from "shared/CONSTANT";
 
 export const BotPage = () => {
     const { id: botID } = useParams();
@@ -15,14 +16,11 @@ export const BotPage = () => {
 
     useEffect(() => {
         axios
-            .get(
-                `https://back.anestheziabot.tra.infope9l.beget.tech/v1/bot_data?bot_id=${botID}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
+            .get(API_URL + `/v1/bot_data?bot_id=${botID}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((res) => {
                 return res.data.status === "success" && res.data.data;
             })
