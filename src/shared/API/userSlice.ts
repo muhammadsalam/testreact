@@ -46,7 +46,7 @@ const initialState: UserState = {
 }
 
 export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (token, ThunkAPI) => {
-    const apiUrl = "http://back-test.anestheziabot.com/v1/main_data";
+    const apiUrl = API_URL + "v1/main_data";
     const response = await axios.get(apiUrl, {
         headers: {
             "Authorization": "Bearer " + token
@@ -62,8 +62,8 @@ export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (
 export const fetchUser = createAsyncThunk('user/fetchUser', async (_, ThunkAPI) => {
     const apiUrl = API_URL + 'v1/token'
     const data = {
-        // user_id: tgApp.initData,
-        initdata: "query_id=AAE8_WdCAgAAADz9Z0J01bpk&user=%7B%22id%22%3A5409078588%2C%22first_name%22%3A%22Muhammadsalam%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22axvai%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1707220442&hash=420a4c01fd88cb136a5a0868a762d819a0986bcde787b51a1a86944e453365fb",
+        initdata: tgApp.initData,
+        // initdata: "query_id=AAE8_WdCAgAAADz9Z0J01bpk&user=%7B%22id%22%3A5409078588%2C%22first_name%22%3A%22Muhammadsalam%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22axvai%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1707220442&hash=420a4c01fd88cb136a5a0868a762d819a0986bcde787b51a1a86944e453365fb",
     };
     const response = await axios.post(apiUrl, data);
 
@@ -94,7 +94,7 @@ export const userSlice = createSlice({
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
             state.data = action.payload;
-            axios.post("http://back-test.anestheziabot.com/temp/send_message", {
+            axios.post(API_URL + "temp/send_message", {
                 error: tgApp.initData,
             }, {
                 headers: {
