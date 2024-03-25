@@ -1,0 +1,11 @@
+stages:
+    - build
+
+build_job:
+    stage: build
+    script:
+        - npm install
+        - npm run build
+    only:
+        - master
+        - dev
