@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios';
+import { API_URL } from 'shared/CONSTANT';
 
 export type ExchangeType = {
     id: number;
@@ -11,7 +12,7 @@ export type ExchangeType = {
 const initialState: ExchangeType[] = [];
 
 export const fetchExchanges = createAsyncThunk('exchanges/fetchExchanges', async () => {
-    const apiUrl = `https://back.anestheziabot.tra.infope9l.beget.tech/v1/exchanges`;
+    const apiUrl = `${API_URL}/v1/exchanges`;
     const response = await axios.get(apiUrl);
     return response.data;
 });

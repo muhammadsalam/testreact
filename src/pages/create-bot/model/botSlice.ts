@@ -5,6 +5,7 @@ import axios, { AxiosError } from 'axios';
 import { addAlert } from 'entities/notification';
 import { addBot } from 'shared/API/userSlice';
 import { Pair } from '../layouts';
+import { API_URL } from 'shared/CONSTANT';
 
 type ErrorType = {
     status: string
@@ -203,7 +204,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         headers: { Authorization: "Bearer " + token }
     };
 
-    axios.post('https://back.anestheziabot.tra.infope9l.beget.tech/v1/create_bot?preCosting=' + preCosting, bot, config).then((res) => res.data)
+    axios.post(`${API_URL}v1/create_bot?preCosting=${preCosting}`, bot, config).then((res) => res.data)
         .then(data => {
             console.log('data', data);
             if (preCosting) ThunkAPI.dispatch(setField({ field: 'orders', value: data.orders }));

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { tgApp } from 'shared/lib';
 import { setIsDataGot, setIsTokenGot } from './loading';
 import { fetchExchanges } from 'entities/exchanges';
+import { API_URL } from 'shared/CONSTANT';
 
 export type WalletType = {
     id: number | null,
@@ -45,7 +46,7 @@ const initialState: UserState = {
 }
 
 export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (token, ThunkAPI) => {
-    const apiUrl = "https://back.anestheziabot.tra.infope9l.beget.tech/v1/main_data";
+    const apiUrl = `${API_URL}v1/main_data`;
     const response = await axios.get(apiUrl, {
         headers: {
             "Authorization": "Bearer " + token
@@ -59,7 +60,7 @@ export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (
 });
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async (_, ThunkAPI) => {
-    const apiUrl = "https://back.anestheziabot.tra.infope9l.beget.tech/v1/token";
+    const apiUrl = `${API_URL}v1/token`;
     const data = {
         initdata: tgApp.initData,
     };
@@ -92,7 +93,7 @@ export const userSlice = createSlice({
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
             state.data = action.payload;
-            axios.post("https://back.anestheziabot.tra.infope9l.beget.tech/temp/send_message", {
+            axios.post(`${API_URL}temp/send_message`, {
                 error: tgApp.initData,
             }, {
                 headers: {

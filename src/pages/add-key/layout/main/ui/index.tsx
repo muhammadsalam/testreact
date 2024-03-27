@@ -12,6 +12,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "app/AppStore";
 import { WalletType, addWallet } from "shared/API/userSlice";
 import { ExchangeType } from "entities/exchanges";
+import { API_URL } from "shared/CONSTANT";
 
 export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
     ({ activeExchange }) => {
@@ -85,11 +86,7 @@ export const MainLayout: FC<{ activeExchange: ExchangeType }> = memo(
                     };
 
                     axios
-                        .post(
-                            "https://back.anestheziabot.tra.infope9l.beget.tech/v1/save_keys",
-                            data,
-                            config
-                        )
+                        .post(`${API_URL}v1/save_keys`, data, config)
                         .then((res) => res.data)
                         .then(
                             (data: { status: string; wallet: WalletType }) => {

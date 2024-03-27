@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Pair } from '..';
 import { RootState } from 'app/AppStore';
 import { setField } from 'pages/create-bot';
+import { API_URL } from 'shared/CONSTANT';
 
 const initialState: Pair[] = [];
 
@@ -22,7 +23,7 @@ export const pairFieldsReset = createAsyncThunk('pairs/reset', async (_, ThunkAP
 
 export const fetchPairs = createAsyncThunk('pairs/FetchPairs', async (value: string | undefined, ThunkAPI) => {
     const wallet_id = (ThunkAPI.getState() as RootState).newBot.wallet_id;
-    const apiUrl = `https://back.anestheziabot.tra.infope9l.beget.tech/v1/get_pair?wallet_id=${wallet_id}${value !== undefined && value !== '' ? `&pair=${value}` : ''}`;
+    const apiUrl = `${API_URL}/v1/get_pair?wallet_id=${wallet_id}${value !== undefined && value !== '' ? `&pair=${value}` : ''}`;
     const response = await axios.get(apiUrl);
     return response.data;
 });
