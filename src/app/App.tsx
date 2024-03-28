@@ -60,9 +60,9 @@ export const App: FC = () => {
             </NotificationWrapper>
             <Router>
                 <Routes>
-                    <Route path="/" element={<GreetingPage />} />
+                    <Route path="/greeting" element={<GreetingPage />} />
                     <Route path="/tariff" element={<TariffPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/" element={<ProfilePage />} />
                     <Route path="/keys/*" element={<KeysPage />} />
                     <Route path="/keyadd/*" element={<AddKeyPage />} />
                     <Route path="/bot/:id/*" element={<BotPage />} />

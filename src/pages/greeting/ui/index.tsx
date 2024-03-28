@@ -5,6 +5,11 @@ import StarSVG from "assets/icons/stars.svg?react";
 export const GreetingPage = () => {
     return (
         <div className={styles.container}>
+            <style>
+                {`html {
+                    background-color: #fff;
+                }`}
+            </style>
             <strong className={styles.title}>Welcome to Anesthezia!</strong>
             <div className={styles.list}>
                 <div className={styles.item}>

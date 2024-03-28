@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
+import MarkICON from "assets/icons/mark.svg?react";
 
 type Tab = {
     id: string;
@@ -18,7 +19,6 @@ type Tab = {
 const tabs: Tab[] = [
     {
         id: "standart",
-
         title: "Standart",
         count_bots: "7 bots",
         cycles: "10 cycles",
@@ -35,6 +35,42 @@ const tabs: Tab[] = [
     },
 ];
 
+type RadioItem = {
+    id: string;
+    title: string;
+    lineTgroughPrice: string;
+    price: string;
+    discount: string;
+    monthlyPrice: string;
+};
+
+const radios: RadioItem[] = [
+    {
+        id: "yearly",
+        title: "Yearly",
+        lineTgroughPrice: "$468",
+        price: "$348 a year",
+        discount: "-20%",
+        monthlyPrice: "$29/month",
+    },
+    {
+        id: "6months",
+        title: "6 months",
+        lineTgroughPrice: "$468",
+        price: "$396 a year",
+        discount: "-10%",
+        monthlyPrice: "$33/month",
+    },
+    {
+        id: "monthly",
+        title: "Monthly",
+        lineTgroughPrice: "",
+        price: "",
+        discount: "",
+        monthlyPrice: "$39/month",
+    },
+];
+
 export const TariffPage = () => {
     const [activeTabindex, setActiveTab] = useState<number>(0);
     const handleTabChange = (tabId: number) => {
@@ -43,13 +79,21 @@ export const TariffPage = () => {
         setActiveTab(tabId);
     };
 
+    const [activeRadio, setActiveRadio] = useState(radios[0]);
+
+    const handleRadioClick = (radio: RadioItem) => {
+        setActiveRadio(radio);
+    };
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         const backButtonHandler = () => {
-            useNavigate()("/");
+            navigate("/greeting");
         };
 
         const mainButtonHandler = () => {
-            console.log("click on confirm");
+            navigate("/");
         };
 
         tgApp.BackButton.onClick(backButtonHandler);
@@ -122,6 +166,63 @@ export const TariffPage = () => {
                     >
                         <span>Insurance orders</span>
                         <span>{tabs[activeTabindex].insurance_orders}</span>
+                    </CellListItem>
+                </Cell>
+
+                <Cell>
+                    {radios.map((radio) => (
+                        <CellListItem
+                            topBottomPadding={0}
+                            key={radio.id}
+                            className={styles.radioItem}
+                            onClick={() => handleRadioClick(radio)}
+                        >
+                            <div
+                                className={clsx(styles.radioItem_checkbox, {
+                                    [styles.radioItem_checkbox__active]:
+                                        activeRadio.id === radio.id,
+                                })}
+                            >
+                                {activeRadio.id === radio.id && <MarkICON />}
+                            </div>
+
+                            <div className={styles.radioItem_content}>
+                                <div className={styles.radioItem_info}>
+                                    <strong>
+                                        {radio.title}
+                                        {radio.discount && (
+                                            <span>{radio.discount}</span>
+                                        )}
+                                    </strong>
+                                    {radio.price && (
+                                        <p>
+                                            {radio.lineTgroughPrice && (
+                                                <s>{radio.lineTgroughPrice}</s>
+                                            )}{" "}
+                                            {radio.price}
+                                        </p>
+                                    )}
+                                </div>
+                                <div className={styles.radioItem_price}>
+                                    {radio.monthlyPrice}
+                                </div>
+                            </div>
+                        </CellListItem>
+                    ))}
+                </Cell>
+
+                <p className={styles.accepting}>
+                    By subscribing, you accept the <a href="">Terms of Use</a>{" "}
+                    and <a href="">User Agreement</a>
+                </p>
+
+                <Cell title="additionally">
+                    <CellListItem
+                        topBottomPadding={16}
+                        style={{ color: "#000" }}
+                    >
+                        You won't be billed today. We'll just update the number
+                        of days left on your new subscription.
                     </CellListItem>
                 </Cell>
             </div>
