@@ -89,7 +89,7 @@ export const TariffPage = () => {
 
     useEffect(() => {
         const backButtonHandler = () => {
-            navigate("/greeting");
+            navigate("/");
         };
 
         const mainButtonHandler = () => {
@@ -103,6 +103,14 @@ export const TariffPage = () => {
         tgApp.MainButton.text = "Confirm";
         tgApp.MainButton.color = "#007AFF";
         tgApp.MainButton.textColor = "#fff";
+        tgApp.setHeaderColor("#000");
+
+        return () => {
+            tgApp.MainButton.hide();
+            tgApp.BackButton.hide();
+            tgApp.BackButton.offClick(backButtonHandler);
+            tgApp.MainButton.offClick(mainButtonHandler);
+        };
     }, []);
 
     return (
