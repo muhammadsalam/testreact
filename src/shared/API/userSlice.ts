@@ -14,6 +14,7 @@ export type WalletType = {
 };
 
 interface UserState {
+    subscription: null | boolean,
     token: string,
     data: {
         user_id: number | null,
@@ -31,6 +32,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
+    subscription: null,
     token: '',
     data: {
         user_id: null,
@@ -44,6 +46,20 @@ const initialState: UserState = {
         bots: [],
     }
 }
+
+export const fetchSubscription: any = createAsyncThunk('user/fetchSubscription', async (token, ThunkAPI) => {
+    const apiUrl = API_URL + "v1/subscription";
+    const response = await axios.get(apiUrl, {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    if (response.data.status === 'success') {
+        ThunkAPI.dispatch(fetchMainData(token));
+        return true;
+    }
+});
 
 export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (token, ThunkAPI) => {
     const apiUrl = API_URL + "v1/main_data";
@@ -67,7 +83,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (_, ThunkAPI) 
     const response = await axios.post(apiUrl, data);
 
     if (response.data.status === 'success') {
-        ThunkAPI.dispatch(fetchMainData(response.data.token));
+        ThunkAPI.dispatch(fetchSubscription(response.data.token));
         ThunkAPI.dispatch(setIsTokenGot(true));
     }
     return response.data.token;
@@ -90,6 +106,12 @@ export const userSlice = createSlice({
         builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<string>) => {
             state.token = action.payload;
 
+        });
+        builder.addCase(fetchSubscription.fulfilled, (state, action: PayloadAction<boolean>) => {
+            state.subscription = action.payload
+        });
+        builder.addCase(fetchSubscription.rejected, (state) => {
+            state.subscription = false;
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
             state.data = action.payload;
