@@ -56,12 +56,17 @@ export const fetchSubscription: any = createAsyncThunk('user/fetchSubscription',
     });
 
     if (response.data.status === 'success') {
-        ThunkAPI.dispatch(fetchMainData(token));
+        ThunkAPI.dispatch(fetchMainData({ token }));
         return true;
     }
 });
 
-export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (token, ThunkAPI) => {
+interface FetchMainDataParams {
+    token: string;
+    exchangeFetchingSkip?: boolean;
+}
+
+export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async ({ token, exchangeFetchingSkip = false }: FetchMainDataParams, ThunkAPI) => {
     const apiUrl = API_URL + "v1/main_data";
     const response = await axios.get(apiUrl, {
         headers: {
@@ -70,7 +75,10 @@ export const fetchMainData: any = createAsyncThunk('user/fetchMainData', async (
     })
 
     ThunkAPI.dispatch(setIsDataGot(true));
-    ThunkAPI.dispatch(fetchExchanges());
+
+    if (!exchangeFetchingSkip) {
+        ThunkAPI.dispatch(fetchExchanges());
+    }
 
     return response.data;
 });
@@ -97,9 +105,6 @@ export const userSlice = createSlice({
         addWallet: (state, action: PayloadAction<WalletType>) => {
             state.data.wallets.count++;
             state.data.wallets.data = state.data.wallets.data.concat(action.payload);
-        },
-        addBot: (state, action: PayloadAction<any>) => {
-            state.data.bots = state.data.bots.concat(action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -127,6 +132,6 @@ export const userSlice = createSlice({
 
 })
 
-export const { addWallet, addBot } = userSlice.actions;
+export const { addWallet } = userSlice.actions;
 
 export default userSlice.reducer
