@@ -19,13 +19,14 @@
         background-color: #fff;
         border-radius: 12px;
         display: grid;
-        grid-template-rows: 0fr;
         pointer-events: none;
+        transform-origin: top right;
+        scale: 0;
+        transition: scale 0.123s ease-in-out;
 
         &__active {
-            grid-template-rows: 1fr;
+            scale: 1;
             pointer-events: all;
-            transition: grid-template-rows 0.123s ease-in-out;
         }
 
         &__active &_wrapper {
