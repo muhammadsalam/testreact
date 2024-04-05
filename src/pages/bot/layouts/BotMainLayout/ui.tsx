@@ -40,12 +40,15 @@ export const BotMainLayout: FC<BotMainLayoutProps> = ({ botData }) => {
                     month: date.toLocaleString("en", { month: "long" }),
                     hours: date.getHours(),
                     minutes: date.getMinutes(),
-                    meridiem: date.getHours() > 12 ? "PM" : "AM",
                 };
 
-                return `${tdate.day} ${tdate.month} at ${tdate.hours}:${
-                    tdate.minutes
-                } ${tdate.meridiem.toLowerCase()}`;
+                // Add leading zeros to minutes and hours if they are single digits
+                const formattedMinutes = tdate.minutes
+                    .toString()
+                    .padStart(2, "0");
+                const formattedHours = tdate.hours.toString().padStart(2, "0");
+
+                return `${tdate.day} ${tdate.month} at ${formattedHours}:${formattedMinutes}`;
             } else return "" + botData[key];
         }
         return "";
