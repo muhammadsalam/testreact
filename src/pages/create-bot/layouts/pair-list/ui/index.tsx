@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setField } from "pages/create-bot";
 import { AppDispatch, RootState } from "app/AppStore";
 import { pairFieldsReset } from "../model/pairSlice";
+import { Loader } from "widgets/loader";
 // import debounce from "lodash.debounce";
 // import { fetchPairs } from "../model/pairSlice";
 
@@ -127,6 +128,8 @@ export const PairListLayout = () => {
             tgApp.MainButton.offClick(mainButtonHandler);
         };
     }, [localActivePair]);
+
+    if (!pairs.length) return <Loader />;
 
     return (
         <div className={styles.container}>

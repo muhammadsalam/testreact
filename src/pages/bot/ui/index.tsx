@@ -7,6 +7,7 @@ import { tgApp } from "shared/lib";
 import { BotDetailsLayout, BotMainLayout } from "../layouts";
 import { BotData } from "..";
 import { API_URL } from "shared/CONSTANT";
+import { Loader } from "widgets/loader";
 
 export const BotPage = () => {
     const { id: botID } = useParams();
@@ -14,7 +15,10 @@ export const BotPage = () => {
 
     const [botData, setBotData] = useState<BotData | null>(null);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
+        setIsLoading(true);
         axios
             .get(API_URL + `/v1/bot_data?bot_id=${botID}`, {
                 headers: {
@@ -30,6 +34,9 @@ export const BotPage = () => {
             })
             .catch((error) => {
                 console.log("something went wrong", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -46,6 +53,8 @@ export const BotPage = () => {
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, []);
+
+    if (isLoading) return <Loader />;
 
     return (
         <div className={styles.container}>

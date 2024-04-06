@@ -11,6 +11,7 @@ import { RootState } from "app/AppStore";
 import { useDispatch } from "react-redux";
 import { createBot, setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
+import { Loader } from "widgets/loader";
 
 export type OrdersType = {
     pair: string;
@@ -38,6 +39,7 @@ export const BotDetailsPage = () => {
     const otherStates = useSelector(
         (state: RootState) => state.newBot.otherStates
     );
+    const orders = useSelector((state: RootState) => state.newBot.orders);
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
@@ -60,6 +62,9 @@ export const BotDetailsPage = () => {
             tgApp.BackButton.offClick(backButtonHandler);
         };
     }, []);
+
+    if (otherStates.orders_error === undefined && orders === null)
+        return <Loader />;
 
     return (
         <Routes>
