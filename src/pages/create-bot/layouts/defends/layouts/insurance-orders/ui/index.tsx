@@ -18,9 +18,14 @@ export const inputTypesDropdown: {
 ];
 
 export const InsuranceOrdersLayout = () => {
-    const { io_count, io_step, io_mrt, io_step_mrt, otherStates } = useSelector(
-        (state: RootState) => state.newBot
-    );
+    const {
+        io_calculate_type,
+        io_count,
+        io_step,
+        io_mrt,
+        io_step_mrt,
+        otherStates,
+    } = useSelector((state: RootState) => state.newBot);
     const dispatch: Dispatch<any> = useDispatch();
 
     const [IOCount, SetIOCount] = useState("" + io_count);
@@ -129,6 +134,9 @@ export const InsuranceOrdersLayout = () => {
                     Input type
                     <Dropdown
                         onSwitch={handleInputTypeChange}
+                        defaultValueIndex={inputTypesDropdown.findIndex(
+                            (item) => item.id === io_calculate_type
+                        )}
                         items={inputTypesDropdown}
                     />
                 </CellListItem>
