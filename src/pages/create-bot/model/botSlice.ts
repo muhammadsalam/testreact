@@ -3,9 +3,9 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'app/AppStore';
 import axios, { AxiosError } from 'axios';
 import { addAlert } from 'entities/notification';
-import { addBot } from 'shared/API/userSlice';
 import { Pair } from '../layouts';
 import { API_URL } from 'shared/CONSTANT';
+import { fetchMainData } from 'shared/API/userSlice';
 
 type ErrorType = {
     status: string
@@ -208,7 +208,7 @@ export const createBot = createAsyncThunk('user/createBot', async ({ preCosting 
         .then(data => {
             console.log('data', data);
             if (preCosting) ThunkAPI.dispatch(setField({ field: 'orders', value: data.orders }));
-            if (!preCosting && data.status === 'success') ThunkAPI.dispatch(addBot(data.bot));
+            if (!preCosting && data.status === 'success') ThunkAPI.dispatch(fetchMainData({ token, exchangeFetchingSkip: true }));
         })
         .catch((error: AxiosError) => {
             console.log('error', error);

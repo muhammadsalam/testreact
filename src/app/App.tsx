@@ -13,9 +13,14 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Loader } from "widgets/loader";
 import FontFaceObserver from "fontfaceobserver";
 import { KeysPage } from "pages/keys";
+import { GreetingPage } from "pages/greeting";
+import { TariffPage } from "pages/tariff";
 
 export const App: FC = () => {
     const alert = useSelector((state: RootState) => state.alert);
+    const subscription = useSelector(
+        (state: RootState) => state.user.subscription
+    );
     const { isLoading, isDataGot, isTokenGot } = useSelector(
         (state: RootState) => state.loading
     );
@@ -54,9 +59,31 @@ export const App: FC = () => {
     if (
         Object.values(isFontsLoading).some((v) => !v) ||
         isLoading ||
-        !isDataGot ||
-        !isTokenGot
+        !isTokenGot ||
+        subscription === null
     ) {
+        return <Loader />;
+    }
+
+    if (!subscription) {
+        return (
+            <>
+                <NotificationWrapper>
+                    {alert.isActive && (
+                        <Notification title={alert.title} icon={alert.icon} />
+                    )}
+                </NotificationWrapper>
+                <Router>
+                    <Routes>
+                        <Route path="/tariff" element={<TariffPage />} />
+                        <Route path="/" element={<GreetingPage />} />
+                    </Routes>
+                </Router>
+            </>
+        );
+    }
+
+    if (!isDataGot) {
         return <Loader />;
     }
 
