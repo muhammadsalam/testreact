@@ -43,8 +43,6 @@ export const BotDetailsPage = () => {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        tgApp.MainButton.show();
-
         const backButtonHandler = () => {
             window.history.back();
         };
@@ -63,8 +61,9 @@ export const BotDetailsPage = () => {
         };
     }, []);
 
-    if (otherStates.orders_error === undefined && orders === null)
+    if (otherStates.orders_error === undefined && orders === null) {
         return <Loader />;
+    }
 
     return (
         <Routes>

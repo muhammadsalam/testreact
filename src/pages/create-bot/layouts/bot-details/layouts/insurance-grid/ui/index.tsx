@@ -11,10 +11,6 @@ export const InsuranceGridLayout: FC = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         tgApp.MainButton.hide();
-
-        return () => {
-            tgApp.MainButton.show();
-        };
     }, []);
 
     return (

@@ -59,6 +59,7 @@ export const DetailsLayout: FC = () => {
     }, [orders_error, orders]);
 
     useEffect(() => {
+        tgApp.MainButton.show();
         window.scrollTo(0, 0);
     }, []);
 

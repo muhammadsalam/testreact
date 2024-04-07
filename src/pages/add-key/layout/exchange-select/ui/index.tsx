@@ -21,6 +21,7 @@ export const ExchangeSelectLayout: FC<ExchangeSelectLayoutProps> = memo(
 
         useEffect(() => {
             tgApp.BackButton.show();
+            tgApp.MainButton.show();
 
             const backButtonHandler = () => {
                 tgApp.BackButton.hide();
