@@ -199,7 +199,7 @@ export const InsuranceOrdersLayout = () => {
                         {...martingaleRangeData}
                         min={"0.5"}
                         max={"5"}
-                        currValue={+io_mrt}
+                        currvalue={+io_mrt}
                         step={0.1}
                         handle={handleIOMrt}
                     />
@@ -227,7 +227,7 @@ export const InsuranceOrdersLayout = () => {
                         min={"0.5"}
                         max={"5"}
                         step={0.1}
-                        currValue={+io_step_mrt}
+                        currvalue={+io_step_mrt}
                         handle={handleIOStepMrt}
                     />
                 </CellListItem>

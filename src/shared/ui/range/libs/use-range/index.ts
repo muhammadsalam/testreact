@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 
-export const useRange = (min: number, max: number, currValue: number) => {
-    const [value, setValue] = useState<number>(currValue);
+export const useRange = (min: number, max: number, currvalue: number) => {
+    const [value, setValue] = useState<number>(currvalue);
     const innerRef = useRef<HTMLInputElement>(null);
     const [offset, setOffset] = useState<number>(0);
 
