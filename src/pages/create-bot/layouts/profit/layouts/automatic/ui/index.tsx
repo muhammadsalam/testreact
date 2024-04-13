@@ -227,7 +227,7 @@ export const AutomaticLayout: FC = () => {
                             {...totalAmoutForSale}
                             min={"1"}
                             max={"100"}
-                            currValue={100}
+                            currvalue={100}
                         />
                     )}
                     <span className={styles.totalAmountSpan}>
@@ -273,7 +273,7 @@ export const AutomaticLayout: FC = () => {
                         min="0.5"
                         max="5"
                         step={0.1}
-                        currValue={+take_step}
+                        currvalue={+take_step}
                         handle={handleTStepChange}
                     />
                 </CellListItem>
@@ -299,7 +299,7 @@ export const AutomaticLayout: FC = () => {
                         {...takeMrtData}
                         min="0.5"
                         max="5"
-                        currValue={+take_mrt}
+                        currvalue={+take_mrt}
                         step={0.1}
                         handle={handleTMrtChange}
                     />

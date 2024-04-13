@@ -11,7 +11,7 @@ interface RangeProps extends HTMLAttributes<HTMLDivElement> {
     inputClassName?: string;
     min: string;
     max: string;
-    currValue?: number;
+    currvalue?: number;
     step?: number;
     handle?: (value: string) => void;
     value: number;
