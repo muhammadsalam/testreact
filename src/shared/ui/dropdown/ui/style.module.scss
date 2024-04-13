@@ -3,6 +3,9 @@
     margin-left: 12px;
 
     &_select {
+        background-color: transparent;
+        border: 0;
+        font-size: inherit;
         display: flex;
         align-items: center;
         gap: 5px;

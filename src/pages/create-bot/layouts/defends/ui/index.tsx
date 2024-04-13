@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import styles from "./style.module.scss";
 import { tgApp } from "shared/lib";
 import { InsuranceOrdersLayout, StopLossLayout } from "../layouts";
@@ -125,6 +125,8 @@ export const DefendsLayout: FC = () => {
         def_type,
     ]);
 
+    const defendsRef = useRef(null);
+
     const render = () => {
         switch (def_type.id) {
             case "IO":
@@ -146,9 +148,10 @@ export const DefendsLayout: FC = () => {
             </div>
 
             <Cell description="By enabling a defends, you will not use the existing coins in your wallet">
-                <CellListItem>
+                <CellListItem ref={defendsRef}>
                     <p className={styles.black_color}>Defends</p>
                     <Dropdown
+                        labelRef={defendsRef}
                         onSwitch={(item) =>
                             dispatch(
                                 setField({

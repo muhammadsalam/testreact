@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import { Cell, CellListItem, Dropdown, FlexWrapper, Switcher } from "shared/ui";
@@ -292,6 +292,9 @@ export const DurationLayout: FC = () => {
         };
     }, [cycles]);
 
+    const cyclesInputTypeRef = useRef(null);
+    const cyclesAmountTypeRef = useRef(null);
+
     return (
         <div className={styles.container}>
             <div className={styles.top}>
@@ -390,9 +393,10 @@ export const DurationLayout: FC = () => {
             {cycles.count > 1 && (
                 <>
                     <Cell title="Settings nexts inputs">
-                        <CellListItem>
+                        <CellListItem ref={cyclesInputTypeRef}>
                             Price definition type
                             <Dropdown
+                                labelRef={cyclesInputTypeRef}
                                 onSwitch={handleInputTypeSwitch}
                                 disabledIsClicked={false}
                                 disabledIsMarked={true}
@@ -435,9 +439,10 @@ export const DurationLayout: FC = () => {
                     </Cell>
 
                     <Cell>
-                        <CellListItem>
+                        <CellListItem ref={cyclesAmountTypeRef}>
                             Volume definition type
                             <Dropdown
+                                labelRef={cyclesAmountTypeRef}
                                 onSwitch={hanldeAmountTypeSwitch}
                                 defaultValueIndex={definitionTypeDropdown.findIndex(
                                     (item) => item.id === cycles.amount_type

@@ -2,7 +2,7 @@ import { Cell, CellListItem, Dropdown, Range, Switcher } from "shared/ui";
 import styles from "./style.module.scss";
 import { handleInputFocus, handleInputScroll } from "shared/lib";
 import clsx from "clsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRange } from "shared/ui/range/libs/use-range";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
@@ -115,6 +115,8 @@ export const InsuranceOrdersLayout = () => {
         dispatch(setField({ field: "io_calculate_type", value: item.id }));
     };
 
+    const inputTypeRef = useRef(null);
+
     useEffect(() => {
         if (!otherStates.def_mrt) {
             handleIOMrt("1");
@@ -130,9 +132,10 @@ export const InsuranceOrdersLayout = () => {
     return (
         <>
             <Cell>
-                <CellListItem>
+                <CellListItem ref={inputTypeRef}>
                     Input type
                     <Dropdown
+                        labelRef={inputTypeRef}
                         onSwitch={handleInputTypeChange}
                         defaultValueIndex={inputTypesDropdown.findIndex(
                             (item) => item.id === io_calculate_type

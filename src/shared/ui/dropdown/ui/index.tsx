@@ -1,4 +1,11 @@
-import { FC, HTMLAttributes, useEffect, useRef, useState } from "react";
+import {
+    FC,
+    HTMLAttributes,
+    MouseEvent,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import styles from "./style.module.scss";
 import { useOutsideClick } from "shared/lib";
 import ArrowBottomIcon from "assets/icons/arrow-bottom.svg?react";
@@ -21,6 +28,7 @@ export const Dropdown: FC<
         className?: string;
         placeholderClassName?: string;
         disabledElementClassName?: string;
+        labelRef?: React.RefObject<any>;
     } & HTMLAttributes<HTMLDivElement>
 > = ({
     disabledIsClicked = true,
@@ -31,6 +39,7 @@ export const Dropdown: FC<
     className,
     placeholderClassName,
     disabledElementClassName,
+    labelRef,
     ...props
 }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,18 +51,22 @@ export const Dropdown: FC<
         setIsDropdownActive((state) => !state);
     };
 
-    useOutsideClick(dropdownRef, () => {
+    useOutsideClick(labelRef || dropdownRef, () => {
         setIsDropdownActive(false);
     });
 
     const [activeELemIndex, setActiveELemIndex] = useState<number>(
         defaultValueIndex || 0
     );
-    const handleElementClick = (index: number) => {
+    const handleElementClick = (
+        index: number,
+        event: MouseEvent<HTMLDivElement>
+    ) => {
         if (!disabledIsClicked && items[index].disabled) return;
         setActiveELemIndex(index);
         setIsDropdownActive(false);
         onSwitch && onSwitch(items[index]);
+        event.preventDefault();
     };
 
     useEffect(() => {
@@ -97,7 +110,8 @@ export const Dropdown: FC<
             ref={dropdownRef}
             {...props}
         >
-            <div
+            <button
+                type="button"
                 className={styles.dropdown_select}
                 onClick={handleDropdownActive}
             >
@@ -105,7 +119,7 @@ export const Dropdown: FC<
                     {items[activeELemIndex].title}
                 </span>
                 <ArrowBottomIcon />
-            </div>
+            </button>
 
             <div
                 ref={dropdownPopupRef}
@@ -121,7 +135,9 @@ export const Dropdown: FC<
                                 className={styles.dropdown_list_item_wrapper}
                                 key={item.title}
                                 ptb={11}
-                                onClick={() => handleElementClick(index)}
+                                onClick={(event) =>
+                                    handleElementClick(index, event)
+                                }
                             >
                                 <FlexWrapper
                                     className={clsx(

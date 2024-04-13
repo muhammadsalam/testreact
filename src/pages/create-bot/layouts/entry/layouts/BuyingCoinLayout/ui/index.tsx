@@ -1,6 +1,6 @@
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import styles from "./styles.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "app/AppStore";
 import { setField } from "pages/create-bot";
@@ -61,6 +61,8 @@ export const BuyingCoinLayout = () => {
     }) => {
         dispatch(setField({ field: "type_first_order", value: item.id }));
     };
+
+    const firstOrderRef = useRef(null);
 
     const [amountFO, setAmountFO] = useState<string>(price_first_order);
     const handleFOChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,11 +171,12 @@ export const BuyingCoinLayout = () => {
             </Cell>
 
             <Cell>
-                <CellListItem>
+                <CellListItem ref={firstOrderRef}>
                     <p className={styles.list_item_title}>
                         Type of the first order
                     </p>
                     <Dropdown
+                        labelRef={firstOrderRef}
                         onSwitch={onFirstOrderTypeSwitch}
                         items={firstOrderItems}
                         defaultValueIndex={firstOrderItems.findIndex(

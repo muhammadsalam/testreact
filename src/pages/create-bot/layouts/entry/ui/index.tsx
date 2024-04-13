@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import { tgApp } from "shared/lib";
@@ -65,6 +65,8 @@ export const EntryLayout: FC = () => {
         existing_volume,
     ]);
 
+    const firstOrderTypeRef = useRef(null);
+
     const render = () => {
         if (entry_type.id === "BUY_COIN") return <BuyingCoinLayout />;
         if (entry_type.id === "USE_WALLET") return <CoinsFromWalletLayout />;
@@ -82,9 +84,10 @@ export const EntryLayout: FC = () => {
             </div>
 
             <Cell description="Select the type of the first order to properly configure the bot strategy">
-                <CellListItem>
+                <CellListItem ref={firstOrderTypeRef}>
                     <p className={styles.black_color}>Type of first order</p>
                     <Dropdown
+                        labelRef={firstOrderTypeRef}
                         onSwitch={(item) =>
                             dispatch(
                                 setField({

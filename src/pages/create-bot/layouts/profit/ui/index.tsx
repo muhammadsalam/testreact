@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import styles from "./style.module.scss";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
 import { tgApp } from "shared/lib";
@@ -89,6 +89,8 @@ export const ProfitLayout: FC = () => {
         otherStates.take_step,
     ]);
 
+    const firstOrderTypeRef = useRef(null);
+
     const render = () => {
         switch (take_type) {
             case "MANUAL":
@@ -112,9 +114,10 @@ export const ProfitLayout: FC = () => {
             </div>
 
             <Cell description="By enabling a Take Profit, you will not use the existing coins in your wallet">
-                <CellListItem>
+                <CellListItem ref={firstOrderTypeRef}>
                     <p className={styles.black_color}>Type of first order</p>
                     <Dropdown
+                        labelRef={firstOrderTypeRef}
                         onSwitch={(item) =>
                             dispatch(
                                 setField({
