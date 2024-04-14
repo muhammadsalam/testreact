@@ -9,18 +9,19 @@ import { setField } from "pages/create-bot";
 import { addAlert, deleteAlert } from "entities/notification";
 import { useNavigate } from "react-router-dom";
 import { Cell, CellListItem, Dropdown } from "shared/ui";
+import { defendsDropdownTitles } from "shared/CONSTANT";
 
 const defendsDropdown = [
     {
-        title: "Insurance orders",
+        title: defendsDropdownTitles.IO,
         id: "IO",
     },
     {
-        title: "Stop Loss",
+        title: defendsDropdownTitles.SL,
         id: "SL",
     },
     {
-        title: "None",
+        title: defendsDropdownTitles.NONE,
         id: "NONE",
     },
 ];

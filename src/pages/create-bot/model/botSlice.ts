@@ -36,7 +36,7 @@ export interface BotModel {
         title: string;
         id: 'IO' | 'SL' | "NONE";
     };
-    io_calculate_type: string;
+    io_calculate_type: "LO" | "AO";
     io_count: string;
     io_step: string;
     io_mrt: string;

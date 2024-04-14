@@ -13,18 +13,19 @@ import {
     CoinsFromWalletLayout,
     IndicatorLayout,
 } from "../layouts";
+import { entryDropdownTitles } from "shared/CONSTANT";
 
 const entryDropdown = [
     {
-        title: "Buying a coin",
+        title: entryDropdownTitles.BUY_COIN,
         id: "BUY_COIN",
     },
     {
-        title: "Сoins from wallet",
+        title: entryDropdownTitles.USE_WALLET,
         id: "USE_WALLET",
     },
     {
-        title: "By indicator",
+        title: entryDropdownTitles.BY_INDICATOR,
         id: "BY_INDICATOR",
     },
 ];
@@ -68,9 +69,14 @@ export const EntryLayout: FC = () => {
     const firstOrderTypeRef = useRef(null);
 
     const render = () => {
-        if (entry_type.id === "BUY_COIN") return <BuyingCoinLayout />;
-        if (entry_type.id === "USE_WALLET") return <CoinsFromWalletLayout />;
-        if (entry_type.id === "BY_INDICATOR") return <IndicatorLayout />;
+        switch (entry_type.id) {
+            case "BUY_COIN":
+                return <BuyingCoinLayout />;
+            case "USE_WALLET":
+                return <CoinsFromWalletLayout />;
+            case "BY_INDICATOR":
+                return <IndicatorLayout />;
+        }
     };
 
     return (
