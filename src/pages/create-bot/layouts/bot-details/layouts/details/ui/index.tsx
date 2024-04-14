@@ -12,6 +12,7 @@ import { deleteAlert } from "entities/notification";
 import ErrorIcon from "assets/icons/error.svg?react";
 import {
     definitionTypesDropdownTitles,
+    firstOrderDropdownTitles,
     inputTypesDropdownTitles,
     profitDropdownTitles,
     settingsDropdownTitles,
@@ -132,7 +133,11 @@ export const DetailsLayout: FC = () => {
                         <CellListItem>
                             Type of the first order
                             <span className={styles.black_color}>
-                                {botData.type_first_order}
+                                {
+                                    firstOrderDropdownTitles[
+                                        botData.type_first_order
+                                    ]
+                                }
                             </span>
                         </CellListItem>
 

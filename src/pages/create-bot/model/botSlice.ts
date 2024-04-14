@@ -30,7 +30,7 @@ export interface BotModel {
         disabled?: boolean,
     };
     amount_first_order: string;
-    type_first_order: string;
+    type_first_order: "LIMIT" | "MARKET";
     price_first_order: string;
     def_type: {
         title: string;
