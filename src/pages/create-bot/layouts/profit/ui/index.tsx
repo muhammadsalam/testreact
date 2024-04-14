@@ -8,6 +8,7 @@ import { RootState } from "app/AppStore";
 import { BotModel, setField } from "pages/create-bot";
 import { Dispatch } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
+import { profitDropdownTitles } from "shared/CONSTANT";
 
 const profitDropdown: {
     title: string;
@@ -15,19 +16,19 @@ const profitDropdown: {
     id: BotModel["take_type"];
 }[] = [
     {
-        title: "Manually",
+        title: profitDropdownTitles.MANUAL,
         id: "MANUAL",
     },
     {
-        title: "Automatic",
+        title: profitDropdownTitles.AUTO,
         id: "AUTO",
     },
     {
-        title: "By indicator",
+        title: profitDropdownTitles.BY_INDICATOR,
         id: "BY_INDICATOR",
     },
     {
-        title: "None",
+        title: profitDropdownTitles.NONE,
         id: "NONE",
     },
 ];

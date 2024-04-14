@@ -16,7 +16,7 @@ export interface BotData {
     cycle_input_type: "FIXED" | "CORRECTION";
     cycle_fixed_price: number | null;
     cycle_correction: number | null;
-    cycle_amount_type: "FIXED" | "DYNAMIC";
+    cycle_amount_type: "FIXED" | "ALL_PROFIT" | "LAST_PROFIT";
     cycle_fixed_amount: number | null;
     cycle_dynamic_amount: number | null;
     pair: string;

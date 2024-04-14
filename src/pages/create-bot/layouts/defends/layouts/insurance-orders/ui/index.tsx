@@ -8,13 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { BotModel, setField } from "pages/create-bot";
+import { inputTypesDropdownTitles } from "shared/CONSTANT";
 
 export const inputTypesDropdown: {
     title: string;
     id: BotModel["io_calculate_type"];
 }[] = [
-    { title: "From the fisrt order", id: "LO" },
-    { title: "From average price", id: "AO" },
+    { title: inputTypesDropdownTitles.LO, id: "LO" },
+    { title: inputTypesDropdownTitles.AO, id: "AO" },
 ];
 
 export const InsuranceOrdersLayout = () => {

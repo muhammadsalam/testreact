@@ -30,13 +30,13 @@ export interface BotModel {
         disabled?: boolean,
     };
     amount_first_order: string;
-    type_first_order: string;
+    type_first_order: "LIMIT" | "MARKET";
     price_first_order: string;
     def_type: {
         title: string;
         id: 'IO' | 'SL' | "NONE";
     };
-    io_calculate_type: string;
+    io_calculate_type: "LO" | "AO";
     io_count: string;
     io_step: string;
     io_mrt: string;

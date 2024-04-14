@@ -8,14 +8,15 @@ import { handleInputFocus, handleInputScroll, tgApp } from "shared/lib";
 import clsx from "clsx";
 import { addAlert, deleteAlert } from "entities/notification";
 import { useNavigate } from "react-router-dom";
+import { firstOrderDropdownTitles } from "shared/CONSTANT";
 
 const firstOrderItems = [
     {
-        title: "Limit order",
+        title: firstOrderDropdownTitles.LIMIT,
         id: "LIMIT",
     },
     {
-        title: "Market order",
+        title: firstOrderDropdownTitles.MARKET,
         id: "MARKET",
     },
 ];

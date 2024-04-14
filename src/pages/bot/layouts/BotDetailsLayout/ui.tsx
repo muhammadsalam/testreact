@@ -4,7 +4,15 @@ import styles from "./styles.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
-import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
+import {
+    defendsDropdownTitles,
+    definitionTypesDropdownTitles,
+    entryDropdownTitles,
+    firstOrderDropdownTitles,
+    inputTypesDropdownTitles,
+    profitDropdownTitles,
+    settingsDropdownTitles,
+} from "shared/CONSTANT";
 
 export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
     botData,
@@ -63,7 +71,7 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                 <CellListItem>
                     Type of first order
                     <span className={styles.black_color}>
-                        {botData.entry_type}
+                        {entryDropdownTitles[botData.entry_type]}
                     </span>
                 </CellListItem>
                 {botData.entry_type === "BUY_COIN" && (
@@ -77,9 +85,11 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                         <CellListItem>
                             Type of the first order
                             <span className={styles.black_color}>
-                                {botData.type_first_order === "LIMIT"
-                                    ? "Limit Order"
-                                    : "Market Order"}
+                                {
+                                    firstOrderDropdownTitles[
+                                        botData.type_first_order
+                                    ]
+                                }
                             </span>
                         </CellListItem>
 
@@ -113,24 +123,21 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
 
             {botData.def_type !== "NONE" && (
                 <Cell title="Defends">
+                    <CellListItem>
+                        Type
+                        <span className={styles.black_color}>
+                            {defendsDropdownTitles[botData.def_type]}
+                        </span>
+                    </CellListItem>
                     {botData.def_type === "IO" && (
                         <>
-                            <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Insurance orders
-                                </span>
-                            </CellListItem>
                             <CellListItem>
                                 Input type
                                 <span className={styles.black_color}>
                                     {
-                                        inputTypesDropdown.find((x) => {
-                                            return (
-                                                x.id ===
-                                                botData.io_calculate_type
-                                            );
-                                        })?.title
+                                        inputTypesDropdownTitles[
+                                            botData.io_calculate_type
+                                        ]
                                     }
                                 </span>
                             </CellListItem>
@@ -161,40 +168,26 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                         </>
                     )}
                     {botData.def_type === "SL" && (
-                        <>
-                            <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Stop Loss
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
-                                Stop Loss, %
-                                <span className={styles.black_color}>
-                                    {botData.stop_loss}
-                                </span>
-                            </CellListItem>
-                        </>
+                        <CellListItem>
+                            Stop Loss, %
+                            <span className={styles.black_color}>
+                                {botData.stop_loss}
+                            </span>
+                        </CellListItem>
                     )}
                 </Cell>
             )}
 
             {botData.take_type !== "NONE" && (
                 <Cell title="Take Profit">
-                    {botData.take_type === "MANUAL" && (
-                        <CellListItem>
-                            Type
-                            <span className={styles.black_color}>Manually</span>
-                        </CellListItem>
-                    )}
+                    <CellListItem>
+                        Type
+                        <span className={styles.black_color}>
+                            {profitDropdownTitles[botData.take_type]}
+                        </span>
+                    </CellListItem>
                     {botData.take_type === "AUTO" && (
                         <>
-                            <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Automatic
-                                </span>
-                            </CellListItem>
                             <CellListItem>
                                 Take Profit, %
                                 <span className={styles.black_color}>
@@ -263,7 +256,11 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                         <CellListItem>
                             Price definition type
                             <span className={styles.black_color}>
-                                {botData.cycle_input_type}
+                                {
+                                    settingsDropdownTitles[
+                                        botData.cycle_input_type
+                                    ]
+                                }
                             </span>
                         </CellListItem>
                         {botData.cycle_input_type === "FIXED" && (
@@ -286,17 +283,14 @@ export const BotDetailsLayout: FC<{ botData: BotData | null }> = ({
                         <CellListItem>
                             Volume definition type
                             <span className={styles.black_color}>
+                                {
+                                    definitionTypesDropdownTitles[
+                                        botData.cycle_amount_type
+                                    ]
+                                }
                                 {botData.cycle_amount_type}
                             </span>
                         </CellListItem>
-                        {botData.cycle_amount_type === "DYNAMIC" && (
-                            <CellListItem>
-                                Entry volume, %
-                                <span className={styles.black_color}>
-                                    {botData.cycle_dynamic_amount}
-                                </span>
-                            </CellListItem>
-                        )}
                         {botData.cycle_amount_type === "FIXED" && (
                             <CellListItem>
                                 Entry volume

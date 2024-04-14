@@ -10,6 +10,10 @@ import { RootState } from "app/AppStore";
 import { Dispatch } from "@reduxjs/toolkit";
 import { addAlert, deleteAlert } from "entities/notification";
 import { BotModel, setField } from "pages/create-bot";
+import {
+    definitionTypesDropdownTitles,
+    settingsDropdownTitles,
+} from "shared/CONSTANT";
 
 const settingNextDropdown: {
     title: string;
@@ -17,15 +21,15 @@ const settingNextDropdown: {
     disabled?: boolean;
 }[] = [
     {
-        title: "For a price",
+        title: settingsDropdownTitles.FIXED,
         id: "FIXED",
     },
     {
-        title: "On correction",
+        title: settingsDropdownTitles.CORRECTION,
         id: "CORRECTION",
     },
     {
-        title: "By indicator",
+        title: settingsDropdownTitles.BY_INDICATOR,
         id: "BY_INDICATOR",
         disabled: true,
     },
@@ -36,15 +40,15 @@ const definitionTypeDropdown: {
     id: BotModel["cycles"]["amount_type"];
 }[] = [
     {
-        title: "Fixed volume",
+        title: definitionTypesDropdownTitles.FIXED,
         id: "FIXED",
     },
     {
-        title: "All profit",
+        title: definitionTypesDropdownTitles.ALL_PROFIT,
         id: "ALL_PROFIT",
     },
     {
-        title: "By last profit",
+        title: definitionTypesDropdownTitles.LAST_PROFIT,
         id: "LAST_PROFIT",
     },
 ];

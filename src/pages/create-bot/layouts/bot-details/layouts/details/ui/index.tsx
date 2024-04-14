@@ -7,10 +7,16 @@ import { tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createBot } from "pages/create-bot";
-import { inputTypesDropdown } from "pages/create-bot/layouts/defends/layouts";
 import { Dispatch } from "@reduxjs/toolkit";
 import { deleteAlert } from "entities/notification";
 import ErrorIcon from "assets/icons/error.svg?react";
+import {
+    definitionTypesDropdownTitles,
+    firstOrderDropdownTitles,
+    inputTypesDropdownTitles,
+    profitDropdownTitles,
+    settingsDropdownTitles,
+} from "shared/CONSTANT";
 
 export const DetailsLayout: FC = () => {
     const botData = useSelector((state: RootState) => state.newBot);
@@ -127,9 +133,11 @@ export const DetailsLayout: FC = () => {
                         <CellListItem>
                             Type of the first order
                             <span className={styles.black_color}>
-                                {botData.type_first_order === "LIMIT"
-                                    ? "Limit Order"
-                                    : "Market Order"}
+                                {
+                                    firstOrderDropdownTitles[
+                                        botData.type_first_order
+                                    ]
+                                }
                             </span>
                         </CellListItem>
 
@@ -163,23 +171,21 @@ export const DetailsLayout: FC = () => {
 
             {botData.def_type.id !== "NONE" && (
                 <Cell title="Defends">
+                    <CellListItem>
+                        Type
+                        <span className={styles.black_color}>
+                            {botData.def_type.title}
+                        </span>
+                    </CellListItem>
                     {botData.def_type.id === "IO" && (
                         <>
-                            <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Insurance orders
-                                </span>
-                            </CellListItem>
                             <CellListItem>
                                 Input type
                                 <span className={styles.black_color}>
                                     {
-                                        inputTypesDropdown.find(
-                                            (x) =>
-                                                x.id ===
-                                                botData.io_calculate_type
-                                        )?.title
+                                        inputTypesDropdownTitles[
+                                            botData.io_calculate_type
+                                        ]
                                     }
                                 </span>
                             </CellListItem>
@@ -212,12 +218,6 @@ export const DetailsLayout: FC = () => {
                     {botData.def_type.id === "SL" && (
                         <>
                             <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Stop Loss
-                                </span>
-                            </CellListItem>
-                            <CellListItem>
                                 Stop Loss, %
                                 <span className={styles.black_color}>
                                     {botData.stop_loss}
@@ -230,20 +230,14 @@ export const DetailsLayout: FC = () => {
 
             {botData.take_type !== "NONE" && (
                 <Cell title="Take Profit">
-                    {botData.take_type === "MANUAL" && (
-                        <CellListItem>
-                            Type
-                            <span className={styles.black_color}>Manually</span>
-                        </CellListItem>
-                    )}
+                    <CellListItem>
+                        Type
+                        <span className={styles.black_color}>
+                            {profitDropdownTitles[botData.take_type]}
+                        </span>
+                    </CellListItem>
                     {botData.take_type === "AUTO" && (
                         <>
-                            <CellListItem>
-                                Type
-                                <span className={styles.black_color}>
-                                    Automatic
-                                </span>
-                            </CellListItem>
                             <CellListItem>
                                 Take Profit, %
                                 <span className={styles.black_color}>
@@ -312,7 +306,11 @@ export const DetailsLayout: FC = () => {
                         <CellListItem>
                             Price definition type
                             <span className={styles.black_color}>
-                                {botData.cycles.input_type}
+                                {
+                                    settingsDropdownTitles[
+                                        botData.cycles.input_type
+                                    ]
+                                }
                             </span>
                         </CellListItem>
                         {botData.cycles.input_type === "FIXED" && (
@@ -335,7 +333,11 @@ export const DetailsLayout: FC = () => {
                         <CellListItem>
                             Volume definition type
                             <span className={styles.black_color}>
-                                {botData.cycles.amount_type}
+                                {
+                                    definitionTypesDropdownTitles[
+                                        botData.cycles.amount_type
+                                    ]
+                                }
                             </span>
                         </CellListItem>
                         {botData.cycles.amount_type === "FIXED" && (
