@@ -134,7 +134,7 @@ export const InsuranceOrdersLayout = () => {
         <>
             <Cell>
                 <CellListItem ref={inputTypeRef}>
-                    Input type
+                    <p className={styles.black_color}>Input type</p>
                     <Dropdown
                         labelRef={inputTypeRef}
                         onSwitch={handleInputTypeChange}
