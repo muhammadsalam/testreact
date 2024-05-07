@@ -116,7 +116,7 @@ export const ProfitLayout: FC = () => {
 
             <Cell description="By enabling a Take Profit, you will not use the existing coins in your wallet">
                 <CellListItem ref={firstOrderTypeRef}>
-                    <p className={styles.black_color}>Type of first order</p>
+                    <p className={styles.black_color}>Take Profit</p>
                     <Dropdown
                         labelRef={firstOrderTypeRef}
                         onSwitch={(item) =>

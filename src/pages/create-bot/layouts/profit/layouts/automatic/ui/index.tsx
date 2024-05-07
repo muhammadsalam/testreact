@@ -198,7 +198,7 @@ export const AutomaticLayout: FC = () => {
 
             <Cell>
                 <CellListItem isLabel={false}>
-                    Total amount for sale
+                    <p className={styles.black_color}>Total amount for sale</p>
                     <div className={styles.tabs}>
                         {tabs.map((tab) => (
                             <button
