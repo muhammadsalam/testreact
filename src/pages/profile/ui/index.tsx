@@ -3,7 +3,6 @@ import styles from "./style.module.scss";
 import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import KeysIcon from "../../../assets/icons/keys.svg?react";
-import BtcusdtIcon from "../../../assets/icons/btcusdt.svg?react";
 import { Link } from "react-router-dom";
 import { tgApp } from "shared/lib";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import { RootState } from "app/AppStore";
 import { addAlert } from "entities/notification";
 import { Dispatch } from "@reduxjs/toolkit";
 import { resetBot } from "pages/create-bot";
+import { BotListCard } from "widgets/bot-list-card";
 
 export const ProfilePage: FC = () => {
     const userData = useSelector((state: RootState) => state.user.data);
@@ -86,100 +86,10 @@ export const ProfilePage: FC = () => {
             </Cell>
 
             {userData.bots?.length > 0 ? (
-                <Cell title="list of bots">
+                <Cell listClass={false} title="list of bots">
                     {userData.bots.map((item: any, index: number) => (
-                        <Link
-                            to={"/bot/" + item.id}
-                            className={styles.navButton}
-                            key={index}
-                        >
-                            <BtcusdtIcon />
-                            <div className={styles.content}>
-                                <div className={styles.content_info}>
-                                    <div className={styles.content_info_title}>
-                                        {item.pair}
-                                    </div>
-                                    <div className={styles.info_titleBlock}>
-                                        {item.title}
-                                    </div>
-                                    {/* <div className={styles.content_info_block}>
-                                        TP: 05{" "}
-                                        <span className={styles.circle}></span>
-                                        TP: 05{" "}
-                                        <span className={styles.circle}></span>
-                                        <span className={styles.green}>
-                                            DEP: 70 ₮ 􀄯
-                                        </span>
-                                    </div> */}
-                                </div>
-                                <ArrowRightIcon
-                                    className={styles.navButton_icon}
-                                />
-                            </div>
-                        </Link>
+                        <BotListCard key={index} item={item} />
                     ))}
-                    {/* <button className={styles.navButton}>
-                        <div className={styles.content}>
-                            <BtcusdtIcon />
-                            <div className={styles.content_info}>
-                                <div className={styles.content_info_title}>
-                                    BTC<span>USDT</span>
-                                </div>
-                                <div className={styles.content_info_block}>
-                                    TP: 05{" "}
-                                    <span className={styles.circle}></span>
-                                    TP: 05{" "}
-                                    <span className={styles.circle}></span>
-                                    <span className={styles.green}>
-                                        DEP: 70 ₮ 􀄯
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <ArrowRightIcon className={styles.navButton_icon} />
-                    </button>
-
-                    <button className={styles.navButton}>
-                        <div className={styles.content}>
-                            <SolusdcIcon />
-                            <div className={styles.content_info}>
-                                <div className={styles.content_info_title}>
-                                    SOL<span>USDC</span>
-                                </div>
-                                <div className={styles.content_info_block}>
-                                    TP: 05{" "}
-                                    <span className={styles.circle}></span>
-                                    TP: 05{" "}
-                                    <span className={styles.circle}></span>
-                                    <span className={styles.green}>
-                                        DEP: 234 ₮ 􀄯
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <ArrowRightIcon className={styles.navButton_icon} />
-                    </button>
-
-                    <button className={styles.navButton}>
-                        <div className={styles.content}>
-                            <TwtusdtIcon />
-                            <div className={styles.content_info}>
-                                <div className={styles.content_info_title}>
-                                    TWT<span>USDT</span>
-                                </div>
-                                <div className={styles.content_info_block}>
-                                    TP: 08{" "}
-                                    <span className={styles.circle}></span>
-                                    TP: 05{" "}
-                                    <span className={styles.circle}></span>
-                                    <span className={styles.red}>
-                                        DEP: 432 ₮ 􀄱
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <ArrowRightIcon className={styles.navButton_icon} />
-                    </button> */}
                 </Cell>
             ) : (
                 <Cell>
