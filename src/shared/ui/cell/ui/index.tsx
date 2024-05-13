@@ -9,6 +9,7 @@ interface CellProps extends HTMLAttributes<HTMLDivElement> {
     description?: string;
     topContextBtn?: ReactNode;
     listClass?: boolean;
+    listClassName?: string;
 }
 
 export const Cell: FC<CellProps> = ({
@@ -17,6 +18,7 @@ export const Cell: FC<CellProps> = ({
     description,
     children,
     listClass = true,
+    listClassName,
     ...props
 }) => {
     return (
@@ -30,7 +32,12 @@ export const Cell: FC<CellProps> = ({
                 </PaddingWrapper>
             )}
 
-            <div className={clsx({ [styles.cell_list]: listClass })}>
+            <div
+                className={clsx(
+                    { [styles.cell_list]: listClass },
+                    listClassName
+                )}
+            >
                 {children}
             </div>
 

@@ -6,3 +6,4 @@ export { Cell } from './cell';
 export { CellListItem } from './cell-list-item';
 export { Dropdown } from './dropdown';
 export { CurrencyIcon } from './currency-icon'
+export { EmptyStateCard } from './empty-state-card'
