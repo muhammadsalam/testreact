@@ -69,7 +69,7 @@ export const OrderHistory = () => {
                     ]}
                 />
             </div>
-            <Cell title="Order history">
+            <Cell title="Order history" listClassName={styles.history}>
                 <CellListItem topBottomPadding={10} className={styles.listItem}>
                     <button
                         onClick={() =>
@@ -93,6 +93,71 @@ export const OrderHistory = () => {
                         <div className={styles.listItem_block}>
                             <strong className={styles.listItem_status}>
                                 Wait
+                            </strong>
+                            <span className={styles.listItem_data}>
+                                20.04.24 15:21
+                            </span>
+                        </div>
+                    </div>
+                </CellListItem>
+                <CellListItem topBottomPadding={10} className={styles.listItem}>
+                    <button
+                        onClick={() =>
+                            handleOpenOrderHistoryModal({
+                                status: "Ready to placed",
+                                title: "Insurance",
+                                data: "20.04.24 15:21",
+                            })
+                        }
+                    ></button>
+                    <WaitIcon />
+                    <div className={styles.listItem_wrapper}>
+                        <div className={styles.listItem_block}>
+                            <strong className={styles.listItem_title}>
+                                Insurance
+                            </strong>
+                            <span className={styles.listItem_sub}>
+                                + 0,01 BTC
+                            </span>
+                        </div>
+                        <div className={styles.listItem_block}>
+                            <strong className={styles.listItem_status}>
+                                Ready to placed
+                            </strong>
+                            <span className={styles.listItem_data}>
+                                20.04.24 15:21
+                            </span>
+                        </div>
+                    </div>
+                </CellListItem>
+                <CellListItem topBottomPadding={10} className={styles.listItem}>
+                    <button
+                        onClick={() =>
+                            handleOpenOrderHistoryModal({
+                                status: "Executed",
+                                title: "First order",
+                                data: "20.04.24 15:21",
+                            })
+                        }
+                    ></button>
+                    <ExecutedIcon />
+                    <div className={styles.listItem_wrapper}>
+                        <div className={styles.listItem_block}>
+                            <strong className={styles.listItem_title}>
+                                First order
+                            </strong>
+                            <span className={styles.listItem_sub}>
+                                + 0,1 BTC
+                            </span>
+                        </div>
+                        <div className={styles.listItem_block}>
+                            <strong
+                                className={clsx(
+                                    styles.listItem_status,
+                                    "confirm_color"
+                                )}
+                            >
+                                Executed
                             </strong>
                             <span className={styles.listItem_data}>
                                 20.04.24 15:21

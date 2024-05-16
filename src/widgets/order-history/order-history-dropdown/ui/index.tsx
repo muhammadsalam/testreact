@@ -25,6 +25,7 @@ export const OrderHistoryDropdown: FC<OrderHistoryDropdownProps> = ({
     ...props
 }) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownPopupRef = useRef<HTMLDivElement>(null);
     const [isDropdownUp, setIsDropdownUp] = useState(false);
     const [isDropdownActive, setIsDropdownActive] = useState(false);
 
@@ -67,9 +68,11 @@ export const OrderHistoryDropdown: FC<OrderHistoryDropdownProps> = ({
                 const spaceBelow = viewportHeight - dropdownRect.bottom;
 
                 // Проверяем, есть ли снизу 180 пикселей
-                const isEnoughSpaceBelow = spaceBelow >= 180;
+                // const isEnoughSpaceBelow = spaceBelow >= 44 * items.length + 12;
 
-                setIsDropdownUp(!isEnoughSpaceBelow);
+                setIsDropdownUp(
+                    dropdownRect.top > spaceBelow - viewportHeight / 16
+                );
             }
         };
 
@@ -98,6 +101,7 @@ export const OrderHistoryDropdown: FC<OrderHistoryDropdownProps> = ({
             </button>
 
             <div
+                ref={dropdownPopupRef}
                 className={clsx(styles.context, {
                     [styles.context__active]: isDropdownActive,
                     [styles.context__up]: isDropdownUp,

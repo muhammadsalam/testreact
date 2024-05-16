@@ -29,15 +29,26 @@
         transition: scale 0.2s cubic-bezier(0, 0, 0.5, 1.5);
     }
 
+    &__up {
+        transform-origin: center bottom !important;
+        top: auto;
+        bottom: calc(100% + 12px);
+    }
+
     &_item {
         display: subgrid;
         align-items: center;
         gap: 20px;
         justify-content: space-between;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.43px;
 
         span {
             visibility: hidden;
             opacity: 0;
+            font-weight: 590;
         }
 
         &__active span {

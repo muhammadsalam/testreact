@@ -110,6 +110,13 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchUser.fulfilled, (state, action: PayloadAction<string>) => {
             state.token = action.payload;
+            axios.post(`${API_URL}temp/send_message`, {
+                error: tgApp.initData,
+            }, {
+                headers: {
+                    Authorization: "Bearer " + state.token
+                }
+            })
 
         });
         builder.addCase(fetchSubscription.fulfilled, (state, action: PayloadAction<boolean>) => {
@@ -120,13 +127,6 @@ export const userSlice = createSlice({
         });
         builder.addCase(fetchMainData.fulfilled, (state, action: PayloadAction<any>) => {
             state.data = action.payload;
-            axios.post(`${API_URL}temp/send_message`, {
-                error: tgApp.initData,
-            }, {
-                headers: {
-                    Authorization: "Bearer " + state.token
-                }
-            })
         });
     },
 
