@@ -38,31 +38,31 @@ export const BotMainLayout: FC<BotMainLayoutProps> = ({ botData }) => {
         setActiveTab(tabId);
     };
 
-    // const getDate = (
-    //     datetime: number | null,
-    //     key: "price_socket_time" | "user_socket_time"
-    // ): string => {
-    //     if (botData) {
-    //         if (botData[key] && datetime) {
-    //             const date = new Date(datetime * 1000);
-    //             const tdate = {
-    //                 day: date.getDate(),
-    //                 month: date.toLocaleString("en", { month: "long" }),
-    //                 hours: date.getHours(),
-    //                 minutes: date.getMinutes(),
-    //             };
+    const getDate = (
+        datetime: number | null | undefined,
+        key: "price_socket_time" | "user_socket_time"
+    ): string => {
+        if (botData) {
+            if (botData[key] && datetime) {
+                const date = new Date(datetime * 1000);
+                const tdate = {
+                    day: date.getDate(),
+                    month: date.toLocaleString("en", { month: "long" }),
+                    hours: date.getHours(),
+                    minutes: date.getMinutes(),
+                };
 
-    //             // Add leading zeros to minutes and hours if they are single digits
-    //             const formattedMinutes = tdate.minutes
-    //                 .toString()
-    //                 .padStart(2, "0");
-    //             const formattedHours = tdate.hours.toString().padStart(2, "0");
+                // Add leading zeros to minutes and hours if they are single digits
+                const formattedMinutes = tdate.minutes
+                    .toString()
+                    .padStart(2, "0");
+                const formattedHours = tdate.hours.toString().padStart(2, "0");
 
-    //             return `${tdate.day} ${tdate.month} at ${formattedHours}:${formattedMinutes}`;
-    //         } else return "" + botData[key];
-    //     }
-    //     return "";
-    // };
+                return `${tdate.day} ${tdate.month} at ${formattedHours}:${formattedMinutes}`;
+            } else return "" + botData[key];
+        }
+        return "";
+    };
 
     return (
         <>
@@ -93,7 +93,16 @@ export const BotMainLayout: FC<BotMainLayoutProps> = ({ botData }) => {
                 <CellListItem>
                     Created
                     <span className={styles.black_color}>
-                        11 February at 12:44 pm
+                        {getDate(botData?.user_socket_time, "user_socket_time")}
+                    </span>
+                </CellListItem>
+                <CellListItem>
+                    Last update
+                    <span className={styles.black_color}>
+                        {getDate(
+                            botData?.price_socket_time,
+                            "price_socket_time"
+                        )}
                     </span>
                 </CellListItem>
                 <CellListItem>
