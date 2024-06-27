@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL;
+export const API_URL = 'https://back-test.anestheziabot.com/';
 
 export const entryDropdownTitles = {
     BUY_COIN: "Buying a coin",

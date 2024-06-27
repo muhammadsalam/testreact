@@ -15,6 +15,7 @@ import FontFaceObserver from "fontfaceobserver";
 import { KeysPage } from "pages/keys";
 import { GreetingPage } from "pages/greeting";
 import { TariffPage } from "pages/tariff";
+import { blockVerticalScrollApp } from "shared/lib";
 
 export const App: FC = () => {
     const alert = useSelector((state: RootState) => state.alert);
@@ -32,11 +33,12 @@ export const App: FC = () => {
         SFProRounded: false,
     });
 
+    tgApp.expand();
+
     useEffect(() => {
         tgApp.ready();
         tgApp.setHeaderColor("#F2F2F7");
         tgApp.setBackgroundColor("#f2f2f7");
-        tgApp.expand();
 
         dispatch(fetchUser());
 
@@ -52,6 +54,10 @@ export const App: FC = () => {
         SFProRounded.load(null, 140000).then(() => {
             setIsFontsLoading((prev) => ({ ...prev, SFProRounded: true }));
         });
+    }, []);
+
+    useEffect(() => {
+        blockVerticalScrollApp(true);
     }, []);
 
     // return <Loader />;

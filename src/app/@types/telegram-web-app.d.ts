@@ -97,7 +97,7 @@ interface IWebAppInitData {
 }
 
 type TWebAppEvents = 'themeChanged'
-    | 'viewpoerChanged'
+    | 'viewportChanged'
     | 'mainButtonClicked'
     | 'backButtonClicked'
     | 'settingsButtonClicked'

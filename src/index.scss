@@ -10,10 +10,19 @@
 
 html {
     background-color: #f2f2f7;
+    height: var(--tg-viewport-stable-height, 100vh);
+    overscroll-behavior: none;
+    overflow: hidden;
 }
 
 body {
     font-weight: 400;
+    overscroll-behavior: none;
+    overflow: auto;
+}
+
+#root {
+    min-height: 100vh;
 }
 
 button,
