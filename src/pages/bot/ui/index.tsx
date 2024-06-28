@@ -1,9 +1,9 @@
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { BotDetailsLayout, BotMainLayout } from "../layouts";
 import { BotData } from "..";
 import { API_URL } from "shared/CONSTANT";
@@ -16,6 +16,11 @@ export const BotPage = () => {
     const [botData, setBotData] = useState<BotData | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    const location = useLocation();
+    useEffect(() => {
+        blockVerticalScrollApp(true);
+    }, [location]);
 
     useEffect(() => {
         setIsLoading(true);

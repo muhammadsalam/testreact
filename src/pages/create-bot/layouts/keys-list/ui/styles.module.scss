@@ -2,7 +2,8 @@
     max-width: 600px;
     padding: 24px 16px;
     margin: 0 auto;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
 }
 

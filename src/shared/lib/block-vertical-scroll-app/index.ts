@@ -3,6 +3,6 @@ export const blockVerticalScrollApp = (isBlock?: Boolean) => {
 
     document.body.style.marginTop = `${offset}px`;
     document.body.style.paddingBottom = `${offset}px`;
-    document.body.style.height = window.innerHeight + offset + 'px';
+    document.body.style.height = `calc(var(--tg-viewport-height) + ${offset}px)`;
     window.scrollTo(0, offset);
 };

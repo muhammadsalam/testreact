@@ -15,8 +15,9 @@ import { Route, Routes } from "react-router-dom";
 import { resetBot, setField } from "../model/botSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "app/AppStore";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { fetchPairs } from "../layouts/pair-list/model/pairSlice";
+import { addAlert } from "entities/notification";
 
 export const CreateBotPage = () => {
     const user_id = useSelector((state: RootState) => state.user.data.user_id);
@@ -39,6 +40,18 @@ export const CreateBotPage = () => {
             dispatch(fetchPairs());
         }
     }, [wallet_id]);
+
+    // const location = useLocation();
+    useEffect(() => {
+        blockVerticalScrollApp(true);
+        dispatch(
+            addAlert({
+                title: getComputedStyle(
+                    document.documentElement
+                ).getPropertyValue("--tg-viewport-height"),
+            })
+        );
+    }, []);
 
     return (
         <Routes>

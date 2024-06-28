@@ -2,12 +2,13 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 import StarSVG from "assets/icons/stars.svg?react";
 import { useEffect } from "react";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 
 export const GreetingPage = () => {
     useEffect(() => {
         tgApp.setHeaderColor("#fff");
         tgApp.setBackgroundColor("#fff");
+        blockVerticalScrollApp(true);
     }, []);
     return (
         <div className={styles.container}>

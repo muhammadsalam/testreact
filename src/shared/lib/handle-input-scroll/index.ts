@@ -1,8 +1,8 @@
-export const handleInputScroll = ({ target }: any) => {
-    console.log(target);
-    document.body.style.overflow = "hidden";
+export const handleInputScroll = () => {
+    const root = (document.querySelector('#root') as HTMLElement);
+    root.style.overflow = "hidden";
 
     setTimeout(() => {
-        document.body.style.overflow = "unset";
+        root.style.overflow = "auto";
     }, 450);
 }

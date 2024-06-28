@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
 import MarkICON from "assets/icons/mark.svg?react";
 
@@ -104,6 +104,8 @@ export const TariffPage = () => {
         tgApp.MainButton.color = "#007AFF";
         tgApp.MainButton.textColor = "#fff";
         tgApp.setHeaderColor("#000");
+
+        blockVerticalScrollApp(true);
 
         return () => {
             tgApp.MainButton.hide();

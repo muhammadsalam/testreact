@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 import clsx from "clsx";
 import { useEffect } from "react";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 
 export const KeysPage = () => {
     useEffect(() => {
@@ -19,6 +19,8 @@ export const KeysPage = () => {
         };
 
         tgApp.BackButton.onClick(backButtonHandler);
+
+        blockVerticalScrollApp(true);
 
         return () => {
             tgApp.BackButton.offClick(backButtonHandler);

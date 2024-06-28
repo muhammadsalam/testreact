@@ -2,7 +2,7 @@ import { Cell } from "shared/ui";
 import styles from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import clsx from "clsx";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { useSelector } from "react-redux";
 import { RootState } from "app/AppStore";
 
@@ -10,7 +10,7 @@ export const ProfitGridLayout: FC = () => {
     const orders = useSelector((state: RootState) => state.newBot.orders);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        blockVerticalScrollApp(true);
         tgApp.MainButton.hide();
     }, []);
 

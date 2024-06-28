@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { Cell, CellListItem } from "shared/ui";
 import { RootState } from "app/AppStore";
 import { useDispatch, useSelector } from "react-redux";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createBot } from "pages/create-bot";
@@ -66,7 +66,7 @@ export const DetailsLayout: FC = () => {
 
     useEffect(() => {
         tgApp.MainButton.show();
-        window.scrollTo(0, 0);
+        blockVerticalScrollApp(true);
     }, []);
 
     return (

@@ -5,5 +5,4 @@ export const handleInputFocus = ({ target }: FocusEvent<HTMLInputElement>) => {
     target.type = "text";
     target.selectionStart = target.selectionEnd = 10000;
     target.type = T;
-
 }

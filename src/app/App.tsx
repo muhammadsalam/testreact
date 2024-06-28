@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ProfilePage } from "pages/profile";
-import { tgApp } from "shared/lib";
+import { blockVerticalScrollApp, tgApp } from "shared/lib";
 import { CreateBotPage } from "pages/create-bot";
 import { AddKeyPage } from "pages/add-key";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,6 @@ import FontFaceObserver from "fontfaceobserver";
 import { KeysPage } from "pages/keys";
 import { GreetingPage } from "pages/greeting";
 import { TariffPage } from "pages/tariff";
-import { blockVerticalScrollApp } from "shared/lib";
 
 export const App: FC = () => {
     const alert = useSelector((state: RootState) => state.alert);
@@ -54,10 +53,16 @@ export const App: FC = () => {
         SFProRounded.load(null, 140000).then(() => {
             setIsFontsLoading((prev) => ({ ...prev, SFProRounded: true }));
         });
-    }, []);
 
-    useEffect(() => {
-        blockVerticalScrollApp(true);
+        const resizeHandler = () => {
+            blockVerticalScrollApp(true);
+        };
+
+        addEventListener("resize", resizeHandler);
+
+        return () => {
+            removeEventListener("resize", resizeHandler);
+        };
     }, []);
 
     // return <Loader />;
