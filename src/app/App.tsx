@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ProfilePage } from "pages/profile";
-import { blockVerticalScrollApp, tgApp } from "shared/lib";
+import { blockVerticalScrollApp, handleInputScroll, tgApp } from "shared/lib";
 import { CreateBotPage } from "pages/create-bot";
 import { AddKeyPage } from "pages/add-key";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,10 +58,16 @@ export const App: FC = () => {
             blockVerticalScrollApp(true);
         };
 
+        const viewportChangedHandler = () => {
+            handleInputScroll();
+        };
+
         addEventListener("resize", resizeHandler);
+        tgApp.onEvent("viewportChanged", viewportChangedHandler);
 
         return () => {
             removeEventListener("resize", resizeHandler);
+            tgApp.offEvent("viewportChanged", viewportChangedHandler);
         };
     }, []);
 
