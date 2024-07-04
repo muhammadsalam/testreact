@@ -12,7 +12,6 @@ function App() {
 
     return (
         <>
-            <Header />
             <div className="content">
                 something
                 <div className="block">block</div>
