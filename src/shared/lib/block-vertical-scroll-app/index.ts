@@ -4,5 +4,6 @@ export const blockVerticalScrollApp = (isBlock: boolean) => {
     document.body.style.marginTop = `${offset}px`;
     document.body.style.paddingBottom = `${offset}px`;
     document.body.style.height = window.innerHeight + offset + 'px';
+    alert('blockVerticalScrollApp');
     window.scrollTo(0, offset);
 };
