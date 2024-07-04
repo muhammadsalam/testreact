@@ -4,7 +4,7 @@ import { Cell } from "shared/ui";
 import ArrowRightIcon from "../../../assets/icons/arrow.svg?react";
 import KeysIcon from "../../../assets/icons/keys.svg?react";
 import { Link } from "react-router-dom";
-import { blockVerticalScrollApp, tgApp } from "shared/lib";
+import { tgApp } from "shared/lib";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { RootState } from "app/AppStore";
@@ -19,8 +19,6 @@ export const ProfilePage: FC = () => {
     useEffect(() => {
         tgApp.MainButton.hide();
         tgApp.BackButton.hide();
-
-        blockVerticalScrollApp(true);
     }, []);
 
     const dispatch: Dispatch<any> = useDispatch();
